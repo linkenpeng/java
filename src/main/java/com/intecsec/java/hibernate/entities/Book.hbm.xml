@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-12-25 12:57:17 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.mycshop.hibernate.entities.Book" table="BOOK">
+        <id name="bookId" type="java.lang.Integer">
+            <column name="book_id" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" />
+        </property>
+        <property name="isbn" type="java.lang.String">
+            <column name="isbn" />
+        </property>
+        <property name="price" type="int">
+            <column name="price" />
+        </property>
+        <property name="stock" type="int">
+            <column name="stock" />
+        </property>
+    </class>
+</hibernate-mapping>

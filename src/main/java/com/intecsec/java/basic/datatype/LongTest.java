@@ -1,0 +1,36 @@
+package com.intecsec.java.basic.datatype;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongTest {
+    public static void main(String[] args) {
+        divisor();
+    }
+
+    public static void addTest() {
+        Long l = 10L;
+        Map<String, Long> t = new HashMap<>();
+        t.put("total", l);
+        add(t);
+        System.out.println(t.get("total"));
+    }
+
+    public static void add(Map<String, Long> t) {
+        Long add = t.get("total") + 20L;
+        t.put("total", add);
+    }
+
+    public static void divisor() {
+        long employDiscountDiff = 1 - 0;
+        long avgDiff = employDiscountDiff / 3;
+        System.out.println(avgDiff);
+
+        long a = 10L;
+        Long b = 60L;
+        long c = 7L;
+        long d = (long) (a * c / b) ;
+        System.out.println(d);
+        System.out.println((double) 10 / 30);
+    }
+}

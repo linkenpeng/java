@@ -1,0 +1,24 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <context-param>
+  	<param-name>configLocation</param-name>
+  	<param-value>classpath:struts2-beans.xml</param-value>
+  </context-param>
+  
+  <listener>
+  	<listener-class>com.mycshop.struts2.listener.SpringServletContextListener</listener-class>
+  </listener>
+  <servlet>
+  	<servlet-name>TestServlet</servlet-name>
+  	<display-name>TestServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.mycshop.struts2.servlets.TestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TestServlet</servlet-name>
+  	<url-pattern>/TestServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

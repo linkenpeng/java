@@ -1,5 +1,6 @@
 package com.intecsec.java.basic.datatype;
 
+import com.intecsec.java.beans.Coupon;
 import com.intecsec.java.util.JsonUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -14,6 +15,12 @@ import java.util.Map;
  **/
 public class StringGen {
     public static void main(String[] args) {
+        Coupon coupon = new Coupon();
+        coupon.setId(1);
+        coupon.setName("coupon");
+        System.out.println(JsonUtils.toJson(coupon));
+        System.out.println(coupon);
+
         String str = "old";
         System.out.println(str);
         replace(str);

@@ -8,9 +8,18 @@
 	<groupId>com.intecsec.java</groupId>
 	<artifactId>basic-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<modules>
+		<module>java-basic</module>
+		<module>data-structure</module>
+		<module>spring</module>
+        <module>database</module>
+		<module>cache</module>
+		<module>message-queue</module>
+        <module>commons</module>
+    </modules>
 
 	<packaging>pom</packaging>
-	<name>java practise</name>
+	<name>basic parent</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -20,10 +29,6 @@
 		<spring.version>4.3.14.RELEASE</spring.version>
 		<slf4j.version>1.7.21</slf4j.version>
 	</properties>
-
-	<modules>
-		<module>java-basic</module>
-	</modules>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->

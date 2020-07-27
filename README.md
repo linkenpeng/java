@@ -34,13 +34,13 @@ Java各种知识的练习
   - di
   - spring-mvc
   - spring-boot
-- commons-db
+- database
   - jdbc
   - transaction
   - mybatis
   - hibernate
-- commons-cache
+- cache
   - redis
-- commons-mq
+- message-queue
   - rocketmq
   - kafka

@@ -1,11 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.peng.maven</groupId>
-	<artifactId>spring</artifactId>
-	<packaging>war</packaging>
+
+	<groupId>com.intecsec.java</groupId>
+	<artifactId>basic-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring Maven Webapp</name>
+
+	<packaging>pom</packaging>
+	<name>java practise</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -15,6 +20,10 @@
 		<spring.version>4.3.14.RELEASE</spring.version>
 		<slf4j.version>1.7.21</slf4j.version>
 	</properties>
+
+	<modules>
+		<module>java-basic</module>
+	</modules>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->

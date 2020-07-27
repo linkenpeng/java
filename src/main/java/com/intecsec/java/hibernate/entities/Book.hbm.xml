@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-12-25 12:57:17 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="com.mycshop.hibernate.entities.Book" table="BOOK">
+    <class name="com.intecsec.java.hibernate.entities.Book" table="BOOK">
         <id name="bookId" type="java.lang.Integer">
             <column name="book_id" />
             <generator class="native" />

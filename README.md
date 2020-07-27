@@ -1,7 +1,7 @@
 #  Java 基础
 
 ```
-一切为了练习
+Java各种知识的练习
 ```
 
 ### Java基础
@@ -14,3 +14,33 @@
 - hibernate 
 - struts2
 - jsp
+
+### 基础模块
+- java-basic
+  - annotation
+  - collection
+  - datatype
+  - datetime
+  - exception
+  - generic
+  - io
+  - lambda
+  - reflect
+  - vm
+  - xml
+- data-structure
+- spring
+  - aop
+  - di
+  - spring-mvc
+  - spring-boot
+- commons-db
+  - jdbc
+  - transaction
+  - mybatis
+  - hibernate
+- commons-cache
+  - redis
+- commons-mq
+  - rocketmq
+  - kafka

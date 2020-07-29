@@ -30,6 +30,16 @@ public class PriceUtil {
 	public static float bigToFloat(BigDecimal bg) {
 		return (float) bg.floatValue();
 	}
+
+	public static float fenToYuanFloor4Point(BigDecimal from) {
+		double df = from.doubleValue();
+		return divDouble2Float(df, 100, 4);
+	}
+
+	public static float divDouble2Float(double d, int div, int scale) {
+		String str = BigDecimal.valueOf(d).divide(new BigDecimal(div), scale + 1, 0).toString();
+		return Float.parseFloat(str.substring(0, str.length() - 1));
+	}
   
     /** 
      * 提供精确的加法运算。 

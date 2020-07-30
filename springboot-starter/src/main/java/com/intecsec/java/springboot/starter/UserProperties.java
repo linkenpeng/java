@@ -1,16 +1,15 @@
-package com.intecsec.java.springboot.starter.service;
+package com.intecsec.java.springboot.starter;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author peter.peng
- * @date 2020/7/29
+ * @date 2020/7/30
  */
-public class UserService {
+@ConfigurationProperties(prefix = "com.intecsec.java")
+public class UserProperties {
 	private String username;
 	private String password;
-
-	public void print() {
-		System.out.println("username="+username + " password="+password);
-	}
 
 	public String getUsername() {
 		return username;

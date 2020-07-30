@@ -88,18 +88,18 @@ public class XmlTest {
 
 		Element store = new Element("Store");
 		store.setAttribute("Code", "0046");
-		store.setAttribute("Description", "保护环境,乐用环保购物袋^顾客服务热线:800-900-1380");
-		store.setAttribute("Address", "深圳市福田区福华路连 城新天地负一层");
-		store.setAttribute("Telephone", "0755-82802942");
+		store.setAttribute("Description", "保护环境,乐用环保购物袋^顾客服务热线");
+		store.setAttribute("Address", "深圳市福田区福华路");
+		store.setAttribute("Telephone", "124356");
 		store.setAttribute("Postcode", "");
 		print.addContent(store);
 
 		Element items = new Element("Items");
-		// TODO 遍历 购买商品清单orderItem
+
 		Element item = new Element("Item");
 		item.setAttribute("Type", "LineItem");
-		item.setAttribute("Code", "100606203");
-		item.setAttribute("Description", "WATER360矿泉清润舒缓喷雾50毫升");
+		item.setAttribute("Code", "12356987");
+		item.setAttribute("Description", "清润舒缓喷雾50毫升");
 		item.setAttribute("Price", "1.0");
 		item.setAttribute("Quanlity", "1");
 		item.setAttribute("Amount", "1.0");
@@ -154,14 +154,14 @@ public class XmlTest {
 		invoice.setAttribute("InvoiceCode", "");
 		invoice.setAttribute("InvoiceNo", "");
 		invoice.setAttribute("InvoiceEncode", "");
-		invoice.setAttribute("RegisterNo", "310101607254904");
+		invoice.setAttribute("RegisterNo", "31010160");
 		invoice.setAttribute("PaymentUnit", "个人");
 		invoice.setAttribute("OriginalInvoiceCode", "");
 		invoice.setAttribute("OriginalInvoiceNo", "");
 		invoice.setAttribute("OriginalInvoiceSerialNo", "");
 		invoice.setAttribute("OpenInvoicePerson", "");
 		invoice.setAttribute("OpenInvoiceDate", "");
-		invoice.setAttribute("ReceptionUnit", "上海屈臣氏日用品有限公司");
+		invoice.setAttribute("ReceptionUnit", "日用品有限公司");
 		print.addContent(invoice);
 
 		Element invoiceParts = new Element("InvoiceParts");

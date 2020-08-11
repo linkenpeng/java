@@ -1,6 +1,5 @@
 package com.intecsec.java.springboot.starter;
 
-import com.intecsec.java.service.UserService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +13,12 @@ import org.springframework.context.annotation.Configuration;
 public class UserAutoConfiguration {
 
 	@Bean
-	public UserService getBean(UserProperties userProperties) {
-		UserService userService = new UserService();
-		userService.setUsername(userProperties.getUsername());
-		userService.setPassword(userProperties.getPassword());
-		return userService;
+	public UserInfo getBean(UserProperties userProperties) {
+		System.out.println("init UserInfo Bean");
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUsername(userProperties.getUsername());
+		userInfo.setPassword(userProperties.getPassword());
+		return userInfo;
 	}
 
 }

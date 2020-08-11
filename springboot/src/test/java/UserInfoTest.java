@@ -1,5 +1,5 @@
-import com.intecsec.java.service.UserService;
 import com.intecsec.java.springboot.Application;
+import com.intecsec.java.springboot.starter.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,13 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @date 2020/7/30
  */
 @SpringBootTest(classes = Application.class)
-public class UserServiceTest {
+public class UserInfoTest {
 
 	@Autowired
-	private UserService userService;
+	private UserInfo userInfo;
 
 	@Test
 	public void testStarter() {
-		userService.print();
+		userInfo.print();
 	}
 }

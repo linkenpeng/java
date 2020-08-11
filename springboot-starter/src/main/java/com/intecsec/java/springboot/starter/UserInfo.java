@@ -1,10 +1,10 @@
-package com.intecsec.java.service;
+package com.intecsec.java.springboot.starter;
 
 /**
  * @author peter.peng
  * @date 2020/7/29
  */
-public class UserService {
+public class UserInfo {
 
 	private String username;
 

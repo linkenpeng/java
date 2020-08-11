@@ -17,7 +17,6 @@
 		<module>message-queue</module>
         <module>commons</module>
 		<module>springboot-starter</module>
-		<module>springboot-service</module>
         <module>springboot</module>
     </modules>
 

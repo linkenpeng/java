@@ -31,4 +31,9 @@ public class UserController {
 		userInfo.print();
 		return userService.findUserById(id);
 	}
+
+	@RequestMapping("/hello")
+	public String hello() {
+		return "hello world";
+	}
 }

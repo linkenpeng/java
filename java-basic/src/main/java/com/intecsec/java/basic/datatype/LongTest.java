@@ -1,11 +1,14 @@
 package com.intecsec.java.basic.datatype;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LongTest {
     public static void main(String[] args) {
-        divisor();
+        double a = 101.12234;
+        long b = 10;
+        System.out.println(BigDecimal.valueOf(a).divide(BigDecimal.valueOf(b)).setScale(0, BigDecimal.ROUND_CEILING).intValue());
     }
 
     public static void addTest() {

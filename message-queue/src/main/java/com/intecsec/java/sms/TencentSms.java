@@ -61,12 +61,13 @@ public class TencentSms {
 			req.setPhoneNumberSet(phoneNumbers);
 
 			/* 模板 ID: 必须填写已审核通过的模板 ID。模板ID可登录 [短信控制台] 查看 */
-			String templateID = "";
+			String templateID = "731749";
 			req.setTemplateID(templateID);
 
-            /* 模板参数: 若无模板参数，则设置为空*/
+            /* 模板参数: 若无模板参数，则设置为空
 			String[] templateParams = {"1234", "20"};
 			req.setTemplateParamSet(templateParams);
+			*/
 
             /* 通过 client 对象调用 SendSms 方法发起请求。注意请求方法名与请求对象是对应的
              * 返回的 res 是一个 SendSmsResponse 类的实例，与请求对象对应 */

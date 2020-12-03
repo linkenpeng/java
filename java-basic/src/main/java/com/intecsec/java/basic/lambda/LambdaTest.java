@@ -53,7 +53,7 @@ public class LambdaTest {
 		System.out.println("ints sum is:" + ints.stream().reduce((sum, item) -> sum + item).get());
 		System.out.println("ints sum is:" + ints.stream().reduce(0, (sum, item) -> sum + item));
 		System.out.println(ints.stream().allMatch(item -> item < 100));
-		ints.stream().max((o1, o2) -> o1.compareTo(o2)).ifPresent(System.out::println);
+		ints.stream().max(Integer::compareTo).ifPresent(System.out::println);
 	}
 	
 	private static void set2list() {

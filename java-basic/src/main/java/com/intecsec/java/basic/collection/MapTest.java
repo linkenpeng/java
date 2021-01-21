@@ -44,7 +44,7 @@ public class MapTest {
 			sb1.append(key + "=" + map.get(key) + "&");
 		}
 		System.out.println(sb1.substring(0, sb1.length() - 1));
-
+		System.out.println(map.getOrDefault("e", "ee"));
 
 		// traverseMap(map);
 	}

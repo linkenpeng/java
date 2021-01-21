@@ -5,7 +5,9 @@ import com.intecsec.java.vo.Coupon;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,7 +16,31 @@ import java.util.Map;
  * @create: 2019-03-18 18:41
  **/
 public class StringGen {
+
     public static void main(String[] args) {
+        String username = "peter.peng@watsons.com.cn";
+        username = username.replaceAll("@watsons.com.cn", "");
+        System.out.println(username);
+
+
+        //language=JSON
+        String jsonStr = "{\"name\":\"li\", \"age\":19}";
+        System.out.println(jsonStr);
+
+        if (jsonStr == null) {
+
+        }
+    }
+
+    public static void replace() {
+        String sAll = "http://10.66.3.137:11082/,http://10.66.3.137:11083/";
+        String s = "http://10.66.3.137:11082/";
+        String newAddress = sAll.replaceAll(s+"[,]?", "");
+        System.out.println(newAddress);
+    }
+
+    public static void toJson() {
+        System.out.println(checkSpecailHandle("MO201121175113551511"));
         Coupon coupon = new Coupon();
         coupon.setId(1);
         coupon.setName("coupon");
@@ -25,6 +51,11 @@ public class StringGen {
         System.out.println(str);
         replace(str);
         System.out.println(str);
+    }
+
+    public static boolean checkSpecailHandle(String oid) {
+        List<String> oids = Arrays.asList("MO201121175113551511,MO201101124145591935".split(","));
+        return  oids.contains(oid)||Character.isLetter(oid.charAt(oid.length()-1));
     }
 
     public static void escape() {

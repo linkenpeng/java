@@ -52,7 +52,7 @@ public class TencentSms {
 			req.setSmsSdkAppid(appid);
 
             /* 短信签名内容: 使用 UTF-8 编码，必须填写已审核通过的签名，签名信息可登录 [短信控制台] 查看 */
-			String sign = "";
+			String sign = "小鹿鲜配";
 			req.setSign(sign);
 
             /* 下发手机号码，采用 e.164 标准，+[国家或地区码][手机号]
@@ -61,7 +61,7 @@ public class TencentSms {
 			req.setPhoneNumberSet(phoneNumbers);
 
 			/* 模板 ID: 必须填写已审核通过的模板 ID。模板ID可登录 [短信控制台] 查看 */
-			String templateID = "731749";
+			String templateID = "795769";
 			req.setTemplateID(templateID);
 
             /* 模板参数: 若无模板参数，则设置为空

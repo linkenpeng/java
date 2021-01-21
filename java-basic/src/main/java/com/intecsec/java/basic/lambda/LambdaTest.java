@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class LambdaTest {
 
 	public static void main(String[] args) {
-		list2map();
+		list();
 	}
 	
 	private static void feature() {
@@ -89,7 +89,9 @@ public class LambdaTest {
 		personList.add(new Person("b", 2, null));
 		personList.add(new Person("c", 3, null));
 		List<Integer> ages = personList.stream().map(Person::getAge).collect(Collectors.toList());
+		Map<Integer, Integer> agesMap = personList.stream().collect(Collectors.toMap(Person::getAge, Person::getAge));
 		System.out.println(ages);
+		System.out.println(agesMap);
 	}
 
 	private static void list2map() {

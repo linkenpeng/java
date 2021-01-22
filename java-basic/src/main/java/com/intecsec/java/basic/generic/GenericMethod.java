@@ -1,5 +1,11 @@
 package com.intecsec.java.basic.generic;
 
+import com.intecsec.java.basic.block.Block;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @description: 泛型方法
  *
@@ -11,10 +17,15 @@ package com.intecsec.java.basic.generic;
  **/
 public class GenericMethod {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         test1();
         test2(new Integer(3));
         test3(new int[3], new Object());
+
+
+        System.out.println(genericMethod(Block.class));
+
+        System.out.println(showKeyName(new Generic(1)));
     }
 
     public static <T> void test1() {
@@ -48,13 +59,13 @@ public class GenericMethod {
      *     3）<T>表明该方法将使用泛型类型T，此时才可以在方法中使用泛型类型T。
      *     4）与泛型类的定义一样，此处T可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型。
      */
-    public <T> T genericMethod(Class<T> tClass) throws InstantiationException,
+    public static <T> T genericMethod(Class<T> tClass) throws InstantiationException,
             IllegalAccessException {
         T instance = tClass.newInstance();
         return instance;
     }
 
-    public <T> T showKeyName(Generic<T> container) {
+    public static <T> T showKeyName(Generic<T> container) {
         System.out.println("container key :" + container.getKey());
         //当然这个例子举的不太合适，只是为了说明泛型方法的特性。
         T test = container.getKey();

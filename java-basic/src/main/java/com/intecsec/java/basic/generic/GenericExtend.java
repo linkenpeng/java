@@ -18,9 +18,10 @@ public class GenericExtend {
         show3(generic1);
         show3(generic2);
         show3(generic4);
+        show3(generic5);
 
-        show4(generic1);
         // show4(generic2); not ok
+        show4(generic1);
         show4(generic4);
     }
 

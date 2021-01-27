@@ -1,7 +1,7 @@
 package com.intecsec.java.datastructure.queue;
 
 /**
- * @description:
+ * @description: 队列测试
  * @author: peter.peng
  * @create: 2019-02-01 16:33
  **/

@@ -4,7 +4,8 @@ package com.intecsec.java.datastructure.sort;
 import com.intecsec.java.datastructure.array.BaseArray;
 
 /**
- * @description: 冒泡排序
+ * @description: 冒泡排序 O(n²)
+ * 一般情况下不太使用，数据量小可以考虑
  * @author: peter.peng
  * @create: 2019-01-17 15:07
  **/

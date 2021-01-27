@@ -4,7 +4,10 @@ package com.intecsec.java.datastructure.sort;
 import com.intecsec.java.datastructure.array.BaseArray;
 
 /**
- * @description: 选择排序
+ * @description: 选择排序 O(n²)
+ *  特点： 交换次数少，但是比较次数还是很大，
+ * 数据量小，并且交换数据相对于比较数据更加耗时的情况下，可以选择选择排序
+ *
  * @author: peter.peng
  * @create: 2019-01-17 15:07
  **/

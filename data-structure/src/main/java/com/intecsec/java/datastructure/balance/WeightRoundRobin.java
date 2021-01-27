@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @description:
+ * @description: 权重轮询
  * @author: peter.peng
  * @create: 2019-06-24 20:26
  **/
@@ -21,14 +21,14 @@ public class WeightRoundRobin
     {
         // 重建一个Map，避免服务器的上下线导致的并发问题
         Map<String, Integer> serverMap =
-                new HashMap<String, Integer>();
+                new HashMap<>();
         serverMap.putAll(IpMap.serverWeightMap);
 
         // 取得Ip地址List
         Set<String> keySet = serverMap.keySet();
         Iterator<String> iterator = keySet.iterator();
 
-        List<String> serverList = new ArrayList<String>();
+        List<String> serverList = new ArrayList<>();
         while (iterator.hasNext())
         {
             String server = iterator.next();
@@ -37,7 +37,7 @@ public class WeightRoundRobin
                 serverList.add(server);
         }
 
-        String server = null;
+        String server;
         synchronized (pos)
         {
             if (pos > keySet.size())

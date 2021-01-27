@@ -11,7 +11,7 @@ public class IpMap {
 
         // 待路由的Ip列表，Key代表Ip，Value代表该Ip的权重
         public static HashMap<String, Integer> serverWeightMap =
-                new HashMap<String, Integer>();
+                new HashMap<>();
 
         static
         {

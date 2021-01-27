@@ -1,7 +1,7 @@
 package com.intecsec.java.datastructure.recurrence;
 
 /**
- * @description:
+ * @description: 数组合并
  * @author: peter.peng
  * @create: 2019-02-21 15:04
  **/

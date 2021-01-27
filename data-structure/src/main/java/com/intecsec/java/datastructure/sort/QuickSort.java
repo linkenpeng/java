@@ -4,7 +4,11 @@ package com.intecsec.java.datastructure.sort;
 import com.intecsec.java.datastructure.array.BaseArray;
 
 /**
- * @description: 快速排序 O(N)
+ * 快速排序 O(n)
+ * @description:
+ *
+ * 对于大数据量的排序来说，快速排序通常是最快的方法
+ *
  * @author: peter.peng
  * @create: 2019-03-05 15:07
  **/

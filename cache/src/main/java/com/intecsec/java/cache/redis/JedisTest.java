@@ -1,4 +1,4 @@
-package com.intecsec.java.cache;
+package com.intecsec.java.cache.redis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
@@ -14,11 +14,14 @@ import java.util.Set;
 public class JedisTest {
 
 	public static void main(String[] args) {
-		Jedis jedis = getJedis();
+		// Jedis jedis = getJedis();
 
-		testZset(jedis);
+		// Jedis实现了Closeable 因此可以try-with-resources
+		try(Jedis jedis = JedisPoolBuilder.getJedis()) {
+			testZset(jedis);
+		}
 
-		jedis.close();
+		// jedis.close();
 	}
 
 	public static Jedis getJedis() {

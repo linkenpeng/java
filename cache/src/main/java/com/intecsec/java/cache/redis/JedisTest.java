@@ -1,6 +1,7 @@
 package com.intecsec.java.cache.redis;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Tuple;
 
 import java.util.HashMap;
@@ -18,10 +19,36 @@ public class JedisTest {
 
 		// Jedis实现了Closeable 因此可以try-with-resources
 		try(Jedis jedis = JedisPoolBuilder.getJedis()) {
-			testZset(jedis);
+			//testZset(jedis);
+
+			testPipLine(jedis);
+
 		}
 
 		// jedis.close();
+	}
+
+	/**
+	 * 批量删除： redis-cli keys "jedis:*" |xargs redis-cli del
+	 *
+	 * @param jedis
+	 */
+	public static void testPipLine(Jedis jedis) {
+		Pipeline pipeline = jedis.pipelined();
+		long startTime = System.currentTimeMillis();
+		for(int i = 0; i < 10000; i++) {
+			pipeline.set("pipline:test_" + i, i + "");
+		}
+		pipeline.sync();
+		long endTime = System.currentTimeMillis();
+		System.out.println("pipline time is: " + (endTime - startTime));
+
+		startTime = System.currentTimeMillis();
+		for(int i = 0; i < 10000; i++) {
+			jedis.set("jedis:test_" + i, i + "");
+		}
+		endTime = System.currentTimeMillis();
+		System.out.println("jedis single set time is: " + (endTime - startTime));
 	}
 
 	public static Jedis getJedis() {

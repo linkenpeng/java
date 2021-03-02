@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 public class IntegerTest {
 
     public static void main(String[] args) {
-
         BigDecimal bg = new BigDecimal(100L);
         System.out.println(bg.longValue());
 
@@ -21,6 +20,22 @@ public class IntegerTest {
         int b = 3;
         int c = a / b ;
         System.out.println(c);
+
+        System.out.println(hash(bg));
+    }
+
+    public static void bitCal() {
+        System.out.println(-6 >>> 1);
+        System.out.println(-6 >> 1);
+        System.out.println(Integer.toBinaryString(-6));
+        System.out.println(Integer.toBinaryString(-6 >>> 1));
+        System.out.println(Integer.toBinaryString(-6 >> 1));
+    }
+
+    public static final int hash(Object key) {
+        System.out.println("key hashCode:" + key.hashCode());
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
     public void compare() {

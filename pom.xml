@@ -17,7 +17,8 @@
         <module>commons</module>
 		<module>springboot-starter</module>
         <module>springboot</module>
-    </modules>
+		<module>springboot-parent</module>
+	</modules>
 
 	<packaging>pom</packaging>
 	<name>basic parent</name>
@@ -53,7 +54,7 @@
 		<springboot.version>2.3.1.RELEASE</springboot.version>
 	</properties>
 
-<dependencyManagement>
+	<dependencyManagement>
 	<dependencies>
 
 		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
@@ -99,6 +100,7 @@
 			<artifactId>aopalliance</artifactId>
 			<version>${aopalliance.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
@@ -249,11 +251,8 @@
 			<artifactId>spring-data-redis</artifactId>
 			<version>${springboot.version}</version>
 		</dependency>
-
-
 	</dependencies>
-
-</dependencyManagement>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

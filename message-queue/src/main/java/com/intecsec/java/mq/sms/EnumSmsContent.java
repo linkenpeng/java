@@ -1,4 +1,4 @@
-package com.intecsec.java.sms;
+package com.intecsec.java.mq.sms;
 
 /**
  * @author peter.peng

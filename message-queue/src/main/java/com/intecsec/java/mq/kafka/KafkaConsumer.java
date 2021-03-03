@@ -31,8 +31,8 @@ public class KafkaConsumer {
 			@TopicPartition(topic = "topic1", partitions = {"0"}),
 			@TopicPartition(topic = "topic2", partitions = {"0"}, partitionOffsets = @PartitionOffset(partition = "1", initialOffset = "8"))
 	})
-	public void onMessage2(ConsumerRecord<?, ?> record) {
-		System.out.println("topic:"+record.topic()+"|partition:"+record.partition()+"|offset:"+record.offset()+"|value:"+record.value());
+	public void onMessage2(List<ConsumerRecord<?, ?>> records) {
+		System.out.println("onMessage2: " + records);
 	}
 
 	@KafkaListener(id = "consumer2", groupId = "peter.group", topics = "topic1")
@@ -45,13 +45,13 @@ public class KafkaConsumer {
 
 	@KafkaListener(topics = "topic1", errorHandler = "consumerAwareListenerErrorHandler")
 	public void onMessage4(ConsumerRecord<?, ?> record) throws Exception {
-		throw new Exception("简单消费-模拟消费");
+		// throw new Exception("简单消费-模拟消费");
 	}
 
 	@KafkaListener(topics = "topic1", errorHandler = "consumerAwareListenerErrorHandler")
 	public void onMessage5(List<ConsumerRecord<?, ?>> records) throws Exception {
-		System.out.println("批量消费一次...");
-		throw new Exception("批量消费-模拟消费");
+		// System.out.println("onMessage5 批量消费一次...");
+		// throw new Exception("批量消费-模拟消费");
 	}
 
 	@KafkaListener(topics = "topic3", containerFactory = "filterContainerFactory")

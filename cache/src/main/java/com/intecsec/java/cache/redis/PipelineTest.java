@@ -78,5 +78,4 @@ public class PipelineTest {
         }
         System.out.println("JedisCluster Pipeline total time:"+(System.currentTimeMillis() - start));
     }
-
 }

@@ -8,17 +8,28 @@
 	<groupId>com.intecsec.java</groupId>
 	<artifactId>basic-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.1.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+
 	<modules>
 		<module>java-basic</module>
 		<module>data-structure</module>
         <module>database</module>
+		<module>commons</module>
+		<module>springboot-parent</module>
 		<module>cache</module>
 		<module>message-queue</module>
-        <module>commons</module>
 		<module>springboot-starter</module>
-        <module>springboot</module>
-		<module>springboot-parent</module>
-	</modules>
+		<module>springboot</module>
+        <module>search</module>
+    </modules>
 
 	<packaging>pom</packaging>
 	<name>basic parent</name>
@@ -57,7 +68,6 @@
 	<dependencyManagement>
 	<dependencies>
 
-		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -160,7 +170,6 @@
 			<version>${c3p0.version}</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -240,11 +249,6 @@
 			<artifactId>jedis</artifactId>
 			<version>${jedis.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -253,6 +257,40 @@
 		</dependency>
 	</dependencies>
 	</dependencyManagement>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
+
+
 
 	<build>
 		<plugins>

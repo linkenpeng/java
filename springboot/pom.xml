@@ -17,10 +17,6 @@
 
     <dependencies>
 
-
-
-
-
         <dependency>
             <groupId>com.intecsec.java</groupId>
             <artifactId>springboot-starter</artifactId>

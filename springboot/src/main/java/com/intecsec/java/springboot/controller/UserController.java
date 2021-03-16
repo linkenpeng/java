@@ -2,6 +2,7 @@ package com.intecsec.java.springboot.controller;
 
 import com.intecsec.java.springboot.annotation.MyLog;
 import com.intecsec.java.springboot.entity.User;
+import com.intecsec.java.springboot.service.Retrofit;
 import com.intecsec.java.springboot.service.UserService;
 import com.intecsec.java.springboot.starter.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserController {
 
 	@Autowired
 	private UserInfo userInfo;
+
+	@Autowired
+	private Retrofit retrofit;
 
 	public UserController(UserService userService) {
 		this.userService = userService;

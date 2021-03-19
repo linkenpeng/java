@@ -18,6 +18,12 @@
             <artifactId>ansj_seg</artifactId>
             <version>5.1.6</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.11.2</version>
+        </dependency>
     </dependencies>
 
 </project>

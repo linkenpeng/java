@@ -1,5 +1,6 @@
 package com.intecsec.java.vo;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,11 +15,19 @@ public class Member implements Comparable<Member> {
 	private Date birthday;
 
 	// 构造函数
-	public Member(int id, String username, int level, String birthday) throws Exception {
+	public Member(int id, String username, int level, String birthday) {
 		this.id = id;
 		this.username = username;
 		this.level = level;
-		this.birthday = new Date(MY_SDF.parse(birthday).getTime());
+		try {
+			this.birthday = new Date(MY_SDF.parse(birthday).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	// Getters

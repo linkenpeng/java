@@ -19,8 +19,9 @@ public class ESConfig {
 	public RestHighLevelClient client() {
 		RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost("localhost", 9200, "http"))
 				.setRequestConfigCallback(builder -> builder.setConnectTimeout(5000).setSocketTimeout(60000))
-				.setHttpClientConfigCallback(httpAsyncClientBuilder ->
-						httpAsyncClientBuilder.setDefaultIOReactorConfig(IOReactorConfig.custom().setIoThreadCount(1).build()));
+				.setHttpClientConfigCallback(httpAsyncClientBuilder -> httpAsyncClientBuilder
+						.setDefaultIOReactorConfig(IOReactorConfig.custom().setIoThreadCount(1)
+						.build()));
 
 		RestHighLevelClient restClient = new RestHighLevelClient(restClientBuilder);
 		return restClient;

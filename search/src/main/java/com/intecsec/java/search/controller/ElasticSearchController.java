@@ -19,6 +19,8 @@ public class ElasticSearchController {
 	@Autowired
 	private ElasticSearchService elasticSearchService;
 
+	private static String  indexName = "posts";
+
 	@GetMapping("/add")
 	public String add() {
 		elasticSearchService.add();
@@ -41,6 +43,12 @@ public class ElasticSearchController {
 		return elasticSearchService.search(q);
 	}
 
+	@GetMapping("/update/{id}")
+	public String update(@PathVariable("id") String id) {
+		elasticSearchService.update(id);
+		return "update success.";
+	}
+
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable("id") String id) {
 		elasticSearchService.delete(id);
@@ -55,10 +63,16 @@ public class ElasticSearchController {
 
 	@GetMapping("/createIndex")
 	public String createIndex() {
-		// elasticSearchService.buildIndexRequestWithString("posts", "5");
-		elasticSearchService.buildIndexRequestWithMap("posts", "6");
-		// elasticSearchService.buildIndexRequestWithXContentBuilder("posts", "7");
-		elasticSearchService.buildIndexRequestWithKV("posts", "8");
+		elasticSearchService.buildIndexRequestWithString(indexName, "5");
+		elasticSearchService.buildIndexRequestWithMap(indexName, "6");
+		elasticSearchService.buildIndexRequestWithXContentBuilder(indexName, "7");
+		elasticSearchService.buildIndexRequestWithKV(indexName, "8");
+		return "Create Index Success.";
+	}
+
+	@GetMapping("/term")
+	public String term() {
+		elasticSearchService.term(indexName, "1", "username");
 		return "Create Index Success.";
 	}
 }

@@ -12,7 +12,7 @@ public interface ElasticSearchService {
 
 	void delete(String id);
 
-	void update();
+	void update(String id);
 
 	String get(String id);
 
@@ -28,4 +28,5 @@ public interface ElasticSearchService {
 
 	void buildIndexRequestWithKV(String indexName, String document);
 
+	void term(String indexName, String document, String field);
 }

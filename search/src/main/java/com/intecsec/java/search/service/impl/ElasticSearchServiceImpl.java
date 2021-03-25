@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.intecsec.java.search.service.ElasticSearchService;
 import com.intecsec.java.vo.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.DocWriteRequest;
@@ -21,11 +22,15 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.support.replication.ReplicationResponse;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.TermVectorsRequest;
+import org.elasticsearch.client.core.TermVectorsResponse;
+import org.elasticsearch.client.core.TermVectorsResponse.TermVector;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -43,7 +48,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +67,9 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	private RestHighLevelClient client;
 
 	private static final String indexName = "posts";
+
+	// 格式化日期用
+	private static final SimpleDateFormat MY_SDF = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
 	public void add() {
@@ -146,8 +155,107 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	}
 
 	@Override
-	public void update() {
+	public void update(String id) {
 
+		UpdateRequest request = new UpdateRequest(indexName, id);
+
+		request.routing("routing");
+		request.timeout(TimeValue.timeValueSeconds(1));
+		request.timeout("1s");
+
+		request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
+
+		request.retryOnConflict(3);
+		request.fetchSource(true);
+
+		String[] includes = new String[] {"id", "r*"};
+		String[] excludes = Strings.EMPTY_ARRAY;
+		request.fetchSource(new FetchSourceContext(true, includes,  excludes));
+
+		includes = Strings.EMPTY_ARRAY;
+		excludes = new String[] {"id"};
+		request.fetchSource(new FetchSourceContext(true, includes,  excludes));
+
+		// 方式1
+		String jsonString = "{\"id\":5,\"username\":\"daniel\",\"level\":1,\"birthday\":\"1979-03-12\"}";
+		request.doc(jsonString, XContentType.JSON);
+
+		// 方式2
+		Map<String, Object> jsonMap = new HashMap<>();
+		jsonMap.put("id", 6);
+		jsonMap.put("username", "kevin");
+		jsonMap.put("level", 6);
+		jsonMap.put("birthday", "1970-03-12");
+		request.doc(jsonMap);
+
+		// 方式3
+		try {
+			XContentBuilder builder = XContentFactory.jsonBuilder();
+			builder.startObject();
+			{
+				builder.field("id", 7);
+				builder.field("username", "sam");
+				builder.field("level", 7);
+				builder.field("birthday", "1989-03-15");
+			}
+			builder.endObject();
+			request.doc(builder);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 方式4
+		request.doc("id", 8, "username", "cindy", "level", 3, "birthday", getBirthDay("1972-03-12"));
+
+		// 同步方式
+		try {
+			UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
+			processUpdateResponse(updateResponse);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 异步方式
+		ActionListener listener = new ActionListener<UpdateResponse>() {
+			@Override
+			public void onResponse(UpdateResponse updateResponse) {
+				processUpdateResponse(updateResponse);
+			}
+
+			@Override
+			public void onFailure(Exception e) {
+
+			}
+		};
+
+		client.updateAsync(request, RequestOptions.DEFAULT, listener);
+	}
+
+	private long getBirthDay(String birthDay) {
+		try {
+			return MY_SDF.parse(birthDay).getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return System.currentTimeMillis() / 1000L;
+	}
+
+	private void processUpdateResponse(UpdateResponse response) {
+		String index = response.getIndex();
+		String id = response.getId();
+		Long version = response.getVersion();
+		Result result = response.getResult();
+		log.info("update document, index:{}, id:{}, version:{}", index, id, version);
+
+		if(result == Result.CREATED) {
+			log.info("doc create");
+		} else if(result == Result.UPDATED) {
+			log.info("doc update" + result.toString());
+		} else if(result == Result.DELETED) {
+			log.info("doc delete " + result.toString());
+		} else if(result == Result.NOOP) {
+			log.info("no doc");
+		}
 	}
 
 	@Override
@@ -175,6 +283,8 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			// String username = getResponse.getField("username").getValue();
 			// log.info("username:{}", username);
 			processGetResponse(getResponse);
+
+			return getResponse.getSourceAsString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -291,7 +401,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	public void buildIndexRequestWithString(String indexName, String document) {
 		IndexRequest request = new IndexRequest(indexName);
 		request.id(document);
-		String jsonString = "{\"id\":5,\"username\":\"daniel\",\"level\":1,\"birthday\":\"1979-03-12\"}";
+		String jsonString = "{\"id\":5,\"username\":\"daniel\",\"level\":1,\"birthday\":" + getBirthDay("1979-03-12") + "}";
 		request.source(jsonString, XContentType.JSON);
 
 		try {
@@ -307,7 +417,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		jsonMap.put("id", 6);
 		jsonMap.put("username", "kevin");
 		jsonMap.put("level", 6);
-		jsonMap.put("birthday", "1970-03-12");
+		jsonMap.put("birthday", getBirthDay("1970-03-12"));
 		IndexRequest request = new IndexRequest(indexName).id(document)
 				.source(jsonMap);
 
@@ -365,7 +475,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 				builder.field("id", 7);
 				builder.field("username", "sam");
 				builder.field("level", 7);
-				builder.field("birthday", "1989-03-15");
+				builder.field("birthday", getBirthDay("1989-03-15"));
 			}
 			builder.endObject();
 			IndexRequest request = new IndexRequest(indexName).id(document)
@@ -382,25 +492,75 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	@Override
 	public void buildIndexRequestWithKV(String indexName, String document) {
 		IndexRequest request = new IndexRequest(indexName).id(document)
-				.source("id", 8, "username", "cindy", "level", 3, "birthday", "1972-03-12");
+				.source("id", 8, "username", "cindy", "level", 3, "birthday", getBirthDay("1972-03-12"));
 
-		request.routing("routing");
+		/*request.routing("routing");
 
 		request.timeout(TimeValue.timeValueSeconds(1));
 		request.timeout("1s");
 
 		request.version(2);
-		request.versionType(VersionType.EXTERNAL);
+		request.versionType(VersionType.INTERNAL);
 
 		request.opType(DocWriteRequest.OpType.CREATE);
 		request.opType("create");
 
-		request.setPipeline("pipeline");
+		request.setPipeline("pipeline");*/
 
 		try {
 			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void term(String indexName, String document, String field) {
+		TermVectorsRequest request = new TermVectorsRequest(indexName, document);
+		request.setFields(field);
+		try {
+			TermVectorsResponse response = client.termvectors(request, RequestOptions.DEFAULT);
+			processTermVectorsResponse(response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void processTermVectorsResponse(TermVectorsResponse response) {
+		String index = response.getIndex();
+		String id = response.getId();
+		boolean found = response.getFound();
+		log.info("term document, index:{}, id:{}, found:{}", index, id, found);
+
+		List<TermVector> list = response.getTermVectorsList();
+		for(TermVector termVector : list) {
+			String fieldName = termVector.getFieldName();
+			int docCount = termVector.getFieldStatistics().getDocCount();
+			long sumTotalTermFreq = termVector.getFieldStatistics().getSumTotalTermFreq();
+			long sumDocFreq = termVector.getFieldStatistics().getSumDocFreq();
+			log.info("fieldName:{}, docCount:{}, sumTotalTermFreq:{}, sumDocFreq:{}", fieldName, docCount, sumTotalTermFreq, sumDocFreq);
+
+			if(CollectionUtils.isNotEmpty(termVector.getTerms())) {
+				for(TermVector.Term term : termVector.getTerms()) {
+					String termStr = term.getTerm();
+					Integer termFreq = term.getTermFreq();
+					Integer docFreq = term.getDocFreq();
+					Long totalTermFreq = term.getTotalTermFreq();
+					Float score = term.getScore();
+
+					log.info("termStr:{}, termFreq:{}, docFreq:{}, totalTermFreq:{}, score:{}", termStr, termFreq, docFreq, totalTermFreq, score);
+
+					if(CollectionUtils.isNotEmpty(term.getTokens())) {
+						for(TermVector.Token token : term.getTokens()) {
+							Integer position = token.getPosition();
+							Integer startOffset = token.getStartOffset();
+							Integer endOffset = token.getEndOffset();
+							String payLoad = token.getPayload();
+							log.info("position:{}, startOffset:{}, endOffset:{}, payLoad:{}", position, startOffset, endOffset, payLoad);
+						}
+					}
+				}
+			}
 		}
 	}
 }

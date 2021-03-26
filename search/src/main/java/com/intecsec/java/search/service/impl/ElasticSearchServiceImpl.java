@@ -12,12 +12,16 @@ import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.DocWriteResponse.Result;
 import org.elasticsearch.action.bulk.BulkItemResponse;
+import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.get.MultiGetItemResponse;
+import org.elasticsearch.action.get.MultiGetRequest;
+import org.elasticsearch.action.get.MultiGetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -38,6 +42,8 @@ import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.VersionType;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.ReindexRequest;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -82,7 +88,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
 			processIndexResponse(indexResponse);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 	}
 
@@ -90,10 +96,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	public void addBatch() {
 		log.info("批量创建索引");
 
-		List<Member> list = Lists.newArrayList();
-		list.add(new Member(2, "leo", 2, "1991-08-12"));
-		list.add(new Member(3, "nick", 3, "1993-02-15"));
-		list.add(new Member(4, "richard", 4, "1989-05-22"));
+		List<Member> list = giveList();
 
 		try {
 			BulkRequest request = new BulkRequest();
@@ -101,26 +104,98 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 				String data = new ObjectMapper().writeValueAsString(m);
 				request.add(new IndexRequest(indexName).id(String.valueOf(m.getId())).source(data, XContentType.JSON));
 			}
+
+			request.add(new DeleteRequest(indexName).id("4"));
+			request.add(new UpdateRequest(indexName, "2").doc(XContentType.JSON, "username", "leo.peng"));
+
+			// 同步方式
 			BulkResponse bulkResponse = client.bulk(request, RequestOptions.DEFAULT);
-			for(BulkItemResponse itemResponse : bulkResponse) {
-				DocWriteResponse docWriteResponse = itemResponse.getResponse();
-				if(itemResponse.getOpType() == DocWriteRequest.OpType.INDEX
-						|| itemResponse.getOpType() == DocWriteRequest.OpType.CREATE) {
-					IndexResponse indexResponse = (IndexResponse) docWriteResponse;
-					log.info("处理索引操作的响应：" + indexResponse);
-				} else if(itemResponse.getOpType() == DocWriteRequest.OpType.UPDATE) {
-					UpdateResponse updateResponse = (UpdateResponse) docWriteResponse;
-					log.info("处理更新操作的响应：" + updateResponse);
-				} else if (itemResponse.getOpType() == DocWriteRequest.OpType.DELETE) {
-					DeleteResponse deleteResponse = (DeleteResponse) docWriteResponse;
-					log.info("处理删除操作的响应：" + deleteResponse);
+			processBulkResponse(bulkResponse);
+
+			// 异步方式
+			ActionListener<BulkResponse> listener = new ActionListener<BulkResponse>() {
+				@Override
+				public void onResponse(BulkResponse bulkResponse) {
+					log.info("异步方式返回");
+					processBulkResponse(bulkResponse);
+				}
+
+				@Override
+				public void onFailure(Exception e) {
+
+				}
+			};
+			client.bulkAsync(request, RequestOptions.DEFAULT, listener);
+
+		} catch (Exception e) {
+			log.info("操作异常", e);
+		}
+
+	}
+
+	private List<Member> giveList() {
+		List<Member> list = Lists.newArrayList();
+		list.add(new Member(2, "leo", 2, "1991-08-12"));
+		list.add(new Member(3, "nick", 3, "1993-02-15"));
+		list.add(new Member(4, "richard", 4, "1989-05-22"));
+		list.add(new Member(10, "kk", 4, "1990-05-22"));
+		return list;
+	}
+
+	private void processBulkResponse(BulkResponse bulkResponse) {
+		for(BulkItemResponse itemResponse : bulkResponse) {
+			DocWriteResponse docWriteResponse = itemResponse.getResponse();
+			if(itemResponse.getOpType() == DocWriteRequest.OpType.INDEX
+					|| itemResponse.getOpType() == DocWriteRequest.OpType.CREATE) {
+				IndexResponse indexResponse = (IndexResponse) docWriteResponse;
+				log.info("索引操作的响应：" + indexResponse);
+			} else if(itemResponse.getOpType() == DocWriteRequest.OpType.UPDATE) {
+				UpdateResponse updateResponse = (UpdateResponse) docWriteResponse;
+				log.info("更新操作的响应：" + updateResponse);
+			} else if (itemResponse.getOpType() == DocWriteRequest.OpType.DELETE) {
+				DeleteResponse deleteResponse = (DeleteResponse) docWriteResponse;
+				log.info("删除操作的响应：" + deleteResponse);
+			}
+		}
+	}
+
+	@Override
+	public void buildBulkRequestWithProcessor() {
+		BulkProcessor.Listener listener = new BulkProcessor.Listener() {
+			@Override
+			public void beforeBulk(long l, BulkRequest bulkRequest) {
+				int numberOfActions = bulkRequest.numberOfActions();
+				log.info("Executing bulk:{} with {} requests ", l, numberOfActions);
+			}
+
+			@Override
+			public void afterBulk(long l, BulkRequest bulkRequest, BulkResponse bulkResponse) {
+				if(bulkResponse.hasFailures()) {
+					log.info("Bulk {} executed with falures", l);
+				} else {
+					log.info("Bulk {} completed with in {} milliseconds", l, bulkResponse.getTook().getMillis());
 				}
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void afterBulk(long l, BulkRequest bulkRequest, Throwable throwable) {
+				log.error("Failed to execute bulk", throwable);
+			}
+		};
 
+		BulkProcessor bulkProcessor = BulkProcessor.builder(
+				(bulkRequest, bulkResponseActionListener)
+				-> client.bulkAsync(bulkRequest, RequestOptions.DEFAULT, bulkResponseActionListener), listener
+				).build();
+		try {
+			List<Member> list = giveList();
+			for(Member m : list) {
+				String data = new ObjectMapper().writeValueAsString(m);
+				bulkProcessor.add(new IndexRequest(indexName).id(String.valueOf(m.getId())).source(data, XContentType.JSON));
+			}
+		} catch (Exception e) {
+			log.info("操作异常", e);
+		}
 	}
 
 	@Override
@@ -130,7 +205,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
 			processDeleteResponse(response);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 	}
 
@@ -201,7 +276,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			builder.endObject();
 			request.doc(builder);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 
 		// 方式4
@@ -212,7 +287,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
 			processUpdateResponse(updateResponse);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 
 		// 异步方式
@@ -235,7 +310,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		try {
 			return MY_SDF.parse(birthDay).getTime();
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 		return System.currentTimeMillis() / 1000L;
 	}
@@ -286,7 +361,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
 			return getResponse.getSourceAsString();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 
 		getRequest.routing("routing");
@@ -307,7 +382,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			boolean exists = client.exists(getRequest, RequestOptions.DEFAULT);
 			log.info("index:{}, document:{} exits:{}", indexName, id, exists);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 	}
 
@@ -342,6 +417,68 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			byte[] sourceAsBytes = getResponse.getSourceAsBytes();
 			log.info("version is:{}, sourceAsString is :{}, map:{}, byte:{}", version, sourceAsString, sourceMap, sourceAsBytes);
 		}
+	}
+
+	@Override
+	public String multiGet(String[] ids) {
+		MultiGetRequest request = new MultiGetRequest();
+		for(String id : ids) {
+			request.add(new MultiGetRequest.Item(indexName, id));
+		}
+		try {
+			MultiGetResponse response = client.mget(request, RequestOptions.DEFAULT);
+			processMultiGetResponse(response);
+			return response.getResponses().toString();
+		} catch (IOException e) {
+			log.info("操作异常", e);
+		}
+		return null;
+	}
+
+	private void processMultiGetResponse(MultiGetResponse response) {
+		MultiGetItemResponse[] responses = response.getResponses();
+		for(MultiGetItemResponse itemResponse : responses) {
+			GetResponse getResponse = itemResponse.getResponse();
+			processGetResponse(getResponse);
+		}
+	}
+
+	@Override
+	public void reIndex(String from, String to) {
+		ReindexRequest request = new ReindexRequest();
+		request.setSourceIndices(from);
+		request.setDestIndex(to);
+
+		try {
+			// 同步方式
+			BulkByScrollResponse response = client.reindex(request, RequestOptions.DEFAULT);
+			processBulkByScrollResponse(response);
+
+			// 异步方式
+			ActionListener<BulkByScrollResponse> listener = new ActionListener<BulkByScrollResponse>() {
+				@Override
+				public void onResponse(BulkByScrollResponse bulkByScrollResponse) {
+					processBulkByScrollResponse(response);
+				}
+
+				@Override
+				public void onFailure(Exception e) {
+
+				}
+			};
+			client.reindexAsync(request, RequestOptions.DEFAULT, listener);
+
+		} catch (IOException e) {
+			log.info("操作异常", e);
+		}
+	}
+
+	private void processBulkByScrollResponse(BulkByScrollResponse response) {
+		TimeValue timeValue = response.getTook();
+		log.info("time is {}", timeValue.getMillis());
+		long totalDocs = response.getTotal();
+		long updatedDocs = response.getUpdated();
+		log.info("totalDocs:{}, updatedDocs:{}", totalDocs, updatedDocs);
 	}
 
 	@Override
@@ -386,7 +523,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			}
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 
 		return null;
@@ -407,7 +544,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		try {
 			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 	}
 
@@ -485,7 +622,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			client.indexAsync(request, RequestOptions.DEFAULT, listener);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 	}
 
@@ -510,7 +647,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		try {
 			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 	}
 
@@ -522,7 +659,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			TermVectorsResponse response = client.termvectors(request, RequestOptions.DEFAULT);
 			processTermVectorsResponse(response);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("操作异常", e);
 		}
 	}
 

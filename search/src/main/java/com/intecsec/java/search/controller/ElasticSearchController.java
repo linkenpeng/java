@@ -76,12 +76,6 @@ public class ElasticSearchController {
 		return "delete success.";
 	}
 
-	@GetMapping("/parseEsResponse")
-	public String search() {
-		elasticSearchService.parseSearchResponse();
-		return "Parse ElasticSearch Response Is Over.";
-	}
-
 	@GetMapping("/createIndex")
 	public String createIndex() {
 		elasticSearchService.buildIndexRequestWithString(indexName, "5");
@@ -94,6 +88,6 @@ public class ElasticSearchController {
 	@GetMapping("/term")
 	public String term() {
 		elasticSearchService.term(indexName, "1", "username");
-		return "Create Index Success.";
+		return "term Success.";
 	}
 }

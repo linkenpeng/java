@@ -24,8 +24,6 @@ public interface ElasticSearchService {
 
 	Object search(String username);
 
-	void parseSearchResponse();
-
 	void buildIndexRequestWithString(String indexName, String document);
 
 	void buildIndexRequestWithMap(String indexName, String document);

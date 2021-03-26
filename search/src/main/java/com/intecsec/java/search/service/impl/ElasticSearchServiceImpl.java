@@ -36,20 +36,30 @@ import org.elasticsearch.client.core.TermVectorsRequest;
 import org.elasticsearch.client.core.TermVectorsResponse;
 import org.elasticsearch.client.core.TermVectorsResponse.TermVector;
 import org.elasticsearch.common.Strings;
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.VersionType;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.ReindexRequest;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.suggest.Suggest;
+import org.elasticsearch.search.suggest.SuggestBuilder;
+import org.elasticsearch.search.suggest.SuggestBuilders;
+import org.elasticsearch.search.suggest.SuggestionBuilder;
+import org.elasticsearch.search.suggest.term.TermSuggestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -484,12 +494,18 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	@Override
 	public Object search(String username) {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+		// 查询条件
 		searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-		searchSourceBuilder.query(QueryBuilders.termQuery("username", username));
+		//searchSourceBuilder.query(QueryBuilders.termQuery("username", username));
+		//MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("username", username).fuzziness(Fuzziness.AUTO);
+		//searchSourceBuilder.query(matchQueryBuilder);
+
 		searchSourceBuilder.from(0);
 		searchSourceBuilder.size(10);
 		searchSourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
+		// 高亮
 		HighlightBuilder highlightBuilder = new HighlightBuilder();
 		HighlightBuilder.Field highLightTitle = new HighlightBuilder.Field("username");
 		highLightTitle.highlighterType("unified");
@@ -498,30 +514,30 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		highlightBuilder.postTags("</span>");
 		searchSourceBuilder.highlighter(highlightBuilder);
 
+		/*// 请求聚合
+		TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms("by_username").field("username");
+		aggregationBuilder.subAggregation(AggregationBuilders.avg("average_age").field("level"));
+		searchSourceBuilder.aggregation(aggregationBuilder);*/
+
+		// 建议请求
+		SuggestionBuilder termSuggestionBuilder = SuggestBuilders.termSuggestion("username").text(username);
+		SuggestBuilder suggestBuilder = new SuggestBuilder();
+		suggestBuilder.addSuggestion("suggest_test", termSuggestionBuilder);
+		searchSourceBuilder.suggest(suggestBuilder);
+
+		searchSourceBuilder.profile(true);
+
 		SearchRequest searchRequest = new SearchRequest();
-		searchRequest.indices("posts");
+		searchRequest.indices(indexName);
 		searchRequest.source(searchSourceBuilder);
 
 		try {
+			// 同步
 			SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-			SearchHits hits = searchResponse.getHits();
-			TotalHits totalHits = hits.getTotalHits();
-			long numHits = totalHits.value;
-			TotalHits.Relation relation = totalHits.relation;
-			float maxScore = hits.getMaxScore();
-			SearchHit[] searchHits = hits.getHits();
 
-			Float score = null;
-			List<Map<String, Object>> list = Lists.newArrayList();
-			for(SearchHit hit : searchHits) {
-				String index = hit.getIndex();
-				String id = hit.getId();
-				score = hit.getScore();
-				Map<String, HighlightField> highlightFieldMap = hit.getHighlightFields();
-				Map<String, Object> stringObjectMap = hit.getSourceAsMap();
-				list.add(stringObjectMap);
-			}
-			return list;
+			// 异步
+
+			return parseSearchResponse(searchResponse);
 		} catch (IOException e) {
 			log.info("操作异常", e);
 		}
@@ -529,9 +545,40 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		return null;
 	}
 
-	@Override
-	public void parseSearchResponse() {
+	private List<Map<String, Object>> parseSearchResponse(SearchResponse searchResponse) {
+		SearchHits hits = searchResponse.getHits();
+		TotalHits totalHits = hits.getTotalHits();
+		int totalShards = searchResponse.getTotalShards();
+		int successfulShards = searchResponse.getSuccessfulShards();
+		int failedShards = searchResponse.getFailedShards();
+		long numHits = totalHits.value;
+		TotalHits.Relation relation = totalHits.relation;
+		float maxScore = hits.getMaxScore();
+		SearchHit[] searchHits = hits.getHits();
 
+		Suggest suggest = searchResponse.getSuggest();
+		if(suggest != null) {
+			TermSuggestion termSuggestion = suggest.getSuggestion("suggest_test");
+			for(TermSuggestion.Entry suggestion : termSuggestion.getEntries()) {
+				for(TermSuggestion.Entry.Option option : suggestion) {
+					String suggestText = option.getText().string();
+					log.info("suggestTest is " + suggestText);
+				}
+			}
+		}
+
+		Float score = null;
+		List<Map<String, Object>> list = Lists.newArrayList();
+		for(SearchHit hit : searchHits) {
+			String index = hit.getIndex();
+			String id = hit.getId();
+			score = hit.getScore();
+			Map<String, HighlightField> highlightFieldMap = hit.getHighlightFields();
+			Map<String, Object> stringObjectMap = hit.getSourceAsMap();
+			list.add(stringObjectMap);
+		}
+
+		return list;
 	}
 
 	@Override

@@ -10,11 +10,17 @@ public interface ElasticSearchService {
 
 	void addBatch();
 
+	void buildBulkRequestWithProcessor();
+
 	void delete(String id);
 
 	void update(String id);
 
 	String get(String id);
+
+	String multiGet(String[] ids);
+
+	void reIndex(String from, String to);
 
 	Object search(String username);
 

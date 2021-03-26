@@ -1,6 +1,7 @@
 package com.intecsec.java.search.controller;
 
 import com.intecsec.java.search.service.ElasticSearchService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +34,29 @@ public class ElasticSearchController {
 		return "batch add success.";
 	}
 
+	@GetMapping("/index/bulkProcessor")
+	public String bulkProcessor() {
+		elasticSearchService.buildBulkRequestWithProcessor();
+		return "bulkProcessor success.";
+	}
+
 	@GetMapping("/get/{id}")
 	public String get(@PathVariable("id") String id) {
 		return elasticSearchService.get(id);
+	}
+
+	@GetMapping("/get/multi/{ids}")
+	public String multiGet(@PathVariable("ids") String ids) {
+		if(StringUtils.isEmpty(ids)) {
+			return "parameter is error.";
+		}
+		return elasticSearchService.multiGet(StringUtils.split(ids, ","));
+	}
+
+	@GetMapping("/reindex")
+	public String reIndex(@RequestParam("from") String from, @RequestParam("to") String to) {
+		elasticSearchService.reIndex(from, to);
+		return "reindex success.";
 	}
 
 	@GetMapping("/search")

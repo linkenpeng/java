@@ -3,6 +3,7 @@ package com.intecsec.java.search.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.intecsec.java.search.service.ElasticSearchService;
+import com.intecsec.java.search.util.ParseElasticResponse;
 import com.intecsec.java.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -295,7 +296,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		// 同步方式
 		try {
 			UpdateResponse updateResponse = client.update(request, RequestOptions.DEFAULT);
-			processUpdateResponse(updateResponse);
+			ParseElasticResponse.processUpdateResponse(updateResponse);
 		} catch (IOException e) {
 			log.info("操作异常", e);
 		}
@@ -304,7 +305,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		ActionListener listener = new ActionListener<UpdateResponse>() {
 			@Override
 			public void onResponse(UpdateResponse updateResponse) {
-				processUpdateResponse(updateResponse);
+				ParseElasticResponse.processUpdateResponse(updateResponse);
 			}
 
 			@Override
@@ -323,24 +324,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			log.info("操作异常", e);
 		}
 		return System.currentTimeMillis() / 1000L;
-	}
-
-	private void processUpdateResponse(UpdateResponse response) {
-		String index = response.getIndex();
-		String id = response.getId();
-		Long version = response.getVersion();
-		Result result = response.getResult();
-		log.info("update document, index:{}, id:{}, version:{}", index, id, version);
-
-		if(result == Result.CREATED) {
-			log.info("doc create");
-		} else if(result == Result.UPDATED) {
-			log.info("doc update" + result.toString());
-		} else if(result == Result.DELETED) {
-			log.info("doc delete " + result.toString());
-		} else if(result == Result.NOOP) {
-			log.info("no doc");
-		}
 	}
 
 	@Override
@@ -367,7 +350,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
 			// String username = getResponse.getField("username").getValue();
 			// log.info("username:{}", username);
-			processGetResponse(getResponse);
+			ParseElasticResponse.processGetResponse(getResponse);
 
 			return getResponse.getSourceAsString();
 		} catch (IOException e) {
@@ -416,19 +399,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		client.existsAsync(getRequest, RequestOptions.DEFAULT, listener);
 	}
 
-	private void processGetResponse(GetResponse getResponse) {
-		String index = getResponse.getIndex();
-		String id = getResponse.getId();
-		log.info("index:{}, id:{}", index, id);
-		if(getResponse.isExists()) {
-			Long version = getResponse.getVersion();
-			String sourceAsString = getResponse.getSourceAsString();
-			Map<String, Object> sourceMap = getResponse.getSourceAsMap();
-			byte[] sourceAsBytes = getResponse.getSourceAsBytes();
-			log.info("version is:{}, sourceAsString is :{}, map:{}, byte:{}", version, sourceAsString, sourceMap, sourceAsBytes);
-		}
-	}
-
 	@Override
 	public String multiGet(String[] ids) {
 		MultiGetRequest request = new MultiGetRequest();
@@ -449,7 +419,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		MultiGetItemResponse[] responses = response.getResponses();
 		for(MultiGetItemResponse itemResponse : responses) {
 			GetResponse getResponse = itemResponse.getResponse();
-			processGetResponse(getResponse);
+			ParseElasticResponse.processGetResponse(getResponse);
 		}
 	}
 
@@ -462,13 +432,13 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		try {
 			// 同步方式
 			BulkByScrollResponse response = client.reindex(request, RequestOptions.DEFAULT);
-			processBulkByScrollResponse(response);
+			ParseElasticResponse.processBulkByScrollResponse(response);
 
 			// 异步方式
 			ActionListener<BulkByScrollResponse> listener = new ActionListener<BulkByScrollResponse>() {
 				@Override
 				public void onResponse(BulkByScrollResponse bulkByScrollResponse) {
-					processBulkByScrollResponse(response);
+					ParseElasticResponse.processBulkByScrollResponse(response);
 				}
 
 				@Override
@@ -481,14 +451,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		} catch (IOException e) {
 			log.info("操作异常", e);
 		}
-	}
-
-	private void processBulkByScrollResponse(BulkByScrollResponse response) {
-		TimeValue timeValue = response.getTook();
-		log.info("time is {}", timeValue.getMillis());
-		long totalDocs = response.getTotal();
-		long updatedDocs = response.getUpdated();
-		log.info("totalDocs:{}, updatedDocs:{}", totalDocs, updatedDocs);
 	}
 
 	@Override
@@ -536,49 +498,25 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
 			// 异步
+			/*ActionListener<SearchResponse> listener = new ActionListener<SearchResponse>() {
+				@Override
+				public void onResponse(SearchResponse searchResponse) {
+					parseSearchResponse(searchResponse);
+				}
 
-			return parseSearchResponse(searchResponse);
+				@Override
+				public void onFailure(Exception e) {
+
+				}
+			};
+			client.searchAsync(searchRequest, RequestOptions.DEFAULT, listener);*/
+
+			return ParseElasticResponse.parseSearchResponse(searchResponse);
 		} catch (IOException e) {
 			log.info("操作异常", e);
 		}
 
 		return null;
-	}
-
-	private List<Map<String, Object>> parseSearchResponse(SearchResponse searchResponse) {
-		SearchHits hits = searchResponse.getHits();
-		TotalHits totalHits = hits.getTotalHits();
-		int totalShards = searchResponse.getTotalShards();
-		int successfulShards = searchResponse.getSuccessfulShards();
-		int failedShards = searchResponse.getFailedShards();
-		long numHits = totalHits.value;
-		TotalHits.Relation relation = totalHits.relation;
-		float maxScore = hits.getMaxScore();
-		SearchHit[] searchHits = hits.getHits();
-
-		Suggest suggest = searchResponse.getSuggest();
-		if(suggest != null) {
-			TermSuggestion termSuggestion = suggest.getSuggestion("suggest_test");
-			for(TermSuggestion.Entry suggestion : termSuggestion.getEntries()) {
-				for(TermSuggestion.Entry.Option option : suggestion) {
-					String suggestText = option.getText().string();
-					log.info("suggestTest is " + suggestText);
-				}
-			}
-		}
-
-		Float score = null;
-		List<Map<String, Object>> list = Lists.newArrayList();
-		for(SearchHit hit : searchHits) {
-			String index = hit.getIndex();
-			String id = hit.getId();
-			score = hit.getScore();
-			Map<String, HighlightField> highlightFieldMap = hit.getHighlightFields();
-			Map<String, Object> stringObjectMap = hit.getSourceAsMap();
-			list.add(stringObjectMap);
-		}
-
-		return list;
 	}
 
 	@Override

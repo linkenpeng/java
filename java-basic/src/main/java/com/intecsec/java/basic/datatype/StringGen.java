@@ -3,6 +3,7 @@ package com.intecsec.java.basic.datatype;
 import com.intecsec.java.util.JsonUtils;
 import com.intecsec.java.vo.Coupon;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -18,9 +19,10 @@ import java.util.Map;
 public class StringGen {
 
     public static void main(String[] args) {
-        String username = "peter.peng@watsons.com.cn";
-        username = username.replaceAll("@watsons.com.cn", "");
+        String username = "银\\\\亿\\格兰郡{}}}}}}\"G3号楼(怒江北街银亿格兰郡G3\n" +
+                ")";
         System.out.println(username);
+        System.out.println(replaceSpecail(username));
 
 
         //language=JSON
@@ -30,6 +32,13 @@ public class StringGen {
         if (jsonStr == null) {
 
         }
+    }
+
+    public static String replaceSpecail(String str) {
+        if(StringUtils.isEmpty(str)) {
+            return str;
+        }
+        return str.replaceAll("(\\r\\n|\\r|\\n|\\n\\r|\\{|}|\"|\'|\\\\)", "");
     }
 
     public static void replace() {

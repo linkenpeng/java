@@ -49,7 +49,7 @@ public class StringGen {
     }
 
     public static void toJson() {
-        System.out.println(checkSpecailHandle("MO201121175113551511"));
+        System.out.println(checkSpecailHandle("1175113551511"));
         Coupon coupon = new Coupon();
         coupon.setId(1);
         coupon.setName("coupon");
@@ -63,7 +63,7 @@ public class StringGen {
     }
 
     public static boolean checkSpecailHandle(String oid) {
-        List<String> oids = Arrays.asList("MO201121175113551511,MO201101124145591935".split(","));
+        List<String> oids = Arrays.asList("51511,0985".split(","));
         return  oids.contains(oid)||Character.isLetter(oid.charAt(oid.length()-1));
     }
 

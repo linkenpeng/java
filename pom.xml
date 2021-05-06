@@ -63,6 +63,7 @@
 		<logback.classic.version>1.2.3</logback.classic.version>
 		<jedis.version>3.5.1</jedis.version>
 		<springboot.version>2.3.1.RELEASE</springboot.version>
+		<rocketmq.client.version>4.8.0</rocketmq.client.version>
 	</properties>
 
 	<dependencyManagement>
@@ -255,6 +256,14 @@
 			<artifactId>spring-data-redis</artifactId>
 			<version>${springboot.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-client</artifactId>
+			<version>${rocketmq.client.version}</version>
+		</dependency>
+
+
 	</dependencies>
 	</dependencyManagement>
 

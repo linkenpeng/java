@@ -19,7 +19,7 @@ public class PullConsumer {
 	public static void main(String[] args) throws Exception {
 
 		DefaultLitePullConsumer consumer = new DefaultLitePullConsumer("PullConsumerGroupName");
-		consumer.setNamesrvAddr("127.0.0.1:9876");
+		consumer.setNamesrvAddr("dev.mq.intecsec.com:9876");
 		//要消费的topic，可使用tag进行简单过滤
 		consumer.subscribe("TestTopic", "*");
 		//一次最大消费的条数

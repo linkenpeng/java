@@ -17,7 +17,7 @@ public class PushConsumer {
 	public static void main(String[] args)  throws Exception {
 
 		DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("PushConsumerGroupName");
-		consumer.setNamesrvAddr("127.0.0.1:9876");
+		consumer.setNamesrvAddr("dev.mq.intecsec.com:9876");
 		//一个GroupName第一次消费时的位置
 		consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
 		consumer.setConsumeThreadMin(20);
@@ -35,8 +35,7 @@ public class PushConsumer {
 			try {
 				//业务处理
 				msgs.forEach(msg -> {
-					log.info(msg.toString());
-					log.info(msg.toString());
+					log.info(new String(msg.getBody()));
 				});
 			} catch (Exception e) {
 				System.err.println("接收异常" + e);

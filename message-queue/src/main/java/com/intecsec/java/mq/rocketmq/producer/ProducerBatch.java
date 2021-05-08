@@ -29,7 +29,7 @@ public class ProducerBatch {
 			producer.start();
 
 			int threadCount = 20;
-			int forCount = 1000;
+			int forCount = 100;
 			CountDownLatch latch = new CountDownLatch(threadCount);
 			long start = System.currentTimeMillis();
 			for (int i = 0; i < threadCount; i++) {

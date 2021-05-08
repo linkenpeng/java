@@ -16,7 +16,7 @@ import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 public class PushConsumer {
 
 	public static void main(String[] args)  throws Exception {
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 4; i++) {
 			genConsumer("InstanceName" + i);
 		}
 	}
@@ -32,7 +32,7 @@ public class PushConsumer {
 			//要消费的topic，可使用tag进行简单过滤
 			consumer.subscribe("TestTopic", "*");
 			//一次最大消费的条数
-			consumer.setConsumeMessageBatchMaxSize(100);
+			// consumer.setConsumeMessageBatchMaxSize(100);
 			//消费模式，广播或者集群，默认集群。
 			consumer.setMessageModel(MessageModel.CLUSTERING);
 			//在同一jvm中 需要启动两个同一GroupName的情况需要这个参数不一样。
@@ -42,8 +42,7 @@ public class PushConsumer {
 				try {
 					//业务处理
 					msgs.forEach(msg -> {
-						log.info(instanceName + ": " + msg.getMsgId());
-						dealMsg(instanceName, msg);
+						dealMsg(instanceName, msg, msg.getMsgId());
 					});
 				} catch (Exception e) {
 					System.err.println("接收异常" + e);
@@ -58,13 +57,24 @@ public class PushConsumer {
 		}
 	}
 
-	public static void dealMsg(String instanceName, Message message) {
+	public static void dealMsg(String instanceName, Message message, String msgId) {
 		try {
-			log.info(instanceName + ": " + new String(message.getBody()));
+			log.info(instanceName + ": msgId: " + msgId + ", body: " + new String(message.getBody()));
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void dealMsgAsyn(String instanceName, Message message, String msgId) {
+		new Thread(() -> {
+			try {
+				log.info(instanceName + ": msgId: " + msgId + ", body: " + new String(message.getBody()));
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 }

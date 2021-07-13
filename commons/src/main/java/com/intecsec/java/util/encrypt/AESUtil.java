@@ -1,4 +1,6 @@
-package com.intecsec.java.util;
+package com.intecsec.java.util.encrypt;
+
+import com.intecsec.java.util.Hex;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

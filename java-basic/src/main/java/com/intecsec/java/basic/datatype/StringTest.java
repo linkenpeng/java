@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class StringTest {
 
 	public static void main(String[] args) {
-		replace();
+		cutOrder();
 	}
 
 	public static void replace() {
@@ -176,9 +176,12 @@ public class StringTest {
 
 		String t1 = orderSn.substring(orderSn.length() - 4, orderSn.length()); // 后4位
 		System.out.println(t1);
+		System.out.println("订单后4位" + t1);
+
+		String tsn = StringUtils.substring(orderSn, orderSn.length() - 4, orderSn.length());
+		System.out.println("订单后4位" + tsn);
 
 		String t2 = orderSn.substring(0, 4); // 订单号前4位
-		System.out.println(t2);
 
 		String t3 = orderSn.substring(orderSn.length() - 8, orderSn.length() - 4);
 		System.out.println(t3);

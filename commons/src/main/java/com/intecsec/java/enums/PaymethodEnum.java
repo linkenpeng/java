@@ -1,17 +1,17 @@
 package com.intecsec.java.enums;
 
 public enum PaymethodEnum {
-	ALI_PAY(4, "P001", "支付宝"),
-	WEIXIN_PAY(5, "P012", "微信"),
-	UNION_PAY(6, "P005", "银联");
+	ALI_PAY(1, "01", "支付宝"),
+	WEIXIN_PAY(2, "02", "微信"),
+	UNION_PAY(3, "03", "银联");
 	
 	private int code;
-	private String gomsCode;
+	private String toCode;
 	private String name;
 	
-	private PaymethodEnum(int code, String gomsCode, String name) {
+	private PaymethodEnum(int code, String toCode, String name) {
 		this.code = code;
-		this.gomsCode = gomsCode;
+		this.toCode = toCode;
 		this.name = name;
 	}
 
@@ -19,16 +19,8 @@ public enum PaymethodEnum {
 		return code;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public String getGomsCode() {
-		return gomsCode;
-	}
-
-	public void setGomsCode(String gomsCode) {
-		this.gomsCode = gomsCode;
+	public String getToCode() {
+		return toCode;
 	}
 
 	public String getName() {
@@ -48,9 +40,9 @@ public enum PaymethodEnum {
         return null;
     }
 	
-	public static PaymethodEnum gomsCodeOf(String key) {
+	public static PaymethodEnum toCodeOf(String key) {
         for (PaymethodEnum code : values()) {
-            if (code.getGomsCode() == key) {
+            if (code.getToCode().equals(key)) {
                 return code;
             }
         }

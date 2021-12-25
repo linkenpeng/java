@@ -15,8 +15,8 @@ public class BigDataAdd {
 
     public static void main(String[] args) {
 
-        String a = "2154365543";
-        String b = "994332656442";
+        String a = "789";
+        String b = "111";
 
         // String a = "123";
         // String b = "123";
@@ -56,19 +56,19 @@ public class BigDataAdd {
         for(int i = min; i > 0; i--) {
             int i1 = Integer.valueOf(a.substring(i - 1, i));
             int i2 = Integer.valueOf(b.substring(i - 1, i));
-            int temp = i1 + i2 + poss[i-1];
+            int temp = i1 + i2 + poss[i - 1];
 
-            if(temp > 10) {
+            if(temp >= 10) {
                 int j = temp / 10;
-                poss[i-1] = 1;
-                sum.append(String.valueOf(j));
+                poss[i-1] = j;
+                sum.append(String.valueOf(temp % 10));
             } else {
                 sum.append(String.valueOf(temp));
             }
 
         }
 
-        return Long.valueOf(sum.toString());
+        return Long.valueOf(sum.reverse().toString());
     }
 
 }

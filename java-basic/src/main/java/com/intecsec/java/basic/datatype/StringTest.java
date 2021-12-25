@@ -1,5 +1,7 @@
 package com.intecsec.java.basic.datatype;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.intecsec.java.util.Base64;
 import com.intecsec.java.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +18,13 @@ import java.util.regex.Pattern;
 public class StringTest {
 
 	public static void main(String[] args) {
-		cutOrder();
+		String itemCodes = "101162924 ";
+		List<String> itemCodeStrList = Splitter.on(",").splitToList(itemCodes);
+		List<Long> itemCodeList = Lists.newArrayList();
+		for(String itemCodeStr : itemCodeStrList) {
+			itemCodeList.add(Long.valueOf(itemCodeStr.trim()));
+		}
+		System.out.println(itemCodeList);
 	}
 
 	public static void replace() {

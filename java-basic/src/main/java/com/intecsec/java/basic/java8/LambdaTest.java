@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.lambda;
+package com.intecsec.java.basic.java8;
 
 import com.google.common.collect.Lists;
 import com.intecsec.java.vo.Person;

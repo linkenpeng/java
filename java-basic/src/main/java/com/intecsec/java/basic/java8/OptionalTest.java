@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.keyword;
+package com.intecsec.java.basic.java8;
 
 import com.intecsec.java.vo.Address;
 import com.intecsec.java.vo.Country;
@@ -26,7 +26,8 @@ public class OptionalTest {
 
 	public static void predicate() {
 		User user = giveUser();
-		Optional result = Optional.ofNullable(user).filter(u -> u.getEmail() != null && u.getEmail().contains("@"));
+		Optional result = Optional.ofNullable(user)
+				.filter(u -> u.getEmail() != null && u.getEmail().contains("@"));
 		System.out.println(result.isPresent());
 	}
 

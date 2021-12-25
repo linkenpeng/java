@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class LambdaTest {
 
 	public static void main(String[] args) {
-		list();
+		feature();
 	}
 	
 	private static void feature() {
@@ -49,10 +49,10 @@ public class LambdaTest {
 
 		
 		// reduce
-		List<Integer> ints = Lists.newArrayList(1,2,3,4,5,6,7,8,9,10);
+		List<Integer> ints = Lists.newArrayList(1,2,3,4,5,6,7,8,9,10,11);
 		System.out.println("ints sum is:" + ints.stream().reduce((sum, item) -> sum + item).get());
 		System.out.println("ints sum is:" + ints.stream().reduce(0, (sum, item) -> sum + item));
-		System.out.println(ints.stream().allMatch(item -> item < 100));
+		System.out.println(ints.stream().allMatch(item -> item < 9));
 		ints.stream().max(Integer::compareTo).ifPresent(System.out::println);
 	}
 	

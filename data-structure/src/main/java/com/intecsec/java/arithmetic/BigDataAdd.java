@@ -15,57 +15,52 @@ public class BigDataAdd {
 
     public static void main(String[] args) {
 
-        String a = "789";
-        String b = "111";
+        String a = "7892";
+        String b = "21111";
 
         // String a = "123";
         // String b = "123";
 
-        System.out.println(Long.valueOf(a) + Long.valueOf(b));
         System.out.println(add(a, b));
     }
 
     public static long add(String a ,String b) {
+        a = new StringBuffer(a).reverse().toString();
+        b = new StringBuffer(b).reverse().toString();
 
         int aLen = a.length();
         int bLen = b.length();
 
-        StringBuilder tempZero = new StringBuilder();
-        int zeroNum = aLen > bLen ? aLen - bLen : bLen - aLen;
-        if(zeroNum > 0) {
-            for(int s = zeroNum; s > 0; s--) {
-                tempZero.append("0");
+        int maxLen = aLen > bLen ? aLen : bLen;
+        if(aLen - bLen > 0) {
+            for (int i = 0; i < aLen - bLen; i++) {
+                b += "0";
+            }
+        }
+        if(bLen - aLen > 0) {
+            for (int i = 0; i < bLen - aLen; i++) {
+                a += "0";
             }
         }
 
-        if(aLen > bLen) {
-            b = tempZero.append(b).toString();
-        } else {
-            a = tempZero.append(a).toString();
-        }
-
-        // System.out.println(a);
-        // System.out.println(b);
-
-
-        int min = a.length();
-
-        StringBuilder sum = new StringBuilder();
-        int[] poss = new int[min];
-
-        for(int i = min; i > 0; i--) {
-            int i1 = Integer.valueOf(a.substring(i - 1, i));
-            int i2 = Integer.valueOf(b.substring(i - 1, i));
-            int temp = i1 + i2 + poss[i - 1];
-
-            if(temp >= 10) {
-                int j = temp / 10;
-                poss[i-1] = j;
-                sum.append(String.valueOf(temp % 10));
+        int iOver = 0;
+        StringBuffer sum = new StringBuffer();
+        for (int i = 0; i < maxLen; i++) {
+            int i1 = Integer.parseInt(String.valueOf(a.charAt(i)));
+            int i2 = Integer.parseInt(String.valueOf(b.charAt(i)));
+            int temp = i1 + i2 + iOver;
+            if(temp >= 10 ) {
+                iOver = 1;
+                int mod = temp % 10;
+                sum.append(mod);
             } else {
-                sum.append(String.valueOf(temp));
+                iOver = 0;
+                sum.append(temp);
             }
+        }
 
+        if(iOver > 0) {
+            sum.append(iOver);
         }
 
         return Long.valueOf(sum.reverse().toString());

@@ -1,5 +1,8 @@
 package com.intecsec.java.arithmetic;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * @description:
  * @author: peter.peng
@@ -80,4 +83,61 @@ public class Solution {
 
         return max;
     }
+
+    /**
+     * 从尾到头打印链表
+     * @param head
+     * @return
+     */
+    public int[] reversePrint(ListNode head) {
+
+        Deque<Integer> stack = new ArrayDeque<>();
+        while (head != null) {
+            stack.push(head.val);
+            head = head.next;
+        }
+
+        int[] res = new int[stack.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = stack.pop();
+        }
+
+        return res;
+    }
+
+    public int[] reversePrint2(ListNode head) {
+        ListNode node = head;
+        int size = 0;
+        while (node != null) {
+            size++;
+            node = node.next;
+        }
+
+        int[] res = new int[size];
+        node = head;
+        while (node != null) {
+            res[--size] = node.val;
+            node = node.next;
+        }
+
+        return res;
+    }
+
+    /**
+     * 翻转列表
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        ListNode newHead = null;
+        while(head != null) {
+            ListNode temp = head.next;
+            head.next = newHead;
+            newHead = head;
+            head = temp;
+        }
+        return newHead;
+    }
+
+
 }

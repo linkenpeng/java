@@ -9,16 +9,17 @@ public class TestMain {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        ListNode l1 = new ListNode(1);
-        ListNode l2 = new ListNode(2);
-        ListNode l3 = new ListNode(3);
-        l1.next = l2;
-        l2.next = l3;
+        printMsg(solution.firstUniqChar("loveleetcode"));
+    }
 
-        printList(solution.reverseList(l1));
+    public static void printS(String s) {
+        System.out.println(s);
+    }
 
-        //int[] res = solution.reversePrint2(l1);
-        //printIntArray(res);
+    public static <T> void printMsg(T... args) {
+        for(T t : args) {
+            System.out.println(t);
+        }
     }
 
     public static void printList(ListNode head) {

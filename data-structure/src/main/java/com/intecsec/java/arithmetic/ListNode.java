@@ -9,8 +9,11 @@ public class ListNode {
     int val;
 
     ListNode next;
+    ListNode random;
 
     ListNode(int x) {
+        this.next = null;
+        this.random = null;
         val = x;
     }
 }

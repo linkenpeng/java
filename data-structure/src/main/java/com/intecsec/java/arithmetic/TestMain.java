@@ -9,7 +9,7 @@ public class TestMain {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        printMsg(solution.firstUniqChar("loveleetcode"));
+        printMsg(solution.maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}));
     }
 
     public static void printS(String s) {

@@ -1,7 +1,6 @@
 package com.intecsec.java.arithmetic;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 /**
  * @description:
@@ -139,5 +138,51 @@ public class Solution {
         return newHead;
     }
 
+    public ListNode copyRamdonList(ListNode head) {
+        ListNode newHead = head;
+        while (head != null) {
+            newHead.val = head.val;
+            newHead.next = head;
+            newHead.random = head.random;
+        }
+        return newHead;
+    }
+
+    /**
+     * 旋转左字符
+     * @param s
+     * @param n
+     * @return
+     */
+    public String reverseLeftWords(String s, int n) {
+        char[] chars = s.toCharArray();
+        String left = "";
+        String right = "";
+        for (int i = 0; i < chars.length; i++) {
+            if(i < n) {
+                right += chars[i];
+            } else {
+                left += chars[i];
+            }
+        }
+
+        return left + right;
+    }
+
+    public char firstUniqChar(String s) {
+        char[] chars = s.toCharArray();
+        Map<Character, Boolean> map = new LinkedHashMap<>();
+        for (char c : chars) {
+            map.put(c, !map.containsKey(c) ? true : false);
+        }
+
+        for (Map.Entry<Character, Boolean> entry : map.entrySet()) {
+            if(entry.getValue()) {
+                return entry.getKey();
+            }
+        }
+
+        return ' ';
+    }
 
 }

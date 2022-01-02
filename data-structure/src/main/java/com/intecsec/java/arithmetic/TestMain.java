@@ -8,6 +8,15 @@ package com.intecsec.java.arithmetic;
 public class TestMain {
 
     public static void main(String[] args) {
+        LRUCache cache = new LRUCache(2);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        System.out.println(cache.get(1));
+        cache.put(3, 3);
+        System.out.println(cache.get(1));
+    }
+
+    public static void testSolution() {
         Solution solution = new Solution();
         PrintUtil.printMsg(solution.maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7}));
     }

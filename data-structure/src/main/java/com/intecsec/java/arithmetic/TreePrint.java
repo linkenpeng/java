@@ -109,7 +109,46 @@ public class TreePrint {
 
             PrintUtil.printMsg(levelList);
         }
-
-
     }
+
+    // 二叉搜索树转链表
+    class TreeToDoublyList {
+        TreeNode pre, head;
+        public TreeNode treeToDoublyList(TreeNode root) {
+            if(root == null) return null;
+            dfs(root);
+            head.left = pre;
+            pre.right = head;
+            return head;
+        }
+        void dfs(TreeNode cur) {
+            if(cur == null) return;
+            dfs(cur.left);
+            if(pre != null) pre.right = cur;
+            else head = cur;
+            cur.left = pre;
+            pre = cur;
+            dfs(cur.right);
+        }
+    }
+
+    // 找到倒排的第K大数据
+    class Solution {
+        int res, k;
+        public int kthLargest(TreeNode root, int k) {
+            this.k = k;
+            dfs(root);
+            return res;
+        }
+        void dfs(TreeNode root) {
+            if(root == null) return;
+            dfs(root.right);
+            if(k == 0) return;
+            if(--k == 0) res = root.val;
+            dfs(root.left);
+        }
+    }
+
 }
+
+

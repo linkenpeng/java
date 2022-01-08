@@ -1,5 +1,7 @@
 package com.intecsec.java.arithmetic;
 
+import java.util.LinkedList;
+
 /**
  * @description:
  * @author: peter.peng
@@ -8,6 +10,31 @@ package com.intecsec.java.arithmetic;
 public class TestMain {
 
     public static void main(String[] args) {
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(3);
+        list.add(2);
+        list.add(6);
+        list.add(-1);
+
+        PrintUtil.printMsg(list);
+        PrintUtil.printMsg(list.getFirst());
+        PrintUtil.printMsg(list.getLast());
+        PrintUtil.printMsg(list.removeFirst());
+        PrintUtil.printMsg(list);
+        PrintUtil.printMsg(list.removeLast());
+        PrintUtil.printMsg(list);
+        // 出队
+        PrintUtil.printMsg(list.poll());
+        PrintUtil.printMsg(list);
+
+        list.addLast(-1);
+        PrintUtil.printMsg(list);
+
+        PrintUtil.printMsg(list.pop());
+    }
+
+    public static void testLRUCache() {
         LRUCache cache = new LRUCache(2);
         cache.put(1, 1);
         cache.put(2, 2);

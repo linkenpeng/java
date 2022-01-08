@@ -13,7 +13,9 @@ public class TestMain {
         cache.put(2, 2);
         System.out.println(cache.get(1));
         cache.put(3, 3);
-        System.out.println(cache.get(1));
+        System.out.println(cache.get(2));
+        System.out.println(cache.get(3));
+        cache.put(4, 4);
     }
 
     public static void testSolution() {

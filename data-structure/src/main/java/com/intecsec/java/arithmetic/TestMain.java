@@ -10,6 +10,11 @@ import java.util.LinkedList;
 public class TestMain {
 
     public static void main(String[] args) {
+        StringPermutate stringPermutate = new StringPermutate();
+        PrintUtil.printMsg(stringPermutate.permutation("abc"));
+    }
+
+    public static void pringLinkedList() {
         LinkedList<Integer> list = new LinkedList<>();
         list.add(1);
         list.add(3);

@@ -191,4 +191,28 @@ public class Solution {
         return ans;
     }
 
+    public boolean hasCycle(ListNode head) {
+        boolean hasCycle = false;
+
+        if(head == null || head.next == null) {
+            return hasCycle;
+        }
+
+        ListNode nextHead = head.next;
+        while (head.next != null) {
+            int val = head.val;
+
+            while(nextHead.next != null) {
+                if(nextHead.val == val) {
+                    return true;
+                }
+                nextHead = nextHead.next;
+            }
+
+            head = head.next;
+        }
+
+        return hasCycle;
+    }
+
 }

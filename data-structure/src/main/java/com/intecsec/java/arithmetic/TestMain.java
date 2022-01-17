@@ -10,9 +10,35 @@ import java.util.LinkedList;
 public class TestMain {
 
     public static void main(String[] args) {
-        StringPermutate stringPermutate = new StringPermutate();
-        PrintUtil.printMsg(stringPermutate.permutation("abc"));
+        ListNode l1 = initLisNode();
+        Solution solution = new Solution();
+        System.out.println(solution.hasCycle(l1));
     }
+
+    public static ListNode initLisNode() {
+        ListNode l1 = new ListNode(1);
+
+        ListNode l2 = new ListNode(2);
+        l1.next = l2;
+
+        ListNode l3 = new ListNode(3);
+        l2.next = l3;
+
+        ListNode l4 = new ListNode(4);
+        l3.next = l4;
+
+        ListNode l5 = new ListNode(5);
+        l4.next = l5;
+
+        ListNode l6 = new ListNode(6);
+        l5.next = l6;
+
+        ListNode l7 = new ListNode(7);
+        l6.next = l7;
+
+        return l1;
+    }
+
 
     public static void pringLinkedList() {
         LinkedList<Integer> list = new LinkedList<>();

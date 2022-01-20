@@ -1,6 +1,7 @@
 package com.intecsec.java.arithmetic;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @description:
@@ -10,9 +11,11 @@ import java.util.LinkedList;
 public class TestMain {
 
     public static void main(String[] args) {
-        ListNode l1 = initLisNode();
+        int[] nums = new int[]{1, 2, 3, 4, 5, 6, 7};
+
         Solution solution = new Solution();
-        System.out.println(solution.hasCycle(l1));
+        List<List<Integer>> result = solution.findTowNumForTarget(nums, 10);
+        System.out.println(result);
     }
 
     public static ListNode initLisNode() {

@@ -30,6 +30,34 @@ public class Solution {
         return s.substring(index, index + len);
     }
 
+    /**
+     * 找出一个数组满足两个数字相加的所有组合的索引
+     * @param nums
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> findTowNumForTarget(int[] nums, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int len = nums.length;
+        if(len < 1) {
+            return ans;
+        }
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int i = 0; i < len; i++) {
+            if(map.containsKey(target - nums[i])) {
+                List<Integer> temp = new ArrayList<>();
+                temp.add(map.get(target - nums[i]));
+                temp.add(i);
+                ans.add(temp);
+            }
+            map.put(nums[i], i);
+        }
+
+        return ans;
+    }
+
     public void PalindromeHelper(String s, int l, int r) {
         while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
             l--;

@@ -12,9 +12,10 @@ public class TestMain {
 
     public static void main(String[] args) {
         int[] nums = new int[]{1, 2, 3, 4, 5, 6, 7};
+        int[] nums2 = new int[]{1, 0, 2, -1, 3, -2, -1};
 
         Solution solution = new Solution();
-        List<List<Integer>> result = solution.findTowNumForTarget(nums, 10);
+        List<List<Integer>> result = solution.findThreeNumsForTarget(nums2);
         System.out.println(result);
     }
 

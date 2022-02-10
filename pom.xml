@@ -50,7 +50,7 @@
 		<aspectjweaver.version>1.8.10</aspectjweaver.version>
 	    <mysql.connector.version>8.0.16</mysql.connector.version>
 		<c3p0.version>0.9.1.2</c3p0.version>
-		<hibernate.version>5.4.19.Final</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<struts2.version>2.5.22</struts2.version>
 		<commons.lang3.version>3.11</commons.lang3.version>
 		<guava.version>29.0-jre</guava.version>

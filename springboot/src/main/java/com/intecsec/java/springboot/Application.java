@@ -1,5 +1,6 @@
 package com.intecsec.java.springboot;
 
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import com.intecsec.java.springboot.starter.EnableUserInfoProcessor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableUserInfoProcessor
 @MapperScan("com.intecsec.java.springboot.mapper")
+@NacosPropertySource(dataId = "example", autoRefreshed = true)
 public class Application {
 
 	/*// 优先加载bean 方法一 依赖注入

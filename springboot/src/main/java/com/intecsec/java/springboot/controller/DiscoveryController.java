@@ -14,7 +14,7 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
- * @description:
+ * @description: 使用nacos服务发现
  * @author: peter.peng
  * @create: 2022-02-27 18:02
  **/
@@ -22,6 +22,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RequestMapping("discovery")
 public class DiscoveryController {
 
+    /**
+     * curl -X POST 'http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=example&ip=127.0.0.1&port=8085'
+     */
     @NacosInjected
     private NamingService namingService;
 

@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.vm;
+package com.intecsec.java.basic.jvm;
 
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;

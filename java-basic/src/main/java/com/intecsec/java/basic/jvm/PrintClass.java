@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.vm;
+package com.intecsec.java.basic.jvm;
 
 import lombok.Builder;
 import lombok.Data;

@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *  并发编程: 可见性、有序性、原子性
  *
  *  重排序遵循的原则：
- *  as-if-serial， 单线程执行结果不能被改变
+ *  as-if-serial， 不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。
  *  happens-before 某些代码必须发生在某些代码之前
  *
  * @author: peter.peng

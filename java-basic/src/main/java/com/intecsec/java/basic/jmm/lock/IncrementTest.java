@@ -1,17 +1,21 @@
 package com.intecsec.java.basic.jmm.lock;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @description:
  * @author: peter.peng
  * @create: 2022-07-11 22:48
  **/
-public class A {
+public class IncrementTest {
 
-    private int num;
+    private long num;
 
     AtomicInteger atomicInteger = new AtomicInteger();
+
+    // 分段CAS
+    LongAdder longAdder = new LongAdder();
 
     public  void increase() {
         // 等同方法加synchronized
@@ -27,7 +31,8 @@ public class A {
         }
         */
 
-        atomicInteger.incrementAndGet();
+        // atomicInteger.incrementAndGet();
+        longAdder.increment();
 
         // 手写实现
         /**
@@ -44,8 +49,9 @@ public class A {
         */
     }
 
-    public int getNum() {
+    public long getNum() {
         // return num;
-        return atomicInteger.get();
+        // return atomicInteger.get();
+        return longAdder.longValue();
     }
 }

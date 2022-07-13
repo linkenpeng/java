@@ -44,6 +44,7 @@ public class LockUpgrade {
 
         Thread.sleep(1000);
         new Thread(() -> {
+            // 大量C++实现，java字节码：monitor enter, monitor exit, C++调用了inflate
             synchronized (user) {
                 System.out.println("重量级锁（10）：" + ClassLayout.parseInstance(user).toPrintable());
             }

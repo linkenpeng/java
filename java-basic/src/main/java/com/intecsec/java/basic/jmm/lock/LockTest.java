@@ -8,26 +8,26 @@ package com.intecsec.java.basic.jmm.lock;
 public class LockTest {
 
     public static void main(String[] args) throws InterruptedException {
-        A a = new A();
+        IncrementTest incrementTest = new IncrementTest();
 
         long start = System.currentTimeMillis();
 
         Thread t1 = new Thread(() -> {
             for (int i = 0; i < 1000000; i++) {
-                a.increase();
+                incrementTest.increase();
             }
         });
         t1.start();
 
         for (int i = 0; i < 1000000; i++) {
-            a.increase();
+            incrementTest.increase();
         }
         t1.join();
 
         long end = System.currentTimeMillis();
         System.out.println(String.format("%sms", end - start));
 
-        System.out.println(a.getNum());
+        System.out.println(incrementTest.getNum());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.third;
+package com.intecsec.java.util;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -7,7 +7,6 @@ import com.aliyun.oss.internal.OSSHeaders;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
-import com.aliyun.oss.model.StorageClass;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
@@ -59,15 +58,15 @@ public class AliyunSts {
             "            \"Action\": [" +
             "                \"oss:PutObject\", \"oss:GetObject\"" +
             "            ], " +
-            "            \"Resource\": [], " +
+            "            \"Resource\": [\"\"], " +
             "            \"Effect\": \"Allow\"" +
             "        }" +
             "    ]" +
             "}";
 
     public static void main(String[] args) throws Throwable {
-        uploadFile();
-        //getSTSURL();
+        // uploadFile();
+        getSTSURL(objectName);
     }
 
     public static void uploadFile() throws Exception {
@@ -112,7 +111,7 @@ public class AliyunSts {
         }
     }
 
-    public static URL getSTSURL() {
+    public static URL getSTSURL(String objectName) {
         // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
         // getRole1();
         AssumeRoleResponse response = getRole();
@@ -131,7 +130,7 @@ public class AliyunSts {
         URL url = null;
         try {
             // 设置签名URL过期时间，单位为毫秒。
-            Date expiration = new Date(new Date().getTime() + 3600 * 1000);
+            Date expiration = new Date(new Date().getTime() + 3600 * 24 * 100);
             // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。
             url = ossClient.generatePresignedUrl(bucketName, objectName, expiration);
             System.out.println(url);

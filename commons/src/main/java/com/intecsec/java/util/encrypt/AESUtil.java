@@ -160,6 +160,10 @@ public class AESUtil {
         map.put("k2", "v2");
         map.put("k3", "v3");
         System.out.println(paramsStr2Map(map2ParamsStr(map)));
+
+
+		String decryptData = AESUtil.aesDecrypt("", "");
+		System.out.println(decryptData);
 	}
 
 }

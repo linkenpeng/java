@@ -130,7 +130,7 @@ public class AliyunSts {
         URL url = null;
         try {
             // 设置签名URL过期时间，单位为毫秒。
-            Date expiration = new Date(new Date().getTime() + 3600 * 24 * 100);
+            Date expiration = new Date(new Date().getTime() + 3600 * 24 * 2);
             // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。
             url = ossClient.generatePresignedUrl(bucketName, objectName, expiration);
             System.out.println(url);

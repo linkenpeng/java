@@ -26,6 +26,7 @@ public class ImageController {
         URL imageURL = null;
         try {
             imageURL = AliyunSts.getSTSURL(imageName);
+            System.out.println(imageURL.toString());
 
             BufferedImage big = ImageIO.read(imageURL);
 

@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
-            <version>2.2.2-WATSONS</version>
+            <version>2.3.1</version>
         </dependency>
 
         <dependency>

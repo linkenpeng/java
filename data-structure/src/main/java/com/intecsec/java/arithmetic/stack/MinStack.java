@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.stack;
 
 import java.util.LinkedList;
 
@@ -9,10 +9,10 @@ import java.util.LinkedList;
  **/
 public class MinStack {
 
-    LinkedList<Integer> A;
-    LinkedList<Integer> B;
+    public LinkedList<Integer> A;
+    public LinkedList<Integer> B;
 
-    MinStack() {
+    public MinStack() {
         A = new LinkedList();
         B = new LinkedList();
     }

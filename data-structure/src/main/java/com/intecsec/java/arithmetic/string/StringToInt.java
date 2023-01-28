@@ -1,11 +1,11 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.string;
 
 /**
  * @description:
  * @author: peter.peng
  * @create: 2022-01-09 09:59
  **/
-public class StringOp {
+public class StringToInt {
 
     /**
      * 字符转数字

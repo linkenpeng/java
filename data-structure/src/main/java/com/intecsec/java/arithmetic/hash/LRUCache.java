@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.hash;
 
 import java.util.HashMap;
 import java.util.Map;

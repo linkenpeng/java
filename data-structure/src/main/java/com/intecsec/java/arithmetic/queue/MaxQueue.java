@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.queue;
 
 import java.util.Deque;
 import java.util.LinkedList;

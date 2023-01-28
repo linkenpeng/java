@@ -1,4 +1,6 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.tree;
+
+import com.intecsec.java.arithmetic.PrintUtil;
 
 import java.util.*;
 

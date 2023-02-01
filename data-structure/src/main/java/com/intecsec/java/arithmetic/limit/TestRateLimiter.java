@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.limit;
 
 import com.google.common.util.concurrent.RateLimiter;
 

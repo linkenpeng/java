@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.dynamic;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.math;
 
 /**
  * @description: 斐波那契数列
@@ -47,6 +47,4 @@ public class Fibonacci {
 
         return recursion(number - 1) + recursion(number - 2);
     }
-
-
 }

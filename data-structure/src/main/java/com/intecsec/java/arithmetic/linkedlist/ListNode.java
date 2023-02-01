@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.linkedlist;
 
 /**
  * @description: 单向链表
@@ -6,12 +6,12 @@ package com.intecsec.java.arithmetic;
  * @create: 2021-12-29 23:28
  **/
 public class ListNode {
-    int val;
+    public int val;
 
-    ListNode next;
-    ListNode random;
+    public ListNode next;
+    public ListNode random;
 
-    ListNode(int x) {
+    public ListNode(int x) {
         this.next = null;
         this.random = null;
         val = x;

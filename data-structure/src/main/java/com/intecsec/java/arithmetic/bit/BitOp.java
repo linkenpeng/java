@@ -1,4 +1,4 @@
-package com.intecsec.java.arithmetic;
+package com.intecsec.java.arithmetic.bit;
 
 /**
  * @description:
@@ -6,6 +6,13 @@ package com.intecsec.java.arithmetic;
  * @create: 2022-01-10 11:11
  **/
 public class BitOp {
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i + " & 1 =" + (i & 1));
+            System.out.println(i + " % 2 =" + (i % 2));
+        }
+    }
 
     /**
      * 自己实现幂乘

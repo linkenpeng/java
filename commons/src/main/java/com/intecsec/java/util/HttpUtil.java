@@ -35,13 +35,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by zengzhangqiang on 4/29/15.
- */
+
 public class HttpUtil {
     private static final Logger log = LoggerFactory.getLogger(HttpUtil.class);
     private static HttpClient httpClient;
@@ -104,6 +101,10 @@ public class HttpUtil {
         return get(url, pairs);
     }
 
+    public static String get(String url, List<NameValuePair> params) {
+        return get(url, params, "");
+    }
+
 
     /**
      * Get请求
@@ -112,7 +113,7 @@ public class HttpUtil {
      * @param params
      * @return
      */
-    public static String get(String url, List<NameValuePair> params) {
+    public static String get(String url, List<NameValuePair> params, String tid) {
         String body = null;
         try {
             // Get请求
@@ -120,6 +121,9 @@ public class HttpUtil {
             // 设置参数
             String str = EntityUtils.toString(new UrlEncodedFormEntity(params));
             httpget.setURI(new URI(httpget.getURI().toString() + "?" + str));
+
+            httpget.addHeader("MyStoreTid",tid);
+
             // 发送请求
             HttpResponse httpresponse = httpClient.execute(httpget);
             // 获取返回数据
@@ -247,16 +251,5 @@ public class HttpUtil {
                 }
         }
         return null;
-    }
-
-    public static void main(String[] args){
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("topic", "user-add-msg"));
-        Map<String,Object> data = new HashMap<String, Object>();
-        data.put("user_id", 92L);
-        params.add(new BasicNameValuePair("data", JsonUtils.toJson(data)));
-
-        String response = HttpUtil.post("http://115.236.182.108:7081/YDX-ERP/message/notify", params);
-        System.out.println("response:"+response);
     }
 }

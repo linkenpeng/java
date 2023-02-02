@@ -12,9 +12,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Java 8 教程汇总 https://wizardforcel.gitbooks.io/java8-tutorials/content/index.html
+ * Java8简明教程 gitbook https://wizardforcel.gitbooks.io/modern-java
+ * Java8简明教程 https://github.com/wizardforcel/modern-java-zh
+ * Java8新特性探究 https://wizardforcel.gitbooks.io/java8-new-features/content/
+ */
 public class LambdaTest {
 
 	public static void main(String[] args) {
+		System.out.println(Long.MAX_VALUE);
 		feature();
 	}
 	

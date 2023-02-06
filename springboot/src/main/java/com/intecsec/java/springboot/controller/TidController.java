@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * VM params: -javaagent:D:/components/skywalking-agent/skywalking-agent.jar
+ * env: SW_AGENT_COLLECTOR_BACKEND_SERVICES=SkyWalkingServerIp:port
+ *
+ *
  * Created by Peter.Peng
  * Created on 2023/2/1 17:15
  */

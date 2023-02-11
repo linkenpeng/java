@@ -11,3 +11,4 @@ bin/
 /*.iml
 mvnw
 mvnw.cmd
+logs

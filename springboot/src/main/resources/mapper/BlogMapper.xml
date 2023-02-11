@@ -6,7 +6,7 @@
         id, title, content
     </sql>
 
-    <select id="selectByPageList" resultType="Blog">
+    <select id="selectByPageList" resultType="com.intecsec.java.springboot.entity.Blog">
         SELECT <include refid="Base_Column_List" /> FROM blog
     </select>
 

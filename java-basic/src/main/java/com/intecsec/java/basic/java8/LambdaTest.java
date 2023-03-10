@@ -1,6 +1,7 @@
 package com.intecsec.java.basic.java8;
 
 import com.google.common.collect.Lists;
+import com.intecsec.java.util.JsonUtils;
 import com.intecsec.java.vo.Person;
 import com.intecsec.java.vo.Students;
 
@@ -9,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,8 +24,7 @@ import java.util.stream.Stream;
 public class LambdaTest {
 
 	public static void main(String[] args) {
-		System.out.println(Long.MAX_VALUE);
-		feature();
+		groupBy();
 	}
 	
 	private static void feature() {
@@ -62,39 +64,26 @@ public class LambdaTest {
 		System.out.println(ints.stream().allMatch(item -> item < 9));
 		ints.stream().max(Integer::compareTo).ifPresent(System.out::println);
 	}
-	
+
 	private static void set2list() {
 		Set<String> set = new HashSet<>();
-		List<String> name = new ArrayList<>();
-		
-		List<Students> students = new ArrayList<>();
-		students.add(new Students("a", 1));
-		students.add(new Students("a", 2));
-		students.add(new Students("b", 3));
-		students.add(new Students("b", 3));
-		students.add(new Students("c", 4));
-		students.add(new Students("c", 5));
-		System.out.println(students);
+		List<Students> students = genStudentsList();
+
 		students.stream().forEach(student -> set.add(student.getName()));
 		System.out.println(set);
-		name = new ArrayList<>(set);
+
+		List<String> name = new ArrayList<>(set);
 		System.out.println(name);
 	}
 
 	private static void sum() {
-		List<Person> personList = new ArrayList<>();
-		personList.add(new Person("a", 1, null));
-		personList.add(new Person("b", 2, null));
-		personList.add(new Person("c", 3, null));
+		List<Person> personList = genPersonList();
 		int total = personList.stream().mapToInt(i->i.getAge()).sum();
 		System.out.println(total);
 	}
 
 	private static void list() {
-		List<Person> personList = new ArrayList<>();
-		personList.add(new Person("a", 1, null));
-		personList.add(new Person("b", 2, null));
-		personList.add(new Person("c", 3, null));
+		List<Person> personList = genPersonList();
 		List<Integer> ages = personList.stream().map(Person::getAge).collect(Collectors.toList());
 		Map<Integer, Integer> agesMap = personList.stream().collect(Collectors.toMap(Person::getAge, Person::getAge));
 		System.out.println(ages);
@@ -109,6 +98,49 @@ public class LambdaTest {
 		list.add(3L);
 		Map<Long, Long> map = list.stream().collect(Collectors.toMap(k->k, v->v, (k1, k2) -> k2));
 		System.out.println(map);
+	}
+
+	private static void groupBy() {
+		List<Students> students = genStudentsList();
+		Map<Integer, List<Students>> listMap
+				= students.stream().collect(Collectors.groupingBy(s -> s.getAge()));
+		System.out.println(JsonUtils.toJson(listMap));
+
+		Map<Integer, List<Students>> collect = students.stream()
+				.collect(Collectors.groupingBy(s -> s.getId() % 6));
+		System.out.println(JsonUtils.toJson(collect));
+
+	}
+
+	private static void partionBy() {
+		List<Students> students = genStudentsList();
+		Map<Boolean, List<Students>> collect = students.stream().collect(Collectors.partitioningBy(s -> s.getAge() > 30));
+		System.out.println(JsonUtils.toJson(collect));
+	}
+
+
+	public static List<Students> genStudentsList() {
+		List<Students> students = new ArrayList<>();
+		students.add(new Students(1,"a", 25));
+		students.add(new Students(2,"b", 25));
+		students.add(new Students(3,"c", 35));
+		students.add(new Students(4,"d", 45));
+		students.add(new Students(5,"e", 40));
+		students.add(new Students(6,"f", 50));
+		students.add(new Students(7,"g", 20));
+		students.add(new Students(8,"h", 30));
+		students.add(new Students(9,"i", 32));
+		students.add(new Students(10,"j", 29));
+		students.add(new Students(11,"k", 19));
+		return students;
+	}
+
+	public static List<Person> genPersonList() {
+		List<Person> personList = new ArrayList<>();
+		personList.add(new Person("a", 1, null));
+		personList.add(new Person("b", 2, null));
+		personList.add(new Person("c", 3, null));
+		return personList;
 	}
 
 }

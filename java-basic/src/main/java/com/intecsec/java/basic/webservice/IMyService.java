@@ -16,6 +16,6 @@ import java.util.List;
 public interface IMyService {
 
     @WebResult(name = "students")
-    // @WebMethod(operationName = "list")
-    public List<Students> list(@WebParam(header = true, name="auth") String auth);
+    @WebMethod(operationName = "list")
+    List<Students> list(@WebParam(header = true, name="auth") String auth);
 }

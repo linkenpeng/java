@@ -5,13 +5,8 @@ import com.intecsec.java.util.JsonUtils;
 import com.intecsec.java.vo.Person;
 import com.intecsec.java.vo.Students;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collector;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,14 +16,41 @@ import java.util.stream.Stream;
  * Java8简明教程 https://github.com/wizardforcel/modern-java-zh
  * Java8新特性探究 https://wizardforcel.gitbooks.io/java8-new-features/content/
  */
-public class LambdaTest {
+public class StreamsTest {
 
 	public static void main(String[] args) {
-		groupBy();
+		match();
+	}
+
+	public static void streamTime() {
+		List<String> values = genStringList();
+
+		// 纳秒
+		long t0 = System.nanoTime();
+
+		long count = values.stream().sorted().count();
+		System.out.println(count);
+
+		long t1 = System.nanoTime();
+
+		// 纳秒转微秒 1035 ms
+		long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
+		System.out.println(String.format("顺序流排序耗时: %d ms", millis));
+
+
+		long countParallelStream = values.parallelStream().sorted().count();
+		System.out.println(countParallelStream);
+
+		long t2 = System.nanoTime();
+
+		// 纳秒转微秒 378 ms
+		long millis1 = TimeUnit.NANOSECONDS.toMillis(t2 - t1);
+		System.out.println(String.format("并行流排序耗时: %d ms", millis1));
 	}
 	
 	private static void feature() {
-		Stream.iterate(1, item -> item + 1).limit(10).forEach(System.out::println);
+		Stream.iterate(1, item -> item + 1).limit(10)
+				.forEach(System.out::println);
 		
 		List<Integer> nums = Lists.newArrayList(1, 1, null, 2, 3, 4, null, 5, 6, 7, 8, 9, 10);
 		System.out.println(
@@ -96,11 +118,48 @@ public class LambdaTest {
 		list.add(2L);
 		list.add(3L);
 		list.add(3L);
-		Map<Long, Long> map = list.stream().collect(Collectors.toMap(k->k, v->v, (k1, k2) -> k2));
+		Map<Long, Long> map = list.stream()
+				.collect(Collectors.toMap(k->k, v->v, (k1, k2) -> k2));
 		System.out.println(map);
 	}
 
-	private static void groupBy() {
+
+	private static void match() {
+		List<String> stringCollection = new ArrayList<>();
+		stringCollection.add("ddd2");
+		stringCollection.add("aaa2");
+		stringCollection.add("bbb1");
+		stringCollection.add("aaa1");
+		stringCollection.add("bbb3");
+		stringCollection.add("ccc");
+		stringCollection.add("bbb2");
+		stringCollection.add("ddd1");
+		// 验证 list 中 string 是否有以 a 开头的, 匹配到第一个，即返回 true
+		boolean anyStartsWithA =
+				stringCollection
+						.stream()
+						.anyMatch((s) -> s.startsWith("a"));
+
+		System.out.println(anyStartsWithA);      // true
+
+		// 验证 list 中 string 是否都是以 a 开头的
+		boolean allStartsWithA =
+				stringCollection
+						.stream()
+						.allMatch((s) -> s.startsWith("a"));
+
+		System.out.println(allStartsWithA);      // false
+
+		// 验证 list 中 string 是否都不是以 z 开头的,
+		boolean noneStartsWithZ =
+				stringCollection
+						.stream()
+						.noneMatch((s) -> s.startsWith("z"));
+
+		System.out.println(noneStartsWithZ);      // true
+	}
+
+	private static void groupingBy() {
 		List<Students> students = genStudentsList();
 		Map<Integer, List<Students>> listMap
 				= students.stream().collect(Collectors.groupingBy(s -> s.getAge()));
@@ -109,15 +168,28 @@ public class LambdaTest {
 		Map<Integer, List<Students>> collect = students.stream()
 				.collect(Collectors.groupingBy(s -> s.getId() % 6));
 		System.out.println(JsonUtils.toJson(collect));
-
 	}
 
-	private static void partionBy() {
+	private static void partitioningBy() {
 		List<Students> students = genStudentsList();
-		Map<Boolean, List<Students>> collect = students.stream().collect(Collectors.partitioningBy(s -> s.getAge() > 30));
+		Map<Boolean, List<Students>> collect = students.stream()
+				.collect(Collectors.partitioningBy(s -> s.getAge() > 30));
 		System.out.println(JsonUtils.toJson(collect));
 	}
 
+	public static List<String> genStringList() {
+		long t0 = System.nanoTime();
+		int max = 1000000;
+		List<String> values = new ArrayList<>(max);
+		for (int i = 0; i < max; i++) {
+			UUID uuid = UUID.randomUUID();
+			values.add(uuid.toString());
+		}
+		long t1 = System.nanoTime();
+		long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
+		System.out.println(String.format("生成数据耗时: %d ms", millis));
+		return values;
+	}
 
 	public static List<Students> genStudentsList() {
 		List<Students> students = new ArrayList<>();

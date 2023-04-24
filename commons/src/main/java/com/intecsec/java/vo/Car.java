@@ -13,7 +13,14 @@ public class Car extends CarBase {
 	private String proDate = "_" + DateUtils.formatDate(new Date(), "yyyyMM");
 
 	public Car() {
+		System.out.println("Car");
+	}
 
+	public Car(String name) {
+		// 不显示调用 super(name) 则默认调用父类无参构造函数
+		super(name);
+		this.name = name;
+		System.out.println(this.name);
 	}
 	
 	public Car(String brand, String product, int price) {

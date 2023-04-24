@@ -58,6 +58,11 @@ public class ThreadPool {
     }
 
     public static void threadFactory() {
+        /**
+         * corePoolSize : CPU + 1
+         * maxPoolSize : 2CPU
+         * 压测比较合适
+         */
         ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("demo-poll-%d").build();
         ExecutorService executorService = new ThreadPoolExecutor(1, 200,
                 1000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(20),

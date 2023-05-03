@@ -1,8 +1,8 @@
 package com.intecsec.java.basic.keyword;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 
 /**
  * @description:
@@ -12,7 +12,38 @@ import java.time.ZoneId;
 public class LocalDateTest {
 
     public static void main(String[] args) {
-        localDate();
+        dateUtil();
+    }
+
+    public static void dateUtil() {
+        LocalDate today = LocalDate.now();
+
+        System.out.println(today);
+        System.out.println(today.getYear());
+        System.out.println(today.isLeapYear());
+        System.out.println(today.isBefore(LocalDate.of(2030, 1, 1)));
+        System.out.println(today.atTime(LocalTime.now()));
+
+        System.out.println("plus------------------------");
+        System.out.println(today.plusDays(10));
+        System.out.println(today.plusWeeks(1));
+        System.out.println(today.plusMonths(2));
+        System.out.println(today.plusYears(2));
+
+        System.out.println("minus------------------------");
+        System.out.println(today.minusDays(10));
+        System.out.println(today.minusWeeks(1));
+        System.out.println(today.minusMonths(1));
+        System.out.println(today.minusYears(1));
+
+
+        System.out.println(today.with(TemporalAdjusters.firstDayOfMonth()));
+        LocalDate lastDayOfYear = today.with(TemporalAdjusters.lastDayOfYear());
+        System.out.println(lastDayOfYear);
+
+        Period period = today.until(lastDayOfYear);
+        System.out.println(period);
+        System.out.println(period.getMonths());
     }
 
     public static void localDate() {

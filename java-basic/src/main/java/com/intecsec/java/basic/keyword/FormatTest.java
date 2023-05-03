@@ -2,6 +2,12 @@ package com.intecsec.java.basic.keyword;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * @description:
@@ -9,8 +15,9 @@ import java.text.MessageFormat;
  * @create: 2023-05-03 11:21
  **/
 public class FormatTest {
+
     public static void main(String[] args) {
-        messageFormat();
+        dateFormat();
     }
 
     public static void decimalFormat() {
@@ -72,4 +79,34 @@ public class FormatTest {
         value = MessageFormat.format(message, array);
         System.out.println(value);
     }
+
+    public static void simpleDateFormat() {
+        String dateStr = "2023-05-03 12:00:00.123";
+        String pat1 = "yyyy-MM-dd HH:mm:ss.SSS";
+        String pat2 = "yyyy年MM月dd日 HH时mm分ss秒SSS毫秒";
+        SimpleDateFormat sdf1 = new SimpleDateFormat(pat1);
+        SimpleDateFormat sdf2 = new SimpleDateFormat(pat2);
+        Date d = null;
+        try {
+            d  = sdf1.parse(dateStr);
+            System.out.println(d);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(sdf2.format(d));
+    }
+
+    public static void dateFormat() {
+        String dateStr = "2023年05月12日";
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
+        LocalDate date = LocalDate.parse(dateStr, dateFormatter);
+        System.out.println(date.getYear() + " " + date.getMonthValue() + " " + date.getDayOfMonth());
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日 hh:mm:ss");
+        String nowStr = now.format(formatter);
+        System.out.println(nowStr);
+    }
+
 }

@@ -1,23 +1,58 @@
 package com.intecsec.java.basic.datatype;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.intecsec.java.util.Base64;
 import com.intecsec.java.util.JsonUtils;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+// import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringTest {
 
 	public static void main(String[] args) {
+		caseName();
+	}
+
+	public static void ioInput() {
+		List<String> list = Lists.newArrayList("a","b","c","d"," ", "f");
+		String str2 = StringUtils.join(list, ",");
+		InputStream inputStream = IOUtils.toInputStream(str2, Charsets.toCharset("UTF-8"));
+		System.setIn(inputStream);
+		Scanner scanner = new Scanner(System.in);
+		scanner.useDelimiter(",");
+		while (scanner.hasNext()) {
+			System.out.println(scanner.next());
+		}
+	}
+
+	public static void caseName() {
+		String str1 = "NUMS_ITEM";
+		String str2 = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, str1);
+		System.out.println(str2);
+		String str3 = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, str1);
+		System.out.println(str3);
+	}
+
+	public static void escape() {
+		String str = "You can't \"escape\"";
+		String escapeStr = StringEscapeUtils.escapeJava(str);
+		System.out.println(escapeStr);
+		String unEscapeStr = StringEscapeUtils.unescapeJava(str);
+		System.out.println(unEscapeStr);
+	}
+
+	public static void split() {
 		String itemCodes = "101162924 ";
 		List<String> itemCodeStrList = Splitter.on(",").splitToList(itemCodes);
 		List<Long> itemCodeList = Lists.newArrayList();
@@ -25,6 +60,21 @@ public class StringTest {
 			itemCodeList.add(Long.valueOf(itemCodeStr.trim()));
 		}
 		System.out.println(itemCodeList);
+	}
+
+	public static void string2list() {
+		List<String> list = Lists.newArrayList("a","b","c","d"," ", "f");
+
+		String str1 = String.join(",");
+		System.out.println(str1);
+		String str2 = StringUtils.join(list, ",");
+		System.out.println(str2);
+		Iterable<String> split = Splitter.on(",").trimResults().omitEmptyStrings().split(str2);
+		System.out.println(split);
+
+		List<String> list2 = Arrays.asList(str2.split(","));
+		System.out.println(list2);
+
 	}
 
 	public static void replace() {
@@ -110,12 +160,24 @@ public class StringTest {
 		Pattern pattern = Pattern.compile("item-\\[(\\d+)\\]");
 		Matcher matcher = pattern.matcher(str);
 		System.out.println(matcher);
+		int count = 0;
 		while (matcher.find()) {
 			System.out.print("Start index: " + matcher.start());
 			System.out.print(" End index: " + matcher.end() + " ");
 			System.out.println(matcher.group());
 			System.out.println(matcher.group(1));
+			count++;
 		}
+		System.out.println(count);
+
+		StringBuffer stringBuffer = new StringBuffer();
+		while (matcher.find()) {
+			matcher.appendReplacement(stringBuffer,"--");
+		}
+		matcher.appendTail(stringBuffer);
+		System.out.println(stringBuffer.toString());
+		System.out.println(matcher.replaceAll("--"));
+
 	}
 
 	public static void lenTest() {

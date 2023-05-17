@@ -21,6 +21,14 @@ public class I18NTest {
         String s = bundle.getString("hello");
         System.out.println(s);
 
+        /**
+         * 找文件的顺序
+         * message_en_US
+         * message_en
+         * message_zh_CN (默认)
+         * message_zh (默认)
+         * message
+         */
         locale = new Locale("en", "US");
         System.out.println(locale);
         bundle = ResourceBundle.getBundle("message", locale);

@@ -6,7 +6,11 @@ import org.jdom2.Namespace;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-public class XmlTest {
+/**
+ * jdom
+ * dom4j
+ */
+public class JDomTest {
 
 	public static void main(String[] args) {
 		System.out.println(genTicketXML());

@@ -1,0 +1,23 @@
+[
+    {
+      "category": "COOKING",
+      "title": "Everyday Italian",
+      "author": "Giada De Laurentiis",
+      "year": "2005",
+      "price": 30
+    },
+    {
+      "category": "CHILDREN",
+      "title": "Harry Potter",
+      "author": "J K. Rowling",
+      "year": "2005",
+      "price": 29
+    },
+    {
+      "category": "WEB",
+      "title": "Learning XML",
+      "author": "Erik T. Ray",
+      "year": "2003",
+      "price": 39
+    }
+  ]

@@ -15,7 +15,7 @@ public class DomReader
 {
 	public static void main(String[] a)
 	{
-        String fileName = "java-basic/xml/users.xml";
+        String fileName = "java-basic/files/xml/users.xml";
 		recursiveTraverse(fileName); //自上而下进行访问
 		System.out.println("========华丽丽的分割线==========");
 		traverseBySearch(fileName);    //根据名称进行搜索

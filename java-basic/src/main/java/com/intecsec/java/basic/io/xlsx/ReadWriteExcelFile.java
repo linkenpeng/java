@@ -21,7 +21,7 @@ public class ReadWriteExcelFile
 
   public static void readXLSFile() throws IOException
   {
-    InputStream ExcelFileToRead = new FileInputStream("java-basic/xlsx/Test.xls");
+    InputStream ExcelFileToRead = new FileInputStream("java-basic/files/xlsx/Test.xls");
     HSSFWorkbook wb = new HSSFWorkbook(ExcelFileToRead);
 
     HSSFSheet sheet = wb.getSheetAt(0);
@@ -90,7 +90,7 @@ public class ReadWriteExcelFile
 
   public static void readXLSXFile() throws IOException
   {
-    InputStream ExcelFileToRead = new FileInputStream("java-basic/xlsx/Test.xlsx");
+    InputStream ExcelFileToRead = new FileInputStream("java-basic/files/xlsx/Test.xlsx");
     XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
 
     XSSFSheet sheet = wb.getSheetAt(0);

@@ -25,7 +25,7 @@ public class StaxReader {
 
 	//流模式
 	public static void readByStream() {
-		String xmlFile = "java-basic/xml/books.xml";
+		String xmlFile = "java-basic/files/xml/books.xml";
 		XMLInputFactory factory = XMLInputFactory.newFactory();
 		XMLStreamReader streamReader = null;
 		try {
@@ -60,7 +60,7 @@ public class StaxReader {
 		
 	// 事件流模式
 	public static void readByEvent() {
-		String xmlFile = "java-basic/xml/books.xml";
+		String xmlFile = "java-basic/files/xml/books.xml";
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		boolean titleFlag = false;
 		try {

@@ -48,7 +48,7 @@ public class GsonTest {
 	
 	public static void testJsonFile() {
 		Gson gson = new Gson();
-		File file = new File("java-basic/json/books2.json");
+		File file = new File("java-basic/files/json/books2.json");
 		
         try (FileReader reader = new FileReader(file)) {
         	List<Book> books = gson.fromJson(reader, new TypeToken<List<Book>>(){}.getType());

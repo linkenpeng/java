@@ -22,7 +22,7 @@ public class CSVTest {
 	}
 	
 	public static void readCSVWithIndex() throws Exception {
-		Reader in = new FileReader("java-basic/csv/person.csv");
+		Reader in = new FileReader("java-basic/files/csv/person.csv");
 		Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
 		for (CSVRecord record : records) {
 		    System.out.println(record.get(0)); //0 代表第一列
@@ -30,7 +30,7 @@ public class CSVTest {
 	}
 	
 	public static void readCSVWithName() throws Exception {
-		Reader in = new FileReader("java-basic/csv/person.csv");
+		Reader in = new FileReader("java-basic/files/csv/person.csv");
 		Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader("id","userName", "firstName", "lastName","birthday").parse(in);
 		for (CSVRecord record : records) {
 		    System.out.println(record.get("userName"));

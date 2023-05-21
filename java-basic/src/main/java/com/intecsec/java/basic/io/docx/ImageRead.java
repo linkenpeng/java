@@ -22,7 +22,7 @@ public class ImageRead {
 
 
     public static void imageRead() throws IOException, InvalidFormatException {
-        File docFile = new File("java-basic/docx/simple.docx");
+        File docFile = new File("java-basic/files/docx/simple.docx");
 
         XWPFDocument doc = new XWPFDocument(OPCPackage.openOrCreate(docFile));
         

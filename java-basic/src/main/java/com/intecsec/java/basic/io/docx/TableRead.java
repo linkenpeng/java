@@ -25,7 +25,7 @@ public class TableRead {
 	}
 	
 	public static void testTable() throws Exception {
-		InputStream is = new FileInputStream("java-basic/docx/simple2.docx");
+		InputStream is = new FileInputStream("java-basic/files/docx/simple2.docx");
 		XWPFDocument xwpf = new XWPFDocument(is);
 		List<XWPFParagraph> paras = xwpf.getParagraphs();
 		//List<POIXMLDocumentPart> pdps = xwpf.getRelations();

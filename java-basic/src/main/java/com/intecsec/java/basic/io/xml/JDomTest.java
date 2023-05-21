@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.xml;
+package com.intecsec.java.basic.io.xml;
 
 import org.jdom2.Document;
 import org.jdom2.Element;

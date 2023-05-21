@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.image;
+package com.intecsec.java.basic.io.image;
 
 import java.awt.Color;
 import java.awt.Font;

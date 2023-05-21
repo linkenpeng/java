@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.barcode;
+package com.intecsec.java.basic.io.image.barcode;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

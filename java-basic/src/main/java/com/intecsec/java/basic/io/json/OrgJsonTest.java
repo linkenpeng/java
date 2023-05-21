@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.json;
+package com.intecsec.java.basic.io.json;
 
 
 import org.json.JSONArray;

@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.xml;
+package com.intecsec.java.basic.io.xml;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

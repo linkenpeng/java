@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.xml;
+package com.intecsec.java.basic.io.xml;
 
 import java.io.IOException;
 import java.util.ArrayList;

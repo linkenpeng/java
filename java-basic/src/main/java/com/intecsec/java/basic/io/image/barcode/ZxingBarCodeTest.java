@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.barcode;
+package com.intecsec.java.basic.io.image.barcode;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;

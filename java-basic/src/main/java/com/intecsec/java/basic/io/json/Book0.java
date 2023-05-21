@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.json;
+package com.intecsec.java.basic.io.json;
 
 public class Book0 {
     private String title;

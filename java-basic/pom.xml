@@ -127,6 +127,11 @@
             <artifactId>poi-examples</artifactId>
             <version>3.14</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.6</version>
+        </dependency>
 
 
     </dependencies>

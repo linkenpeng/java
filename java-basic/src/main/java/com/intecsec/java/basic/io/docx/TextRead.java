@@ -31,7 +31,7 @@ public class TextRead {
 	
 	public static void readDocx() throws Exception {
 		InputStream is;
-		is = new FileInputStream("java-basic/docx/test.docx");
+		is = new FileInputStream("java-basic/files/docx/test.docx");
 		XWPFDocument xwpf = new XWPFDocument(is);
 		
 		List<IBodyElement> ibs= xwpf.getBodyElements();

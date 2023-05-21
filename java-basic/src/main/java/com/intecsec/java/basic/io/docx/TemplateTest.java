@@ -29,7 +29,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 public class TemplateTest {
 
 	public static void main(String[] args) throws Exception {
-		XWPFDocument doc = openDocx("java-basic/docx/template.docx");//导入模板文件
+		XWPFDocument doc = openDocx("java-basic/files/docx/template.docx");//导入模板文件
 		Map<String, Object> params = new HashMap<>();//文字类 key-value
 		params.put("${name}", "Tom");
 		params.put("${sex}", "男");

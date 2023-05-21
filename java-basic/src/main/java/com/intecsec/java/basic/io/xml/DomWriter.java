@@ -48,7 +48,7 @@ public class DomWriter {
 				DOMSource source = new DOMSource(document);
 				
 				//定义目标文件
-				File file = new File("java-basic/xml/dom_result.xml");
+				File file = new File("java-basic/files/xml/dom_result.xml");
 				StreamResult result = new StreamResult(file);
 		 	 
 				//将xml内容写入到文件中

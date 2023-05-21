@@ -49,7 +49,7 @@ public class OrgJsonTest {
     }
 
     public static void testJsonFile() {
-    	File file = new File("java-basic/json/books.json");
+    	File file = new File("java-basic/files/json/books.json");
         try (FileReader reader = new FileReader(file)) {
         	//读取文件内容到JsonObject对象中
             int fileLen = (int) file.length();

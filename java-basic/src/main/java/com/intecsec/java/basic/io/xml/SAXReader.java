@@ -15,7 +15,7 @@ public class SAXReader {
 		XMLReader parser = XMLReaderFactory.createXMLReader();
 		BookHandler bookHandler = new BookHandler();
 		parser.setContentHandler(bookHandler);
-		parser.parse("java-basic/xml/books.xml");
+		parser.parse("java-basic/files/xml/books.xml");
 		System.out.println(bookHandler.getNameList());
 	}
 }

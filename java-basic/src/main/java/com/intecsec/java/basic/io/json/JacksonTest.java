@@ -53,7 +53,7 @@ public class JacksonTest {
 		ObjectMapper om = new ObjectMapper();
 		
 		//从json文件中加载，并重构为java对象
-		File json2 = new File("java-basic/json/books2.json");
+		File json2 = new File("java-basic/files/json/books2.json");
 		List<Book> books = om.readValue(json2, new TypeReference<List<Book>>(){});
 		for (Book book : books) {
 			System.out.println(book.getAuthor());

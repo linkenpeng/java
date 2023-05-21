@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.json;
+package com.intecsec.java.basic.io.json;
 
 import java.io.File;
 import java.io.FileReader;
@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 

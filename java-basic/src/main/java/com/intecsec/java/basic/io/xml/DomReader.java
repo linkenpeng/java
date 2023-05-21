@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.xml;
+package com.intecsec.java.basic.io.xml;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

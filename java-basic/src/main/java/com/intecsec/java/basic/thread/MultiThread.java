@@ -6,8 +6,14 @@ import java.util.concurrent.FutureTask;
 
 public class MultiThread {
 
-	public static void main(String[] args) {
-		threadTest3();
+	public static void main(String[] args) throws Exception {
+		MyThread myThread = new MyThread();
+		// myThread.run(); // 串行
+		myThread.start();  // 并行
+		while (true) {
+			System.out.println("main");
+			Thread.sleep(1000L);
+		}
 	}
 
 	public static void threadTest1() {
@@ -53,6 +59,11 @@ class MyThread extends Thread {
 	public void run() {
 		while (true) {
 			System.out.println(getName());
+			try {
+				Thread.sleep(1000L);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }

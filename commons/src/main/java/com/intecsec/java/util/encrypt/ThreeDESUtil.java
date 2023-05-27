@@ -11,6 +11,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
+import com.intecsec.java.util.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
@@ -107,7 +108,7 @@ public class ThreeDESUtil {
         System.out.println("data.length=" + data.length);
         System.out.println("CBC加密解密原文: " + origin);
         byte[] str5 = des3EncodeCBC(key, keyiv, data);
-        System.out.println(new sun.misc.BASE64Encoder().encode(str5));
+        System.out.println(new Base64().encode(str5));
 
         byte[] str6 = des3DecodeCBC(key, keyiv, str5);
         System.out.println(new String(str6, "UTF-8"));

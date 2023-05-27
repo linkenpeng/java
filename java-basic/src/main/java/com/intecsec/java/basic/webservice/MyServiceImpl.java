@@ -1,3 +1,4 @@
+/**
 package com.intecsec.java.basic.webservice;
 
 import com.intecsec.java.vo.Students;
@@ -6,10 +7,10 @@ import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+
  * Created by Peter.Peng
  * Created on 2023/3/17 14:24
- */
+
 @WebService(endpointInterface = "com.intecsec.java.basic.webservice.IMyService",
 targetNamespace = "http://www.webservice.com")
 public class MyServiceImpl implements IMyService {
@@ -26,3 +27,4 @@ public class MyServiceImpl implements IMyService {
     }
 
 }
+ */

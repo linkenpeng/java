@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.jni;
+package com.intecsec.java.basic.complex.jni;
 
 public class JniSample {
 	public native int sum(int num1, int num2);

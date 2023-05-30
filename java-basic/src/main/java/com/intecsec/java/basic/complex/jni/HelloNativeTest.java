@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.jni;
+package com.intecsec.java.basic.complex.jni;
 
 /**
  *  @version 1.11 2007-10-26

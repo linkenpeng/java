@@ -28,7 +28,7 @@ public class PdfTemplateImpl {
 	}
 	
 	public static void generatePdf(AdmissionTicket ticket) throws Exception {
-        String resource = "java-basic/files/pdf/pdf_template.pdf";
+        String resource = "pdf_template.pdf";
         System.setProperty("javax.xml.parsers.DocumentBuilderFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
         PdfReader reader = null;
@@ -39,13 +39,19 @@ public class PdfTemplateImpl {
             reader = new PdfReader(inputStream);
             pdfStamper = new PdfStamper(reader, os);
             AcroFields form = pdfStamper.getAcroFields();
-            /*BaseFont baseFont = BaseFont
-                    .createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);*/
+
+            String fontPath = "/System/Library/Fonts/PingFang.ttc,0";
             // String fontPath = "C:\\Program Files (x86)\\Microsoft Office\\root\\VFS\\Fonts\\private\\STSONG.TTF";
-            String fontPath = "/System/Library/Fonts/PingFang.ttc";
+
+            /*
+            BaseFont baseFont = BaseFont
+                    .createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            */
+
             BaseFont baseFont = BaseFont.createFont(
                     fontPath,
 					BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+
 			
             form.addSubstitutionFont(baseFont);
             form.setField("candidateNumber", ticket.getCandidateNumber());

@@ -41,7 +41,7 @@ public class DocxTemplateToPdfImpl {
         params.put("${subject}", admissionTicket.getSubject());
         params.put("${time}", admissionTicket.getTime());
         params.put("${seat}", admissionTicket.getSeat());
-        String resource = "java-basic/files/docx/docx_template.docx";
+        String resource = "docx_template.docx";
         Map<String, ImageData> picParams = new HashMap<>();//图片类 key-url
         byte[] zxingqrCode = QRCodeUtils.createZxingqrCode(admissionTicket.getIdNumber());
         ImageData qrcode = new ImageData();
@@ -64,7 +64,7 @@ public class DocxTemplateToPdfImpl {
                 public Font getFont(String familyName, String encoding, float size, int style, java.awt.Color color) {
                     try {
                         // String fontPath = "C:\\Program Files (x86)\\Microsoft Office\\root\\VFS\\Fonts\\private\\STSONG.TTF";
-                        String fontPath = "/System/Library/Fonts/PingFang.ttc";
+                        String fontPath = "/System/Library/Fonts/PingFang.ttc,0";
                     	BaseFont bfChinese = BaseFont.createFont(fontPath,
     							BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
     					Font fontChinese = new Font(bfChinese);

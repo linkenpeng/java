@@ -10,8 +10,8 @@ public class ImageCrawler implements Runnable{
     private static String tempPath = "c:/temp/image";// 图片保存目录
     private static String BLANK = " ";
     // phantomjs参数配置
-    private static String binPath = "e:/GreenSofts/phantomjs-2.1.1-windows/bin/phantomjs.exe";// 插件引入地址
-    private static String jsPath = "e:/GreenSofts/phantomjs-2.1.1-windows/examples/screen.js";// js引入地址
+    private static String binPath = "e:/phantomjs-2.1.1-windows/bin/phantomjs.exe";// 插件引入地址
+    private static String jsPath = "e:/phantomjs-2.1.1-windows/examples/screen.js";// js引入地址
 
     String url;
     

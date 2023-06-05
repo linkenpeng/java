@@ -1,0 +1,7 @@
+<aops>
+   	<aop>
+   		<method>washHand</method>
+   		<type>before</type>
+   		<method>eat</method>
+   	</aop>
+</aops>

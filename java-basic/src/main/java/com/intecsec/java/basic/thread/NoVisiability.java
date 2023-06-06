@@ -1,6 +1,6 @@
 package com.intecsec.java.basic.thread;
 
-import com.intecsec.java.basic.annotation.thread.NotThreadSafe;
+import com.intecsec.java.basic.annotations.thread.NotThreadSafe;
 
 /**
  * @description: 线程不安全

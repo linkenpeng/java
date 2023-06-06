@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.annotation.inherited;
+package com.intecsec.java.basic.annotations.basic.inherited;
 
 /**
  * @description: 父类

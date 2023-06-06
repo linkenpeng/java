@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.annotation.thread;
+package com.intecsec.java.basic.annotations.thread;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

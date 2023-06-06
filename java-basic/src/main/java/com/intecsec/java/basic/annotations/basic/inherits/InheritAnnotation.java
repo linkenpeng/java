@@ -1,11 +1,11 @@
-package com.intecsec.java.basic.annotation.inherited;
+package com.intecsec.java.basic.annotations.basic.inherits;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-@Inherited
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MyAnnotation {
-    String value();
+@Inherited
+public @interface InheritAnnotation {
+
 }

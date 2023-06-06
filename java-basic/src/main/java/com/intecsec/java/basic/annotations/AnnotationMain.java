@@ -1,6 +1,6 @@
-package com.intecsec.java.basic.annotation;
+package com.intecsec.java.basic.annotations;
 
-import com.intecsec.java.basic.annotation.thread.GuardeBy;
+import com.intecsec.java.basic.annotations.thread.GuardeBy;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;

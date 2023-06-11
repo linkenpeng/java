@@ -8,6 +8,10 @@ target/
 .idea/
 bin/
 
+module1/libs/*
+module1/modules/*
+module1/module-hello-image
+
 /*.iml
 mvnw
 mvnw.cmd

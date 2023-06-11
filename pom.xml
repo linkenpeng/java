@@ -29,6 +29,9 @@
 		<module>springboot</module>
         <module>search</module>
 		<module>mongodb</module>
+        <module>module1</module>
+        <module>module2</module>
+		<module>module3</module>
 	</modules>
 
 	<packaging>pom</packaging>
@@ -339,8 +342,14 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
+					<!--
 					<source>1.8</source>
 					<target>1.8</target>
+					-->
+
+					<source>11</source>
+					<target>11</target>
+
 					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>

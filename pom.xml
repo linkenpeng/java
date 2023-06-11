@@ -30,9 +30,8 @@
         <module>search</module>
 		<module>mongodb</module>
         <module>module1</module>
-        <module>module2</module>
-		<module>module3</module>
-	</modules>
+        <module>module</module>
+    </modules>
 
 	<packaging>pom</packaging>
 	<name>basic parent</name>

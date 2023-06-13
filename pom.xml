@@ -31,6 +31,7 @@
 		<module>mongodb</module>
         <module>module1</module>
         <module>module</module>
+        <module>agent</module>
     </modules>
 
 	<packaging>pom</packaging>

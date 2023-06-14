@@ -17,7 +17,7 @@ public class AttachToTest {
 				if(vmd.displayName().equals("com.intecsec.java.basic.bytecode.agent.Test"))
 				{
 					VirtualMachine vm = VirtualMachine.attach(vmd.id());
-					vm.loadAgent(" /Users/pengzhenxian/project/java/java/agent/target/agent-0.0.1-SNAPSHOT.jar", "argument for agent");
+					vm.loadAgent("agent/target/agent-0.0.1-SNAPSHOT.jar", "argument for agent");
 					System.out.println(vmd.displayName() + "load ok");
 					vm.detach();
 				}

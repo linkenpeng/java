@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.jvm;
+package com.intecsec.java.basic.jvm.method;
 
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 
 /**
  * @description: 方法去内存溢出
+ * 存储类信息、常量池等
  *
  * jdk1.8 已经废弃永久代内存设置
  * VM Args: -XX:PermSize=10M -XX:MaxPermSize=10M

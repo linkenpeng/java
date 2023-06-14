@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.jvm;
+package com.intecsec.java.basic.jvm.heap;
 
 import java.util.ArrayList;
 

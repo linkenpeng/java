@@ -9,7 +9,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.util.UUID;
 
-
+/**
+//JDK11
 public class AioClient {
 
 	public static void main(String[] a) {
@@ -83,3 +84,4 @@ public class AioClient {
 		}
 	}
 }
+*/

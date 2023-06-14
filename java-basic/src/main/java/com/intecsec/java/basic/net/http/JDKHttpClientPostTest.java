@@ -1,5 +1,6 @@
 package com.intecsec.java.basic.net.http;
 
+/**
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -7,9 +8,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-/**
- * 需要 JDK11
- */
+
+// 需要 JDK11
 public class JDKHttpClientPostTest {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -42,3 +42,4 @@ public class JDKHttpClientPostTest {
 		}
 	}	
 }
+ */

@@ -1,5 +1,9 @@
 package com.intecsec.java.basic.sugar.privatemethod;
 
+/**
+ * JDK11
+ */
+/*
 public interface PrivateAnimal {
 
 	public default void run()
@@ -13,6 +17,8 @@ public interface PrivateAnimal {
 		move();
 		System.out.println("I can fly");
 	}
+
+
 	private void move()
 	{
 		//非静态的私有方法
@@ -36,8 +42,5 @@ public interface PrivateAnimal {
 		System.out.println("I can move");
 		System.out.println("I am growing");
 	}
-	
-	
-	
-	
 }
+*/

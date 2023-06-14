@@ -1,8 +1,11 @@
 package com.intecsec.java.basic.sugar.vars;
 
+/**
 import java.io.*;
 import java.net.*;
 
+
+// JDK11
 public class VarTest {
 
 	public static void main(String[] args) throws Exception {
@@ -58,10 +61,9 @@ public class VarTest {
 	}
 	
 	//var不能放在形参或者返回值
-	/*public var f1(var a)
-	{
-		return 1;
-	}
-	 */
-
+	//public var f1(var a)
+	//{
+	//	return 1;
+	//}
 }
+* */

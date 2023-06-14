@@ -31,4 +31,51 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <!--<sourceDirectory>src/main</sourceDirectory>-->
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                        <manifestEntries>
+                            <Agent-Class>
+                                com.intecsec.java.basic.bytecode.agent.GreetingAgent
+                            </Agent-Class>
+
+                           <Premain-Class>
+                                com.intecsec.java.basic.bytecode.agent.GreetingAgent
+                            </Premain-Class>
+                            <Main-Class>
+                                com.intecsec.java.basic.bytecode.Main
+                            </Main-Class>
+
+                            <Can-Redefine-Classes>
+                                true
+                            </Can-Redefine-Classes>
+                            <Can-Retransform-Classes>
+                                true
+                            </Can-Retransform-Classes>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
 </project>

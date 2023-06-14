@@ -10,27 +10,17 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
 
-public class SimpleClassTransformer implements ClassFileTransformer {
+public class AgentMainTransformer implements ClassFileTransformer {
 
 	@Override
 	public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
 			ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 		System.out.println("loading class " + className);
-		
-		if(className.equals("com/intecsec/java/basic/bytecode/test/Greeting"))
-		{
-//			ClassReader classReader = new ClassReader(classfileBuffer);
-//			ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-//			ClassVisitor classVisitor = new MyClassVisitor(classWriter);
-//			classReader.accept(classVisitor, ClassReader.SKIP_DEBUG);
-//			return classWriter.toByteArray();
-			
+		if(className.equals("com/intecsec/java/basic/bytecode/test/Greeting")) {
 			return getBytesFromFile("agent/target/classes/com/intecsec/java/basic/bytecode/test/Greeting.class");
-		}
-		else {			
+		} else {
 			return classfileBuffer;
 		}
-		
 	}
 	
 	public static byte[] getBytesFromFile(String fileName) { 

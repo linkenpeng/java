@@ -31,10 +31,10 @@ public class StringGen {
         bucket.put(30, 0);
         bucket.put(70, 0);
 
-        for(int i = 0; i < 10010; i++) {
-            String str = String.valueOf(i);
-            // str = MD5Util.getMD5(String.valueOf(i));
-            int hashCode = str.hashCode();
+        for(int i = 0; i < 100_000_000; i++) {
+            String str = i + "oRw2g4owV06vc7cCmFlg1_ojZ4nQ";
+            // int hashCode = Math.abs(str.hashCode());
+            int hashCode = str.hashCode() & Integer.MAX_VALUE;
             // System.out.println(hashCode);
             if (hashCode % 100 < 30) {
                 bucket.put(30, bucket.get(30) + 1);
@@ -50,12 +50,9 @@ public class StringGen {
                     mape.put(hashCode, map.get(hashCode));
                 }
             }
-
-            map.put(hashCode, 1);
         }
 
         System.out.println(bucket);
-        System.out.println(mape);
         System.out.println(map.size());
     }
 

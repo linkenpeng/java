@@ -1,6 +1,7 @@
 package com.intecsec.java.basic.datatype;
 
 import com.intecsec.java.util.JsonUtils;
+import com.intecsec.java.util.MD5Util;
 import com.intecsec.java.vo.Coupon;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,43 @@ import java.util.Map;
 public class StringGen {
 
     public static void main(String[] args) {
+        genHashCode();
+    }
+
+    public static void genHashCode() {
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> mape = new HashMap<>();
+
+        Map<Integer, Integer> bucket= new HashMap<>();
+        bucket.put(30, 0);
+        bucket.put(70, 0);
+
+        for(int i = 0; i < 100_000_000; i++) {
+            String str = i + "oRw2g4owV06vc7cCmFlg1_ojZ4nQ";
+            // int hashCode = Math.abs(str.hashCode());
+            int hashCode = str.hashCode() & Integer.MAX_VALUE;
+            // System.out.println(hashCode);
+            if (hashCode % 100 < 30) {
+                bucket.put(30, bucket.get(30) + 1);
+            }
+            if (hashCode % 100 >= 30) {
+                bucket.put(70, bucket.get(70) + 1);
+            }
+
+            if (map.containsKey(hashCode)) {
+                if (mape.containsKey(hashCode)) {
+                    mape.put(hashCode, mape.get(hashCode) + map.get(hashCode));
+                } else {
+                    mape.put(hashCode, map.get(hashCode));
+                }
+            }
+        }
+
+        System.out.println(bucket);
+        System.out.println(map.size());
+    }
+
+    public static void replaceSpecail1(String str) {
         String username = "银\\\\亿\\格兰郡{}}}}}}\"G3号楼(怒江北街银亿格兰郡G3\n" +
                 ")";
         System.out.println(username);

@@ -1,12 +1,14 @@
 package com.intecsec.java.basic.java8.stream;
 
 import com.google.common.collect.Lists;
+import com.intecsec.java.basic.annotations.lombok.Student;
 import com.intecsec.java.util.JsonUtils;
 import com.intecsec.java.vo.Person;
 import com.intecsec.java.vo.Students;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,7 +21,7 @@ import java.util.stream.Stream;
 public class StreamsTest {
 
 	public static void main(String[] args) {
-		match();
+		listObj2Map();
 	}
 
 	public static void streamTime() {
@@ -205,6 +207,13 @@ public class StreamsTest {
 		students.add(new Students(10,"j", 29));
 		students.add(new Students(11,"k", 19));
 		return students;
+	}
+
+	public static void listObj2Map() {
+		List<Students> list = genStudentsList();
+		Map<Integer, Students> result = list.stream().collect(Collectors.toMap(Students::getId,
+				Function.identity(), (k1, k2) -> k1));
+		System.out.println(JsonUtils.toJson(result));
 	}
 
 	public static List<Person> genPersonList() {

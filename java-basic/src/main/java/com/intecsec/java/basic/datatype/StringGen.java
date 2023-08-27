@@ -21,6 +21,7 @@ public class StringGen {
 
     public static void main(String[] args) {
         genHashCode();
+        String[] values = {};
     }
 
     public static void genHashCode() {

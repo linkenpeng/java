@@ -1,14 +1,9 @@
-/*
 package com.intecsec.java.cache.localcache;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 
 import java.util.concurrent.TimeUnit;
-
-*
- * Created by Peter.Peng
- * Created on 2021/6/30 11:10
 
 public class CaffeineCacheUtil {
 
@@ -20,4 +15,3 @@ public class CaffeineCacheUtil {
         System.out.println(cache.get("default"));
     }
 }
-*/

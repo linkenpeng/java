@@ -9,22 +9,20 @@ public class PredicateTest {
 				"Mercury", "Venus", "Earth", "Mars", 
 				"Jupiter", "Saturn", "Uranus", "Neptune" };
 		
-		StringChecker evenLength = s -> 
-			{
-				if(s.length()%2 == 0)
-					return true;
-				return false;
-			};
+		StringChecker evenLength = s ->
+				s.length() % 2 == 0 ? true : false;
+
 			
 		for(String p : planets)	{
 			if(evenLength.test(p)) {
 				System.out.println(p);
 			}
 		}
-		
+
+		System.out.println("=============");
 		
 		Predicate<String> oddLength = s -> 
-			s.length()%2 == 0 ? false:true;
+			s.length() % 2 == 0 ? true : false;
 			
 		for(String p : planets)	{
 			if(oddLength.test(p)) {

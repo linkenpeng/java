@@ -1,0 +1,65 @@
+{
+    "100705504":[
+    {
+        "id":40080828,
+        "promotion_id_str":"40080828",
+        "name":"会员买2送2",
+        "sort":0,
+        "enhance_type":1
+    }
+],
+    "100892512":[
+    {
+        "id":40080980,
+        "promotion_id_str":"40080980",
+        "name":"会员2件或以上7折",
+        "sort":0,
+        "enhance_type":0
+    }
+],
+    "101354543":[
+    {
+        "id":40080980,
+        "promotion_id_str":"40080980",
+        "name":"会员2件或以上7折",
+        "sort":0,
+        "enhance_type":0
+    }
+],
+    "101134113":[
+    {
+        "id":40080486,
+        "promotion_id_str":"40080486",
+        "name":"会员价￥89",
+        "sort":0,
+        "enhance_type":0
+    }
+],
+    "101160910":[
+    {
+        "id":40080828,
+        "promotion_id_str":"40080828",
+        "name":"会员买2送2",
+        "sort":0,
+        "enhance_type":1
+    }
+],
+    "100553204":[
+    {
+        "id":40080980,
+        "promotion_id_str":"40080980",
+        "name":"会员2件或以上7折",
+        "sort":0,
+        "enhance_type":0
+    }
+],
+    "101377553":[
+    {
+        "id":40080482,
+        "promotion_id_str":"40080482",
+        "name":"会员价￥139",
+        "sort":0,
+        "enhance_type":0
+    }
+]
+}

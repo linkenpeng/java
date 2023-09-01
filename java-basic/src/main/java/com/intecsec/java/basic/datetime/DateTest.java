@@ -12,7 +12,11 @@ import java.util.Map;
 public class DateTest {
 
 	public static void main(String[] args) {
-		genDate();
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
+		System.out.println(calendar.get(Calendar.MINUTE));
 	}
 
 	public static void getNextMonth() {

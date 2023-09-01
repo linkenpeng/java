@@ -21,7 +21,31 @@ import java.util.regex.Pattern;
 public class StringTest {
 
 	public static void main(String[] args) {
-		caseName();
+		List<String> currentPromotionIdList = Lists.newArrayList();
+		String s = StringUtils.join(currentPromotionIdList, ",");
+		System.out.println(s);
+	}
+
+	public static void sortFileName() {
+		String[] fileNames = {
+				"PromotionExport_2023-08-12T000013.xml",
+				"PromotionExport_2023-08-13T000013.xml",
+				"PromotionExport_2023-08-14T000010.xml",
+				"PromotionExport_2023-08-14T020012.xml",
+				"PromotionExport_2023-08-15T000014.xml",
+				"PromotionExport_2023-08-15T114119.xml",
+				"PromotionExport_2023-08-16T000010.xml",
+				"PromotionExport_2023-08-17T000011.xml",
+				"PromotionExport_2023-08-18T000012.xml",
+				"PromotionExport_2023-08-18T120410.xml",
+				"PromotionExport_2023-08-19T000010.xml",
+				"PromotionExport_2023-08-20T000015.xml",
+				"PromotionExport_2023-08-21T000011.xml",
+				"PromotionExport_2023-08-22T000011.xml",
+		};
+		System.out.println(JsonUtils.toJson(fileNames));
+		Arrays.sort(fileNames);
+		System.out.println(JsonUtils.toJson(fileNames));
 	}
 
 	public static void ioInput() {
@@ -63,17 +87,27 @@ public class StringTest {
 	}
 
 	public static void string2list() {
-		List<String> list = Lists.newArrayList("a","b","c","d"," ", "f");
+		List<String> list = Lists.newArrayList("a","b","c","d","f");
 
 		String str1 = String.join(",");
-		System.out.println(str1);
+		System.out.println("str1:" + str1);
 		String str2 = StringUtils.join(list, ",");
-		System.out.println(str2);
-		Iterable<String> split = Splitter.on(",").trimResults().omitEmptyStrings().split(str2);
+		System.out.println("str2:" + str2);
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < list.size(); i++) {
+			sb.append(list.get(i));
+			if (i < list.size() - 1) {
+				sb.append(",");
+			}
+		}
+		System.out.println("str3:" + sb.toString());
+
+		/*Iterable<String> split = Splitter.on(",").trimResults().omitEmptyStrings().split(str2);
 		System.out.println(split);
 
 		List<String> list2 = Arrays.asList(str2.split(","));
-		System.out.println(list2);
+		System.out.println(list2);*/
 
 	}
 

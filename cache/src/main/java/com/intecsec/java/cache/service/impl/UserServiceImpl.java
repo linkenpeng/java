@@ -1,8 +1,11 @@
 package com.intecsec.java.cache.service.impl;
 
+import com.intecsec.java.cache.constans.CacheConstants;
 import com.intecsec.java.cache.service.UserService;
 import com.intecsec.java.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +26,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Cacheable(value = CacheConstants.GET_USER,key = "'user'+#uid",sync = true)
+	@CacheEvict
 	public User getUser(String uid) {
-		return (User) redisTemplate.opsForValue().get(k(uid));
+		User user =  (User) redisTemplate.opsForValue().get(k(uid));
+		System.out.println("查询了Redis");
+		return user;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.intecsec.java.cache;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.ImportResource;
  * @date 2020/7/27
  */
 @SpringBootApplication
-@ImportResource({ "classpath:spring-redis.xml" })
+@EnableCaching
 public class CacheApp {
 
 	public static void main(String[] args) {

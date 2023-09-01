@@ -29,8 +29,8 @@
 		<module>springboot</module>
         <module>search</module>
 		<module>mongodb</module>
-        <module>module1</module>
-        <module>module</module>
+        <!--<module>module1</module>
+        <module>module</module>-->
         <module>agent</module>
         <module>spring-cust</module>
     </modules>

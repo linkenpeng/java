@@ -4,6 +4,9 @@ import com.intecsec.java.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalField;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,11 +15,18 @@ import java.util.Map;
 public class DateTest {
 
 	public static void main(String[] args) {
-		Calendar calendar = Calendar.getInstance();
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
-		System.out.println(calendar.get(Calendar.MINUTE));
+		getTodaySurplusTimeStamp();
+		System.out.println(LocalDateTime.now().plusDays(1));
+		System.out.println(LocalDateTime.now().minusDays(1));
+	}
+
+	public static long getTodaySurplusTimeStamp() {
+		LocalDateTime midnight = LocalDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+		System.out.println(midnight);
+		System.out.println(LocalDateTime.now());
+		long seconds = ChronoUnit.SECONDS.between(LocalDateTime.now(), midnight);
+		System.out.println(seconds);
+		return seconds;
 	}
 
 	public static void getNextMonth() {
@@ -121,7 +131,7 @@ public class DateTest {
 		return result;
 	}
 
-	public static String getFetureDate(int past) {
+	public static String getFutureDate(int past) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + past);
 		Date today = calendar.getTime();

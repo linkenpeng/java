@@ -3,6 +3,7 @@ package com.intecsec.java.cache.controller;
 import com.intecsec.java.cache.service.UserService;
 import com.intecsec.java.vo.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

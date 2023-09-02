@@ -1,6 +1,5 @@
 package com.intecsec.java.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import java.util.Optional;
  * @date 2021/2/19
  */
 @Data
-@AllArgsConstructor
 public class User implements Serializable {
 	private String uid;
 	private String devId;

@@ -22,6 +22,9 @@ public class StringTest {
 
 	public static void main(String[] args) {
 		List<String> currentPromotionIdList = Lists.newArrayList();
+		currentPromotionIdList.add("a");
+		currentPromotionIdList.add("b");
+		currentPromotionIdList.add("c");
 		String s = StringUtils.join(currentPromotionIdList, ",");
 		System.out.println(s);
 	}

@@ -3,7 +3,6 @@ package com.intecsec.java.cache.config;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.intecsec.java.cache.constans.CacheEnum;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit;
  * @create: 2023-08-27 22:43
  **/
 @Configuration
-@EnableCaching
 public class CacheConfig {
     /**
      * Caffeine配置说明：

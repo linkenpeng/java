@@ -2,10 +2,7 @@ package com.intecsec.java.cache.controller;
 
 import com.intecsec.java.cache.service.LocalCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,25 +18,29 @@ public class LocalCacheController {
     @Autowired
     private LocalCacheService localCacheService;
 
-    @GetMapping("/get/{key}")
-    public String get(@PathVariable("key") String key) {
+    @GetMapping("/get")
+    public String get(@RequestParam(value = "key", required = false,
+            defaultValue = "1") String key) {
         return localCacheService.get(key);
     }
 
-    @GetMapping("/list/{key}")
-    public List<String> list(@PathVariable("key") String key) {
+    @GetMapping("/list")
+    public List<String> list(@RequestParam(value = "key", required = false,
+            defaultValue = "1") String key) {
         return localCacheService.getList(key);
     }
 
-    @GetMapping("/delMapCache/{key}")
-    public String delMapCache(@PathVariable("key") String key) {
+    @GetMapping("/delMapCache")
+    public String delMapCache(@RequestParam(value = "key", required = false,
+            defaultValue = "1") String key) {
         localCacheService.delMapCache(key);
         return key;
     }
 
-    @GetMapping("/delGuavaCache/{key}")
-    public String delGuavaCache(@PathVariable("key") String key) {
-        localCacheService.delGuavaCache(key);
+    @GetMapping("/delCaffeineCache")
+    public String delCaffeineCache(@RequestParam(value = "key", required = false,
+            defaultValue = "1") String key) {
+        localCacheService.delCaffeineCache(key);
         return key;
     }
 }

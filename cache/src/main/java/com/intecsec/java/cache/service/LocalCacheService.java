@@ -15,5 +15,5 @@ public interface LocalCacheService {
 
     void delMapCache(String key);
 
-    void delGuavaCache(String key);
+    void delCaffeineCache(String key);
 }

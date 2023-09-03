@@ -5,8 +5,11 @@ import com.intecsec.java.cache.constans.CacheEnum;
 import com.intecsec.java.cache.service.UserService;
 import com.intecsec.java.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private RedisTemplate redisTemplate;
+
+	@Autowired
+	@Qualifier("getCaffeineCacheManager")
+	private CaffeineCacheManager caffeineCacheManager;
 
 	@Override
 	public User saveUser(User user) {
@@ -36,8 +43,9 @@ public class UserServiceImpl implements UserService {
 	 * 如果查询为null，也会被缓存
 	 */
 	@Override
-	@Cacheable(cacheNames = CacheConstants.GET_USER,
-			value = CacheConstants.GET_USER,
+	@Cacheable(
+			value = {CacheConstants.GET_USER},
+			cacheManager = "getCaffeineCacheManager",
 			key = "'user'+#uid",sync = true)
 	@CacheEvict
 	public User getUser(String uid) {

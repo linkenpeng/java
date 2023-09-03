@@ -1,15 +1,12 @@
 package com.intecsec.java.cache.config;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.intecsec.java.cache.constans.CacheEnum;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.caffeine.CaffeineCache;
-import org.springframework.cache.support.SimpleCacheManager;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @create: 2023-08-27 22:43
  **/
 @Configuration
-public class CacheConfig {
+public class CaffeineCacheConfig {
     /**
      * Caffeine配置说明：
      * initialCapacity=[integer]: 初始的缓存空间大小
@@ -36,11 +33,20 @@ public class CacheConfig {
      * maximumSize和maximumWeight不可以同时使用
      * weakValues和softValues不可以同时使用
      */
-    @Bean
-    public CacheManager cacheManager() {
+    @Bean(value = "getCaffeineCacheManager")
+    public CaffeineCacheManager cacheManager() {
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+        CacheEnum cacheEnum = CacheEnum.GET_USER;
+        Cache<Object, Object> cache = Caffeine.newBuilder()
+                .expireAfterWrite(cacheEnum.getExpires(), TimeUnit.SECONDS)
+                .maximumSize(10_000)
+                .build();
+        cacheManager.registerCustomCache(cacheEnum.getName(),cache);
+        return cacheManager;
+
+        /**
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         List<CaffeineCache> list = new ArrayList<>();
-        //循环添加枚举类中自定义的缓存，可以自定义
         for (CacheEnum cacheEnum : CacheEnum.values()) {
             list.add(new CaffeineCache(cacheEnum.getName(),
                     Caffeine.newBuilder()
@@ -51,6 +57,7 @@ public class CacheConfig {
         }
         cacheManager.setCaches(list);
         return cacheManager;
+         */
     }
 
 

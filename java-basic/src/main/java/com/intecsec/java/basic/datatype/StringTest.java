@@ -1,10 +1,12 @@
 package com.intecsec.java.basic.datatype;
 
+import com.beust.jcommander.internal.Sets;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.intecsec.java.util.Base64;
 import com.intecsec.java.util.JsonUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,17 +19,45 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringTest {
 
 	public static void main(String[] args) {
-		List<String> currentPromotionIdList = Lists.newArrayList();
-		currentPromotionIdList.add("a");
-		currentPromotionIdList.add("b");
-		currentPromotionIdList.add("c");
-		String s = StringUtils.join(currentPromotionIdList, ",");
-		System.out.println(s);
+		subtractSet();
 	}
+
+	public static void subtractSet() {
+		Set<String> current = Sets.newHashSet();
+		current.add("a");
+		current.add("b");
+		current.add("c");
+
+		Set<String> compare = Sets.newHashSet();
+		compare.add("a");
+		compare.add("b");
+		compare.add("d");
+
+		Set<String> diff1 = current.stream().filter(i -> !compare.contains(i))
+				.collect(Collectors.toSet());
+		System.out.println("diff1:" + diff1);
+
+		Set<String> diff2 = compare.stream().filter(i -> !current.contains(i))
+				.collect(Collectors.toSet());
+		System.out.println("diff2:" + diff2);
+
+		Set<String> diff = Sets.newHashSet();
+		diff.addAll(diff1);
+		diff.addAll(diff2);
+		System.out.println("diff:" + diff);
+
+		/*Set<String> diff = (Set<String>) CollectionUtils.subtract(current, compare);
+		System.out.println("diff:" + diff);
+
+		Set<String> diff3 = (Set<String>) CollectionUtils.subtract(compare, current);
+		System.out.println("diff3:" + diff3);*/
+	}
+
 
 	public static void sortFileName() {
 		String[] fileNames = {

@@ -3,7 +3,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,47 +16,80 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class CaffeineCacheTest {
     private static int NUM = 0;
+    private Cache<Object, Object> cache = Caffeine.newBuilder()
+            //初始数量
+            .initialCapacity(10_000)
+            //最大条数
+            .maximumSize(10_000)
+            //最后一次写操作后经过指定时间过期, expireAfterWrite和expireAfterAccess同时设置时，优先认：expireAfterWrite
+            .expireAfterWrite(5, TimeUnit.SECONDS)
+            //最后一次访问后经过指定时间过期, 如果在此期间一直有访问，则会一直生效
+            .expireAfterAccess(3, TimeUnit.SECONDS)
+            //监听缓存被移除
+            .removalListener((key, val, removalCause) -> {
+                System.out.println("remove key:" + key + " removalCause:" + removalCause);
+            })
+            //记录命中
+            .recordStats()
+            .build();
+
 
     @Test
-    public void manualCaffeineCache() {
-        System.out.println("test");
-        Cache<Object, Object> cache = Caffeine.newBuilder()
-                //初始数量
-                .initialCapacity(10)
-                //最大条数
-                .maximumSize(10)
-                //expireAfterWrite和expireAfterAccess同时存在时，以expireAfterWrite为准
-                //最后一次写操作后经过指定时间过期
-                .expireAfterWrite(1, TimeUnit.SECONDS)
-                //最后一次读或写操作后经过指定时间过期
-                .expireAfterAccess(1, TimeUnit.SECONDS)
-                //监听缓存被移除
-                .removalListener((key, val, removalCause) -> { })
-                //记录命中
-                .recordStats()
-                .build();
-
+    public void manual() throws InterruptedException {
         cache.put("1","张三");
-        //张三
-        System.out.println(cache.getIfPresent("1"));
         //存储的是默认值
         System.out.println(cache.get("2",o -> "默认值"));
+
+        if(Objects.nonNull(cache.getIfPresent("3"))) {
+            System.out.println(cache.getIfPresent("3"));
+        } else {
+            System.out.println("none");
+        }
+
+        int i = 1;
+        while (true) {
+            System.out.println(cache.getIfPresent("1"));
+            System.out.println(new Date());
+            Thread.sleep(1000L * i);
+            // i++;
+        }
     }
 
     @Test
-    public void loadingCache() {
+    public void loadingCache() throws InterruptedException {
         LoadingCache<String, String> loadingCache = Caffeine.newBuilder()
                 //创建缓存或者最近一次更新缓存后经过指定时间间隔，刷新缓存；refreshAfterWrite仅支持LoadingCache
-                .refreshAfterWrite(10, TimeUnit.SECONDS)
-                .expireAfterWrite(10, TimeUnit.SECONDS)
-                .expireAfterAccess(10, TimeUnit.SECONDS)
+                // .refreshAfterWrite(5, TimeUnit.SECONDS)
+                // refreshAfterWrite和expireAfterWrite同时存在时，优先认时间短的，所以只需要设置一个就好了
+                // .expireAfterWrite(3, TimeUnit.SECONDS)
+                //监听缓存被移除
+                .removalListener((key, val, removalCause) -> {
+                    System.out.println(new Date() + " remove key:" + key + " removalCause:" + removalCause);
+                })
                 .maximumSize(10)
-                //根据key查询数据库里面的值，这里是个lamba表达式
-                .build(key -> new Date().toString());
+                .build(key -> {
+                    System.out.println(new Date() + " refreshCache");
+                    return new Date().toString();
+                });
+
+        System.out.println(loadingCache.get("a"));
+        loadingCache.put("a", "a");
+
+        int i = 1;
+        while (true) {
+            System.out.println(new Date() + " " + loadingCache.get("a"));
+            Thread.sleep(1000L);
+
+            if(i % 3 == 0) {
+                loadingCache.refresh("a");
+            }
+
+            i++;
+        }
     }
 
     @Test
-    public void asyncCache() {
+    public void asyncCache() throws ExecutionException, InterruptedException {
         AsyncLoadingCache<String, String> asyncLoadingCache = Caffeine.newBuilder()
                 //创建缓存或者最近一次更新缓存后经过指定时间间隔刷新缓存；仅支持LoadingCache
                 .refreshAfterWrite(1, TimeUnit.SECONDS)
@@ -69,7 +104,8 @@ public class CaffeineCacheTest {
 
         //异步缓存返回的是CompletableFuture
         CompletableFuture<String> future = asyncLoadingCache.get("1");
-        future.thenAccept(System.out::println);
+        // future.thenAccept(System.out::println);
+        System.out.println(future.get());
     }
 
     /**
@@ -104,7 +140,7 @@ public class CaffeineCacheTest {
                 .maximumWeight(100)
                 .weigher((Weigher<Integer, Integer>) (key, value) -> key)
                 .evictionListener((key, val, removalCause) -> {
-                    log.info("淘汰缓存：key:{} val:{}", key, val);
+                    log.info("淘汰缓存：key:{} val:{} removalCause:{}", key, val, removalCause);
                 })
                 .build();
 
@@ -166,6 +202,12 @@ public class CaffeineCacheTest {
     public void refreshAfterWriteTest() throws InterruptedException {
         LoadingCache<Integer, Integer> cache = Caffeine.newBuilder()
                 .refreshAfterWrite(1, TimeUnit.SECONDS)
+                .evictionListener((key, val, removalCause) -> {
+                    System.out.println("evictionListener淘汰缓存：key:" + key + " val:" + val + " removalCause:" + removalCause);
+                })
+                .removalListener((key, val, removalCause) -> {
+                    System.out.println("removalListener淘汰缓存：key:" + key + " val:" + val + " removalCause:" + removalCause);
+                })
                 //模拟获取数据，每次获取就自增1
                 .build(integer -> ++NUM);
 
@@ -177,7 +219,7 @@ public class CaffeineCacheTest {
         // 而是x秒后&&第二次调用getIfPresent的时候才会被动刷新
         Thread.sleep(2000);
         System.out.println(cache.getIfPresent(1));// 1
-
+        Thread.sleep(1000);
         //此时才会刷新缓存，而第一次拿到的还是旧值
         System.out.println(cache.getIfPresent(1));// 2
     }

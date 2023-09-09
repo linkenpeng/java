@@ -1,9 +1,11 @@
 import com.github.benmanes.caffeine.cache.*;
+import com.intecsec.java.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -46,11 +48,26 @@ public class CaffeineCacheTest {
             System.out.println("none");
         }
 
+        Random random = new Random();
+        for (int j = 0; j < 3; j++) {
+            Member member = new Member(j, "name_" + j, random.nextInt(3), "1990-08-20");
+            cache.put("m" + j, member);
+        }
+
         int i = 1;
         while (true) {
             System.out.println(cache.getIfPresent("1"));
-            System.out.println(new Date());
             Thread.sleep(1000L * i);
+
+            for (int j = 0; j < 3; j++) {
+                Member member = (Member) cache.getIfPresent("m" + j);
+                System.out.println(member);
+                if(member == null) {
+                    member = new Member(j, "name_" + j, random.nextInt(3), "1990-09-20");
+                    cache.put("m" + j, member);
+                }
+            }
+
             // i++;
         }
     }

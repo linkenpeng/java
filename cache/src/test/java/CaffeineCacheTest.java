@@ -3,6 +3,7 @@ import com.intecsec.java.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
@@ -53,6 +54,12 @@ public class CaffeineCacheTest {
             Member member = new Member(j, "name_" + j, random.nextInt(3), "1990-08-20");
             cache.put("m" + j, member);
         }
+
+        cache.put("list", new ArrayList<>());
+        System.out.println(cache.getIfPresent("list") == null);
+        System.out.println(cache.getIfPresent("list2") == null);
+
+
 
         int i = 1;
         while (true) {
@@ -249,12 +256,12 @@ public class CaffeineCacheTest {
     public void statics() {
         LoadingCache<String, String> cache = Caffeine.newBuilder()
                 //创建缓存或者最近一次更新缓存后经过指定时间间隔，刷新缓存；refreshAfterWrite仅支持LoadingCache
-                .refreshAfterWrite(1, TimeUnit.SECONDS)
-                .expireAfterWrite(1, TimeUnit.SECONDS)
-                .expireAfterAccess(1, TimeUnit.SECONDS)
+                .refreshAfterWrite(10, TimeUnit.SECONDS)
+                .expireAfterWrite(10, TimeUnit.SECONDS)
+                .expireAfterAccess(10, TimeUnit.SECONDS)
                 .maximumSize(10)
                 //开启记录缓存命中率等信息
-                .recordStats()
+                // .recordStats()
                 //根据key查询数据库里面的值
                 .build(key -> {
                     Thread.sleep(1000);
@@ -263,6 +270,7 @@ public class CaffeineCacheTest {
 
 
         cache.put("1", "win");
+        cache.put("2", "won");
         cache.get("1");
 
         /*

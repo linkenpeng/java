@@ -85,12 +85,16 @@ public class CaffeineCacheTest {
                 })
                 .maximumSize(10)
                 .build(key -> {
-                    System.out.println(new Date() + " refreshCache");
+                    System.out.println(new Date() + " refreshCache key:" + key);
                     return new Date().toString();
                 });
 
-        System.out.println(loadingCache.get("a"));
-        loadingCache.put("a", "a");
+        System.out.println(loadingCache.get("a")); // 没有值，build完之后，返回值
+        System.out.println(loadingCache.getIfPresent("b")); // 没有值，直接返回null
+        System.out.println(loadingCache.get("a")); // 已经有值，不会build，直接返回值
+        loadingCache.refresh("b");
+        System.out.println(loadingCache.getIfPresent("b")); // 走了前面刷新，已经有值
+        /*
 
         int i = 1;
         while (true) {
@@ -98,11 +102,11 @@ public class CaffeineCacheTest {
             Thread.sleep(1000L);
 
             if(i % 3 == 0) {
-                loadingCache.refresh("a");
+                //loadingCache.refresh("a");
             }
 
             i++;
-        }
+        }*/
     }
 
     @Test

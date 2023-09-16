@@ -9,13 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class MapCacheUtil {
 
-    public static ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Object> cache = new ConcurrentHashMap<>();
 
-    public static String getCache(String key) {
+    public static Object getCache(String key) {
         return cache.get(key);
     }
 
-    public static void setCache(String key, String value) {
+    public static void setCache(String key, Object value) {
         cache.put(key, value);
     }
 

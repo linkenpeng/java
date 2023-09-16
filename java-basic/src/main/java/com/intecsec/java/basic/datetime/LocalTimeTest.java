@@ -1,4 +1,4 @@
-package com.intecsec.java.basic.keyword;
+package com.intecsec.java.basic.datetime;
 
 import java.time.LocalTime;
 import java.time.ZoneId;

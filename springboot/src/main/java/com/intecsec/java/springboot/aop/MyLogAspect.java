@@ -19,7 +19,6 @@ import java.lang.reflect.Modifier;
 @Component
 @Aspect
 public class MyLogAspect {
-
 	@Pointcut("@annotation(com.intecsec.java.springboot.annotation.MyLog)")
 	private void pointcut(){}
 

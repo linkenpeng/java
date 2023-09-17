@@ -23,7 +23,7 @@ public class CacheController {
     private CacheService cacheService;
 
 
-    @GetMapping("/map/get/")
+    @GetMapping("/map/get")
     public Object mapGet(@RequestParam(value = "key", required = false,
             defaultValue = "1") String key) {
         return cacheService.getFromMap(key);
@@ -43,7 +43,7 @@ public class CacheController {
         return key;
     }
 
-    @GetMapping("/redis/get/")
+    @GetMapping("/redis/get")
     public Object redisGet(@RequestParam(value = "key", required = false,
             defaultValue = "1") String key) {
         return cacheService.getFromRedis(key);

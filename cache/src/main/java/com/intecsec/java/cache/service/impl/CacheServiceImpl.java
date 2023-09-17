@@ -25,12 +25,10 @@ public class CacheServiceImpl implements CacheService {
     private RedisTemplate redisTemplate;
 
     LoadingCache<String, Object> cache = Caffeine.newBuilder()
-            //创建缓存或者最近一次更新缓存后经过指定时间间隔，刷新缓存
             //.refreshAfterWrite(10, TimeUnit.SECONDS)
             //.expireAfterWrite(10, TimeUnit.SECONDS)
             //.expireAfterAccess(10, TimeUnit.SECONDS)
             .maximumSize(10_000)
-            //根据key查询数据库里面的值
             .build(key -> new Date().toString());
 
     @Override

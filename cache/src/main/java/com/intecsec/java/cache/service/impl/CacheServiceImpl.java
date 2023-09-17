@@ -2,6 +2,7 @@ package com.intecsec.java.cache.service.impl;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.intecsec.java.cache.annotation.CacheTimeLog;
 import com.intecsec.java.cache.localcache.MapCacheUtil;
 import com.intecsec.java.cache.service.CacheService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,26 +35,17 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public Object getFromMap(String key) {
-        long startTime = System.nanoTime();
-        Object result =  MapCacheUtil.getCache(key);
-        log.info("从Map获取内容 key:{} time:{}", key, System.nanoTime() - startTime);
-        return result;
+        return MapCacheUtil.getCache(key);
     }
 
     @Override
     public Object getFromCaffeine(String key) {
-        long startTime = System.nanoTime();
-        Object result =  cache.getIfPresent(key);
-        log.info("从Caffeine获取内容 key:{} time:{}", key, System.nanoTime() - startTime);
-        return result;
+        return cache.getIfPresent(key);
     }
 
     @Override
     public Object getFromRedis(String key) {
-        long startTime = System.nanoTime();
-        Object result = redisTemplate.opsForValue().get(key);
-        log.info("从Redis获取内容 key:{} time:{}", key, System.nanoTime() - startTime);
-        return result;
+        return redisTemplate.opsForValue().get(key);
     }
 
     @Override

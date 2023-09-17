@@ -32,6 +32,11 @@ public class CacheServiceImpl implements CacheService {
             .build(key -> new Date().toString());
 
     @Override
+    public Object getFromRedis(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    @Override
     public Object getFromMap(String key) {
         return MapCacheUtil.getCache(key);
     }
@@ -39,11 +44,6 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public Object getFromCaffeine(String key) {
         return cache.getIfPresent(key);
-    }
-
-    @Override
-    public Object getFromRedis(String key) {
-        return redisTemplate.opsForValue().get(key);
     }
 
     @Override

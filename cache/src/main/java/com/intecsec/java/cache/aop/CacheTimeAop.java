@@ -61,7 +61,7 @@ public class CacheTimeAop {
             long enTime = System.nanoTime();
             long uTime = (enTime - startTime) / 1000;
             long msTime = uTime / 1000;
-            log.info("method:{} time:{}us, {}ms", method.getName(), uTime, msTime);
+            log.info("{} time:{}us, {}ms", method.getName(), uTime, msTime);
             return object;
         } catch (Throwable t) {
 

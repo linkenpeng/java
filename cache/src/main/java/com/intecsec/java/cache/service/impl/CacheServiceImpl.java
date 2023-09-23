@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
@@ -25,9 +26,9 @@ public class CacheServiceImpl implements CacheService {
     private RedisTemplate redisTemplate;
 
     LoadingCache<String, Object> cache = Caffeine.newBuilder()
-            //.refreshAfterWrite(10, TimeUnit.SECONDS)
-            //.expireAfterWrite(10, TimeUnit.SECONDS)
-            //.expireAfterAccess(10, TimeUnit.SECONDS)
+            .refreshAfterWrite(10, TimeUnit.SECONDS)
+            .expireAfterWrite(10, TimeUnit.SECONDS)
+            .expireAfterAccess(10, TimeUnit.SECONDS)
             .maximumSize(10_000)
             .build(key -> new Date().toString());
 

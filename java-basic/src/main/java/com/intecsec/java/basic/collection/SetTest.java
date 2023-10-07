@@ -10,12 +10,21 @@ import java.util.*;
 public class SetTest {
 
     public static void main(String[] args) {
+        addSet();
+    }
 
-        hashset();
-        linkedHashSet();
-        treeSet();
+    public static void addSet() {
+        Set<String> set = new HashSet<>();
+        set.add("1");
+        set.add("2");
+        System.out.println(set);
 
+        Set<String> set1 = new HashSet<>();
+        set1.add("3");
+        set1.add("4");
 
+        set.addAll(set1);
+        System.out.println(set);
     }
 
 

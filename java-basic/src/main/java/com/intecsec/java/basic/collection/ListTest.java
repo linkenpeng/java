@@ -1,5 +1,6 @@
 package com.intecsec.java.basic.collection;
 
+import com.google.common.base.Joiner;
 import com.intecsec.java.basic.keyword.Utils;
 
 import java.text.DecimalFormat;
@@ -14,9 +15,17 @@ public class ListTest {
     public static final int NUM = 100000;
 
     public static void main(String[] args) {
-        list();
-        linkedList();
-        vector();
+        join();
+    }
+
+    public static void join() {
+        Joiner joiner = Joiner.on(",");
+        for (int i = 0; i < 1; i++) {
+            List<String> list = Arrays.asList("a", "b", "c", "d");
+            List<Integer> list2 = Arrays.asList(1, 2, 3, 4);
+            System.out.println(joiner.join(list));
+            System.out.println(joiner.join(list2));
+        }
     }
 
     public static void list() {

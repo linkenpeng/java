@@ -3,10 +3,7 @@ import com.intecsec.java.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +32,10 @@ public class CaffeineCacheTest {
             //记录命中
             .recordStats()
             .build();
+
+    LoadingCache<Long, List<String>> cache2= Caffeine.newBuilder()
+            .build(aLong -> initList());
+
 
 
     @Test
@@ -77,6 +78,31 @@ public class CaffeineCacheTest {
 
             // i++;
         }
+    }
+
+    @Test
+    public void lc() throws InterruptedException {
+        boolean a = false;
+        boolean b = true;
+        boolean c = !a && b;
+        System.out.println(c);
+        System.out.println(!a);
+
+        /*System.out.println(cache2.get(0L));
+
+        while (true) {
+            Thread.sleep(1000L);
+            cache2.refresh(0L);
+        }*/
+    }
+
+    private List<String> initList() {
+        System.out.println("initList");
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        return list;
     }
 
     @Test

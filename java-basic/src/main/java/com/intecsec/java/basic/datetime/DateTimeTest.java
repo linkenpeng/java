@@ -10,10 +10,18 @@ public class DateTimeTest {
 
 	public static void main(String[] args) {
 		//ofsTime();
-		gomsTime();
+		//gomsTime();
 //		calendar();
-		
-		
+
+		String time =  "2021-10-07 23:59:00";
+		time = time.replace("59:00", "59:59");
+		System.out.println(time);
+	}
+
+	public static void replaceTime() {
+		String time =  "2021-10-07 23:59:00";
+		String t2 = time.replace("59:00", "59:59");
+		System.out.println(t2);
 	}
 	
 	public static void deliveryTime() {

@@ -21,7 +21,9 @@ import java.util.stream.Stream;
 public class StreamsTest {
 
 	public static void main(String[] args) {
-		listObj2Map();
+		List<Students> list = genStudentsList();
+		List<Students> list2 = list.stream().filter(s -> s.getAge() > 300).collect(Collectors.toList());
+		System.out.println(list2);
 	}
 
 	public static void streamTime() {

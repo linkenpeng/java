@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -109,7 +110,7 @@ public class CaffeineCacheTest {
     public void loadingCache() throws InterruptedException {
         LoadingCache<String, String> loadingCache = Caffeine.newBuilder()
                 //创建缓存或者最近一次更新缓存后经过指定时间间隔，刷新缓存；refreshAfterWrite仅支持LoadingCache
-                // .refreshAfterWrite(5, TimeUnit.SECONDS)
+                .refreshAfterWrite(3, TimeUnit.SECONDS)
                 // refreshAfterWrite和expireAfterWrite同时存在时，优先认时间短的，所以只需要设置一个就好了
                 // .expireAfterWrite(3, TimeUnit.SECONDS)
                 //监听缓存被移除
@@ -119,27 +120,89 @@ public class CaffeineCacheTest {
                 .maximumSize(10)
                 .build(key -> {
                     System.out.println(new Date() + " refreshCache key:" + key);
-                    return new Date().toString();
+                    return initCache();
                 });
 
+        System.out.println(loadingCache.get("a"));
+
+        int i = 1;
+        while (true) {
+            System.out.println(new Date());
+            Thread.sleep(1000L);
+            if(i % 3 == 0) {
+                //System.out.println(loadingCache.get("a"));
+                loadingCache.refresh("a");
+                //System.out.println(loadingCache.get("a"));
+            }
+            i++;
+        }
+    }
+
+    private String initCache() throws ExecutionException, InterruptedException {
+        int first = 100;
+        List<CompletableFuture<String>> completableFutureList = new ArrayList<>();
+        for (int i = 0; i < first; i++) {
+            CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> {
+                int random = new Random().nextInt(100);
+                try {
+                    Thread.sleep(random);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    System.out.println(new Date() + " initCache enter");
+                    return initCacheSecond();
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            completableFutureList.add(completableFuture);
+        }
+
+        CompletableFuture.allOf(completableFutureList.toArray(new CompletableFuture[0])).join();
+
+        String result = "";
+        for (CompletableFuture<String> completableFuture : completableFutureList) {
+            System.out.println(new Date() + " initCache get");
+            result += completableFuture.get() + "\n";
+        }
+
+        return result;
+    }
+
+    private String initCacheSecond() throws ExecutionException, InterruptedException {
+        int threadCount = 100;
+        List<CompletableFuture<String>> completableFutureList = new ArrayList<>();
+        for (int i = 0; i < threadCount; i++) {
+            CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> {
+                int random = new Random().nextInt(1000);
+                System.out.println(new Date() + " initCacheSecond enter");
+                try {
+                    Thread.sleep(random);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                return random + " cache value:" + new Date();
+            });
+            completableFutureList.add(completableFuture);
+        }
+        String result = "";
+        for (CompletableFuture<String> completableFuture : completableFutureList) {
+            System.out.println(new Date() + " initCacheSecond get");
+            result += completableFuture.get() + "\n";
+        }
+        return result;
+    }
+
+
+    private void loadCachePrint(LoadingCache<String, String> loadingCache) {
         System.out.println(loadingCache.get("a")); // 没有值，build完之后，返回值
         System.out.println(loadingCache.getIfPresent("b")); // 没有值，直接返回null
         System.out.println(loadingCache.get("a")); // 已经有值，不会build，直接返回值
         loadingCache.refresh("b");
         System.out.println(loadingCache.getIfPresent("b")); // 走了前面刷新，已经有值
-        /*
-
-        int i = 1;
-        while (true) {
-            System.out.println(new Date() + " " + loadingCache.get("a"));
-            Thread.sleep(1000L);
-
-            if(i % 3 == 0) {
-                //loadingCache.refresh("a");
-            }
-
-            i++;
-        }*/
     }
 
     @Test

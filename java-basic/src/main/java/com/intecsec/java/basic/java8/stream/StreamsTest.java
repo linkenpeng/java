@@ -1,10 +1,10 @@
 package com.intecsec.java.basic.java8.stream;
 
 import com.google.common.collect.Lists;
-import com.intecsec.java.basic.annotations.lombok.Student;
 import com.intecsec.java.util.JsonUtils;
 import com.intecsec.java.vo.Person;
 import com.intecsec.java.vo.Students;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -21,9 +21,16 @@ import java.util.stream.Stream;
 public class StreamsTest {
 
 	public static void main(String[] args) {
-		List<Students> list = genStudentsList();
-		List<Students> list2 = list.stream().filter(s -> s.getAge() > 300).collect(Collectors.toList());
-		System.out.println(list2);
+		str2list();
+	}
+
+	public static void str2list() {
+		String str = "1,2,3,4|22";
+		String[] strArr = StringUtils.split(str, "|");
+		System.out.println(strArr.length);
+		List<Long> list = Arrays.stream(StringUtils.split(strArr[0], ","))
+				.map(Long::valueOf).collect(Collectors.toList());
+		System.out.println(list);
 	}
 
 	public static void streamTime() {

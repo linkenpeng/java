@@ -65,7 +65,6 @@
 		<fastjson.version>1.2.73</fastjson.version>
 		<logback.classic.version>1.2.3</logback.classic.version>
 		<jedis.version>3.5.1</jedis.version>
-		<springboot.version>2.3.1.RELEASE</springboot.version>
 		<rocketmq.client.version>4.8.0</rocketmq.client.version>
 		<caffeine.version>3.0.2</caffeine.version>
 	</properties>

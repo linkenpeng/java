@@ -120,12 +120,13 @@ public class CaffeineCacheTest {
                 .maximumSize(10)
                 .build(key -> {
                     System.out.println(new Date() + " refreshCache key:" + key);
-                    return initCache();
+                    // return initCache();
+                    return "a";
                 });
 
         System.out.println(loadingCache.get("a"));
 
-        int i = 1;
+        /*int i = 1;
         while (true) {
             System.out.println(new Date());
             Thread.sleep(1000L);
@@ -135,7 +136,7 @@ public class CaffeineCacheTest {
                 //System.out.println(loadingCache.get("a"));
             }
             i++;
-        }
+        }*/
     }
 
     private String initCache() throws ExecutionException, InterruptedException {

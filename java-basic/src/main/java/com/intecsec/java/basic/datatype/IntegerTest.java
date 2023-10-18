@@ -1,6 +1,7 @@
 package com.intecsec.java.basic.datatype;
 
 import java.math.BigDecimal;
+import java.util.Random;
 
 /**
  * @description: 整型
@@ -10,6 +11,19 @@ import java.math.BigDecimal;
 public class IntegerTest {
 
     public static void main(String[] args) {
+        int count = 0;
+        Random random = new Random();
+        for (int i = 0; i < 100; i++) {
+            int rand = random.nextInt(100);
+            System.out.println(rand);
+            if(rand < 30) {
+                count++;
+            }
+        }
+        System.out.println("count:" + count);
+    }
+
+    public static void bgDiv() {
         BigDecimal bg = new BigDecimal(100L);
         System.out.println(bg.longValue());
 

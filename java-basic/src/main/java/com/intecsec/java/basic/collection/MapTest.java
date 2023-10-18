@@ -27,6 +27,16 @@ public class MapTest {
 		map.put("f", "f");
 		map.put("b", "b");
 
+		Map<String, String> newMap = new HashMap<>();
+		map.forEach((k, v) -> {
+			if("c".equals(v)) {
+				return;
+			}
+			newMap.put(k, v);
+		});
+
+		System.out.println("newMap" + newMap);
+
 		StringBuilder sb = new StringBuilder();
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			String key = entry.getKey();

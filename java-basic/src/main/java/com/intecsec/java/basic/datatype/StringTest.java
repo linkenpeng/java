@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class StringTest {
 
 	public static void main(String[] args) {
-		subtractSet();
+		System.out.println("101382725".length() == 9);
 	}
 
 	public static void subtractSet() {

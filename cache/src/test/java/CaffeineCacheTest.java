@@ -34,6 +34,10 @@ public class CaffeineCacheTest {
             .recordStats()
             .build();
 
+    LoadingCache<Long, List<String>> cache2= Caffeine.newBuilder()
+            .build(aLong -> initList());
+
+
 
     @Test
     public void manual() throws InterruptedException {
@@ -78,6 +82,31 @@ public class CaffeineCacheTest {
     }
 
     @Test
+    public void lc() throws InterruptedException {
+        boolean a = false;
+        boolean b = true;
+        boolean c = !a && b;
+        System.out.println(c);
+        System.out.println(!a);
+
+        /*System.out.println(cache2.get(0L));
+
+        while (true) {
+            Thread.sleep(1000L);
+            cache2.refresh(0L);
+        }*/
+    }
+
+    private List<String> initList() {
+        System.out.println("initList");
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        return list;
+    }
+
+    @Test
     public void loadingCache() throws InterruptedException {
         LoadingCache<String, String> loadingCache = Caffeine.newBuilder()
                 //创建缓存或者最近一次更新缓存后经过指定时间间隔，刷新缓存；refreshAfterWrite仅支持LoadingCache
@@ -91,12 +120,13 @@ public class CaffeineCacheTest {
                 .maximumSize(10)
                 .build(key -> {
                     System.out.println(new Date() + " refreshCache key:" + key);
-                    return initCache();
+                    // return initCache();
+                    return "a";
                 });
 
         System.out.println(loadingCache.get("a"));
 
-        int i = 1;
+        /*int i = 1;
         while (true) {
             System.out.println(new Date());
             Thread.sleep(1000L);
@@ -106,7 +136,7 @@ public class CaffeineCacheTest {
                 //System.out.println(loadingCache.get("a"));
             }
             i++;
-        }
+        }*/
     }
 
     private String initCache() throws ExecutionException, InterruptedException {

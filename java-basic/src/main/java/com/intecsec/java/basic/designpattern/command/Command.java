@@ -7,4 +7,6 @@ package com.intecsec.java.basic.designpattern.command;
  **/
 public interface Command {
     void execute();
+
+    void undo();
 }

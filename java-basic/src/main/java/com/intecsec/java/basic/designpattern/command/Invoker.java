@@ -9,7 +9,10 @@ import com.intecsec.java.basic.designpattern.command.cmdimp.NoCommand;
  **/
 public class Invoker {
     Command[] commandOns;
+
     Command[] commandOffs;
+
+    Command undoCommand;
 
     public Invoker() {
         commandOns = new Command[3];
@@ -19,6 +22,7 @@ public class Invoker {
             commandOns[i] = noCommand;
             commandOffs[i] = noCommand;
         }
+        undoCommand = noCommand;
     }
 
     public void setCommand(int index, Command commandOn, Command commandOff) {
@@ -28,9 +32,15 @@ public class Invoker {
 
     public void on(int index) {
         this.commandOns[index].execute();
+        undoCommand = this.commandOns[index];
     }
 
     public void off(int index) {
         this.commandOffs[index].execute();
+        undoCommand = this.commandOffs[index];
+    }
+
+    public void undo() {
+        undoCommand.undo();
     }
 }

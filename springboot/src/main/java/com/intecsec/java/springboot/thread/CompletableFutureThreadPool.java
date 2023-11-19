@@ -18,31 +18,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Configuration
 @EnableAsync
 public class CompletableFutureThreadPool {
-
-    int qvCorePoolSize = 10;
-    int qvMaxPoolSize = 50;
-
-    long qvKeepAliveSeconds = 3000;
-
-    int qvQueueCapacity = 10;
+    int corePoolSize = 10;
+    int maxPoolSize = 50;
+    long keepAliveSeconds = 3000;
+    int queueCapacity = 10;
 
     @Bean(name = "completableFutureAsyncPool")
     public ThreadPoolExecutor CompletableFutureAsyncPool() {
         return new ThreadPoolExecutor(
                 //核心线程数
-                qvCorePoolSize,
+                corePoolSize,
                 //最大线程数
-                qvMaxPoolSize,
-                qvKeepAliveSeconds,
+                maxPoolSize,
+                keepAliveSeconds,
                 TimeUnit.SECONDS,
                 //队列大小
-                new LinkedBlockingDeque<Runnable>(qvQueueCapacity),
+                new LinkedBlockingDeque<>(queueCapacity),
                 //定义线程名称
                 new ThreadFactory() {
-                    private final AtomicInteger mThreadNum = new AtomicInteger(1);
+                    private final AtomicInteger threadNum = new AtomicInteger(1);
                     @Override
                     public Thread newThread(Runnable r) {
-                        return new Thread(r, "qvVerifyAsyncPool-" + mThreadNum.getAndIncrement());
+                        return new Thread(r, "AsyncPool-" + threadNum.getAndIncrement());
                     }
                 },
                 //拒绝策略

@@ -1,6 +1,5 @@
 package com.intecsec.java.springboot.thread;
 
-import com.intecsec.java.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
@@ -67,4 +67,15 @@ public class CompletableFutureParallel {
 
         return resultList;
     }
+
+    public void printForkJoinPool() {
+        // 电脑支持的最大线程数
+        System.out.println(Runtime.getRuntime().availableProcessors());
+        // 通用池 当前大小
+        System.out.println(ForkJoinPool.commonPool().getPoolSize());
+        // 通用池最大线程数
+        System.out.println(ForkJoinPool.getCommonPoolParallelism());
+    }
+
+
 }

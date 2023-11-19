@@ -29,4 +29,10 @@ public class AppTest {
 	public void testCompletableFutureParallel() {
 		completableFutureParallel.simpleParallel();
 	}
+
+	@Test
+	public void testForkJoinPool() {
+		completableFutureParallel.printForkJoinPool();
+	}
+
 }

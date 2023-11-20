@@ -2,7 +2,6 @@ import com.intecsec.java.springboot.Application;
 import com.intecsec.java.springboot.starter.UserInfo;
 import com.intecsec.java.springboot.thread.CompletableFutureParallel;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -34,5 +33,8 @@ public class AppTest {
 	public void testForkJoinPool() {
 		completableFutureParallel.printForkJoinPool();
 	}
+
+
+
 
 }

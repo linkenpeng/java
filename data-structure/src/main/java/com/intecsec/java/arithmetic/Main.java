@@ -1,5 +1,6 @@
 package com.intecsec.java.arithmetic;
 
+import com.intecsec.java.arithmetic.doublepointer.DoublePointer;
 import com.intecsec.java.arithmetic.hash.LRUCache;
 import com.intecsec.java.arithmetic.math.DataAdd;
 import com.intecsec.java.arithmetic.math.MaxArea;
@@ -18,9 +19,21 @@ public class Main {
         int[] nums = new int[]{1, 2, 3, 4, 5, 6, 7};
         int[] nums2 = new int[]{1, 0, 2, -1, 3, -2, -1};
 
+        DoublePointer doublePointer = new DoublePointer();
+        doublePointer.moveZeroes(nums2);
+        printNums(nums2);
+
+        /*
         DataAdd solution = new DataAdd();
         List<List<Integer>> result = solution.findThreeNumsForTarget(nums2);
         System.out.println(result);
+         */
+    }
+
+    public static void printNums(int[] nums) {
+        for(int i = 0; i < nums.length; i++) {
+            System.out.println(nums[i]);
+        }
     }
 
     public static void testLRUCache() {

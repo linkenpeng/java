@@ -1,16 +1,34 @@
-package com.intecsec.java.arithmetic.array;
+package com.intecsec.java.arithmetic.doublepointer;
 
 import com.intecsec.java.arithmetic.linkedlist.ListNode;
 
 /**
  * @description:
  * @author: peter.peng
- * @create: 2023-01-21 09:13
+ * @create: 2024-01-14 21:26
  **/
 public class DoublePointer {
 
-    public static void main(String[] args) {
+    /**
+     * 零移动
+     * @param nums
+     */
+    public void moveZeroes(int[] nums) {
+        int n = nums.length, left = 0, right = 0;
+        while (right < n) {
+            if (nums[right] != 0) {
+                swap(nums, left, right);
+                left++;
+            }
+            right++;
+        }
+    }
 
+    public void swap(int[] nums, int left, int right) {
+        System.out.println(left + " : " + right);
+        int temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp;
     }
 
     /**

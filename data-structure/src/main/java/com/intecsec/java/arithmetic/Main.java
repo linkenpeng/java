@@ -5,6 +5,7 @@ import com.intecsec.java.arithmetic.hash.LRUCache;
 import com.intecsec.java.arithmetic.math.DataAdd;
 import com.intecsec.java.arithmetic.math.MaxArea;
 import com.intecsec.java.arithmetic.stack.MinStack;
+import com.intecsec.java.arithmetic.string.StringSolution;
 
 import java.util.List;
 
@@ -16,12 +17,19 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
+        StringSolution stringSolution = new StringSolution();
+        String s = "pwwkew";
+        int result = stringSolution.lengthOfLongestSubstring(s);
+        System.out.println(result);
+
+        /*
         int[] nums = new int[]{1, 2, 3, 4, 5, 6, 7};
         int[] nums2 = new int[]{1, 0, 2, -1, 3, -2, -1};
 
         DoublePointer doublePointer = new DoublePointer();
         doublePointer.moveZeroes(nums2);
         printNums(nums2);
+        */
 
         /*
         DataAdd solution = new DataAdd();

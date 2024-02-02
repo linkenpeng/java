@@ -27,6 +27,7 @@
 		<module>message-queue</module>
 		<module>springboot-starter</module>
 		<module>springboot</module>
+		<module>springboot-simple</module>
         <module>search</module>
 		<module>mongodb</module>
         <!--<module>module1</module>

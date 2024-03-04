@@ -47,7 +47,9 @@ public abstract class SliceUploadTemplate implements SliceUploadStrategy {
 
         Map<Integer, String> map = new HashMap<>();
         map.put(param.getChunk(), md5);
-        return FileUploadDTO.builder().chunkMd5Info(map).build();
+        FileUploadDTO fileUploadDTO = new FileUploadDTO();
+        fileUploadDTO.setChunkMd5Info(map);
+        return fileUploadDTO;
     }
 
     /**

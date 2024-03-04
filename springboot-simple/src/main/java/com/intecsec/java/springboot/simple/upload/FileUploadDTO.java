@@ -6,7 +6,6 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-@Builder
 public class FileUploadDTO {
 
     private boolean uploadComplete;
@@ -22,8 +21,4 @@ public class FileUploadDTO {
     private String fileId;
 
     private Map<Integer, String> chunkMd5Info;
-
-    public FileUploadDTO() {
-
-    }
 }

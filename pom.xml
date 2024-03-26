@@ -57,7 +57,7 @@
 		<hibernate.version>5.4.19.Final</hibernate.version>
 		<struts2.version>2.5.22</struts2.version>
 		<commons.lang3.version>3.11</commons.lang3.version>
-		<guava.version>29.0-jre</guava.version>
+		<guava.version>32.0.0-jre</guava.version>
 		<slf4j.version>1.7.30</slf4j.version>
 		<commons.httpclient.version>3.1</commons.httpclient.version>
 		<httpclient.version>4.5.2</httpclient.version>

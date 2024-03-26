@@ -6,11 +6,9 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.intecsec.java.util.Base64;
 import com.intecsec.java.util.JsonUtils;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-// import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.InputStream;
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
 public class StringTest {
 
 	public static void main(String[] args) {
-		System.out.println("101382725".length() == 9);
+		subtractSet();
 	}
 
 	public static void subtractSet() {

@@ -64,7 +64,7 @@
 		<lombok.version>1.18.30</lombok.version>
 		<commons.collections4.version>4.4</commons.collections4.version>
 		<fastjson.version>1.2.73</fastjson.version>
-		<logback.classic.version>1.2.3</logback.classic.version>
+		<logback.classic.version>1.2.13</logback.classic.version>
 		<jedis.version>3.5.1</jedis.version>
 		<rocketmq.client.version>4.8.0</rocketmq.client.version>
 		<caffeine.version>3.0.2</caffeine.version>

@@ -13,5 +13,10 @@ public class Utils {
         long duration = endTime - startTime;
         DecimalFormat df = new DecimalFormat("#,##0");
         System.out.println(df.format(duration) + "纳秒");
+        System.out.println(df.format(duration/1000) + "微妙");
+        System.out.println(df.format(duration/1000000) + "毫秒");
+        System.out.println(df.format(duration/1000000000) + "秒");
     }
+
+
 }

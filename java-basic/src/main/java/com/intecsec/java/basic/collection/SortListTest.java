@@ -1,6 +1,7 @@
 package com.intecsec.java.basic.collection;
 
 
+import com.intecsec.java.util.JsonUtils;
 import com.intecsec.java.vo.Member;
 
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 这是一个自定义排序的类，专门针对列表（List）中的数据进行排序；可按指定方法进行。
@@ -20,6 +22,14 @@ import java.util.List;
  * @param <E>
  */
 public class SortListTest<E> {
+
+	// 测试函数
+	public static void main(String[] args) throws Exception {
+		List<Member> listMember = genList();
+		List<Member> sortedMember = listMember.stream().sorted(Comparator.comparing(Member::getLevel))
+				.collect(Collectors.toList());
+		sortedMember.forEach(member -> System.out.println(JsonUtils.toJson(member)));
+	}
 
 	/**
 	 * 对列表中的数据按指定字段进行排序。要求类必须有相关的方法返回字符串、整型、日期等值以进行比较。
@@ -77,16 +87,21 @@ public class SortListTest<E> {
 		});
 	}
 
-	// 测试函数
-	public static void main(String[] args) throws Exception {
+	public static List<Member> genList() {
 		// 生成自定义对象，然后对它按照指定字段排序
 		List<Member> listMember = new ArrayList<Member>();
 		listMember.add(new Member(1, "wm123", 3, "1992-12-01"));
 		listMember.add(new Member(2, "a234", 8, "1995-12-01"));
 		listMember.add(new Member(3, "m456", 12, "1990-12-01"));
-		System.out.println("Member当前顺序...");
-		System.out.println(listMember);
+		listMember.add(new Member(4, "m457", 12, "1991-12-01"));
+		listMember.add(new Member(5, "m458", 12, "1992-12-01"));
+		listMember.add(new Member(6, "m459", 12, "1993-12-01"));
+		listMember.add(new Member(7, "wm5", 5, "1992-12-01"));
+		System.out.println("Member当前顺序: " + JsonUtils.toJson(listMember));
+		return listMember;
+	}
 
+	public static void sort1(List<Member> listMember) {
 		// 方式一排序输出
 		System.out.println("Member默认排序（用自带的compareTo方法）后...");
 		Collections.sort(listMember);
@@ -94,7 +109,9 @@ public class SortListTest<E> {
 		System.out.println("Member倒序（用自带的compareTo方法）后...");
 		Collections.sort(listMember, Collections.reverseOrder());
 		System.out.println(listMember);
+	}
 
+	public static void sort2(List<Member> listMember) {
 		// 方式二排序输出
 		SortListTest<Member> msList = new SortListTest<Member>();
 		msList.sortByMethod(listMember, "getUsername", false);

@@ -15,7 +15,7 @@ public class ListTest {
     public static final int NUM = 100000;
 
     public static void main(String[] args) {
-        join();
+        list();
     }
 
     public static void join() {
@@ -29,28 +29,36 @@ public class ListTest {
     }
 
     public static void list() {
-        System.out.println("ArrayList================================");
+//        System.out.println("ArrayList================================");
         List<Integer> arrList = new ArrayList();
 
         for(int i = 0; i < 10; i++) {
             arrList.add(i);
         }
-        System.out.println(arrList);
-        System.out.println(arrList.get(3));
+//        System.out.println(arrList);
+//        System.out.println(arrList.get(3));
         arrList.remove(3);
-        System.out.println(arrList);
+//        System.out.println(arrList);
         arrList.add(3, 19);
-        System.out.println(arrList);
+//        System.out.println(arrList);
 
         long startTime = System.nanoTime();
+        System.out.println("list 添加: " + NUM + " 元素耗时");
         for(int i = 0; i < NUM; i++) {
             arrList.add(0, i);
         }
         Utils.duration(startTime);
 
-        traverseByIterator(arrList);
-        traverseByIndex(arrList);
-        traverseByFor(arrList);
+        startTime = System.nanoTime();
+        System.out.println("空循环: " + NUM + " 次耗时");
+        for(int i = 0; i < NUM; i++) {
+
+        }
+        Utils.duration(startTime);
+
+//        traverseByIterator(arrList);
+//        traverseByIndex(arrList);
+//        traverseByFor(arrList);
     }
 
     public static void linkedList() {

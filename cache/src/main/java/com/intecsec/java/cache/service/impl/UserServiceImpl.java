@@ -1,36 +1,53 @@
 package com.intecsec.java.cache.service.impl;
 
 import com.intecsec.java.cache.constans.CacheConstants;
-import com.intecsec.java.cache.constans.CacheEnum;
 import com.intecsec.java.cache.service.UserService;
 import com.intecsec.java.vo.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.concurrent.locks.Lock;
+
 /**
  * @author Peter.Peng
  * @date 2021/2/19
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
-	@Autowired
+	@Resource
 	private RedisTemplate redisTemplate;
 
-	@Autowired
+	@Resource
+	private RedissonClient redissonClient;
+
+	@Resource
 	@Qualifier("getCaffeineCacheManager")
 	private CaffeineCacheManager caffeineCacheManager;
 
 	@Override
 	public User saveUser(User user) {
-		redisTemplate.opsForValue().set(k(user.getUid()), user);
-		return user;
+		Lock lock = this.redissonClient.getLock(user.getUid());
+		try {
+			lock.lock();
+
+			log.info("enter bis");
+			redisTemplate.opsForValue().set(k(user.getUid()), user);
+			return user;
+		} catch (Exception e) {
+			log.info("Exception:{}", e);
+			return null;
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	/**

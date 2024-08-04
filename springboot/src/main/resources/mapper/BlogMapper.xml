@@ -3,7 +3,7 @@
 <mapper namespace="com.intecsec.java.springboot.mapper.BlogMapper">
 
     <sql id="Base_Column_List">
-        id, title, content
+        id, title, content, gmt_created, gmt_modified
     </sql>
 
     <select id="selectByPageList" resultType="com.intecsec.java.springboot.entity.Blog">

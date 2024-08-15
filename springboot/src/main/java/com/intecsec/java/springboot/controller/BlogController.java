@@ -27,9 +27,10 @@ public class BlogController {
 	private HttpServletRequest request;
 
 	@RequestMapping("/{id}")
-	public Blog getById(@PathVariable("id") Integer id, @RequestHeader HttpHeaders headers) {
+	public Blog getById(@PathVariable("id") Integer id, @RequestHeader HttpHeaders headers) throws InterruptedException {
 		log.info("request.getHeader header:{}", JsonUtils.toJson(request.getHeader("MyStoreTid")));
 		log.info("headers.getFirst tid:{}", JsonUtils.toJson(headers.getFirst("MyStoreTid")));
+		Thread.sleep(300);
 		return  blogService.getById(id);
 	}
 

@@ -11,6 +11,7 @@ import java.util.Optional;
  * @date 2021/2/19
  */
 @Data
+@AllArgsConstructor
 public class User implements Serializable {
 	private String uid;
 	private String devId;

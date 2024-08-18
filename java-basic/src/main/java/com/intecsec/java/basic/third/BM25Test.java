@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BM25Test {
     public static void main(String[] args) throws Exception {
-        String query = "GZ五月花";
+        String query = "五月花";
         BM25Search bm25Search = new BM25Search();
         bm25Search.addDocument("GZ五月花");
         bm25Search.addDocument("GZ动漫星城");

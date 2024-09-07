@@ -1,5 +1,8 @@
 package com.intecsec.java.basic.datetime;
 
+import lombok.Data;
+import lombok.ToString;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,18 +12,15 @@ import java.util.concurrent.TimeUnit;
 public class DateTimeTest {
 
 	public static void main(String[] args) {
-		//ofsTime();
-		//gomsTime();
-//		calendar();
-
-		String time =  "2021-10-07 23:59:00";
-		time = time.replace("59:00", "59:59");
-		System.out.println(time);
+		replaceTime();
 	}
 
 	public static void replaceTime() {
+		long start = System.currentTimeMillis();
 		String time =  "2021-10-07 23:59:00";
 		String t2 = time.replace("59:00", "59:59");
+		long end = System.currentTimeMillis();
+		System.out.println("time cost: " + (end - start));
 		System.out.println(t2);
 	}
 	
@@ -144,7 +144,7 @@ public class DateTimeTest {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;
-		if(week_index<0){
+		if(week_index<0) {
 			week_index = 0;
 		} 
 		return weeks[week_index];
@@ -210,6 +210,8 @@ public class DateTimeTest {
     
 }
 
+@Data
+@ToString
 class OrderDTO {
 	/**
 	 * 闪电送配送开始时间
@@ -225,35 +227,4 @@ class OrderDTO {
 	 * 闪电送配送时间描述
 	 */
 	private String deliveryTimeDesc;
-
-	public Date getDeliveryStartTime() {
-		return deliveryStartTime;
-	}
-
-	public void setDeliveryStartTime(Date deliveryStartTime) {
-		this.deliveryStartTime = deliveryStartTime;
-	}
-
-	public Date getDeliveryEndTime() {
-		return deliveryEndTime;
-	}
-
-	public void setDeliveryEndTime(Date deliveryEndTime) {
-		this.deliveryEndTime = deliveryEndTime;
-	}
-
-	public String getDeliveryTimeDesc() {
-		return deliveryTimeDesc;
-	}
-
-	public void setDeliveryTimeDesc(String deliveryTimeDesc) {
-		this.deliveryTimeDesc = deliveryTimeDesc;
-	}
-
-	@Override
-	public String toString() {
-		return "OrderDTO [deliveryStartTime=" + deliveryStartTime + ", deliveryEndTime=" + deliveryEndTime
-				+ ", deliveryTimeDesc=" + deliveryTimeDesc + "]";
-	}
-		
 }

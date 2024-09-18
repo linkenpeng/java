@@ -1,42 +1,16 @@
 package com.intecsec.java.cache.config;
 
-import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.context.annotation.Bean;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-/**
- * @description:
- * @author: peter.peng
- * @create: 2023-08-27 23:06
- **/
 @Configuration
-public class RedisConfig extends CachingConfigurerSupport {
+@ConfigurationProperties(prefix = "spring.redis")
+@Data
+public class RedisConfig {
+   private String host;
 
-    @Bean(name = "redisTemplate")
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+   private int port;
 
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        //参照StringRedisTemplate内部实现指定序列化器
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setKeySerializer(keySerializer());
-        redisTemplate.setHashKeySerializer(keySerializer());
-        redisTemplate.setValueSerializer(valueSerializer());
-        redisTemplate.setHashValueSerializer(valueSerializer());
-        return redisTemplate;
-    }
-
-    private RedisSerializer<String> keySerializer(){
-        return new StringRedisSerializer();
-    }
-
-    //使用Jackson序列化器
-    private RedisSerializer<Object> valueSerializer(){
-        return new GenericJackson2JsonRedisSerializer();
-    }
-
+   private String password;
 }

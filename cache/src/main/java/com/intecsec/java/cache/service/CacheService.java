@@ -16,6 +16,7 @@ public interface CacheService {
     void delCaffeineCache(String key);
 
     Object getFromRedis(String key);
+    String getStringFromRedis(String key);
     void putRedis(String key, Object value);
     void delRedis(String key);
 }

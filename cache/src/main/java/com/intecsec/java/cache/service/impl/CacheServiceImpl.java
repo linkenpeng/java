@@ -34,7 +34,9 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public Object getFromRedis(String key) {
-        return redisTemplate.opsForValue().get(key);
+        Object value = redisTemplate.opsForValue().get(key);
+        log.info("key:{}, value:{}", key, value);
+        return value;
     }
 
     @Override

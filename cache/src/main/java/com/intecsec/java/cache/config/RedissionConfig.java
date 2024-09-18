@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
+
 /**
  * @description:
  * @author: peter.peng
@@ -26,13 +28,16 @@ public class RedissionConfig {
     @Value("${spring.redis.password:#{null}}")
     private String password;
 
+    @Resource
+    private RedisConfig redisConfig;
+
     @Bean
-    public RedissonClient redissonClient(){
+    public RedissonClient redissonClient() {
         Config config = new Config();
-        String redisUrl = String.format("redis://%s:%d", host, port);
+        String redisUrl = String.format("redis://%s:%d", redisConfig.getHost(), redisConfig.getPort());
         config.useSingleServer().setAddress(redisUrl);
-        if(StringUtils.isNotEmpty(password)) {
-            config.useSingleServer().setPassword(password);
+        if(StringUtils.isNotEmpty(redisConfig.getPassword())) {
+            config.useSingleServer().setPassword(redisConfig.getPassword());
         }
         config.useSingleServer().setDatabase(2);
         config.useSingleServer().setConnectionMinimumIdleSize(10);

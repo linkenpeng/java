@@ -40,6 +40,18 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
+    public String getStringFromRedis(String key) {
+        String value = null;
+        try {
+            value = (String) redisTemplate.opsForValue().get(key);
+            log.info("key:{}, value:{}", key, value);
+        } catch (Exception e) {
+            log.info("error ", e);
+        }
+        return value;
+    }
+
+    @Override
     public Object getFromMap(String key) {
         return MapCacheUtil.getCache(key);
     }

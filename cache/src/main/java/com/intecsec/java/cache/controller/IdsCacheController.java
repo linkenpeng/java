@@ -19,15 +19,15 @@ public class IdsCacheController {
 
 
     @GetMapping("/500")
-    public Object ids500(@RequestParam(value = "key", required = false,
+    public String ids500(@RequestParam(value = "key", required = false,
             defaultValue = "1") String key) {
-        return cacheService.getFromRedis("ids_500");
+        return cacheService.getStringFromRedis("ids_500");
     }
 
     @GetMapping("/20")
-    public Object ids20(@RequestParam(value = "key", required = false,
+    public String ids20(@RequestParam(value = "key", required = false,
             defaultValue = "1") String key) {
-        return cacheService.getFromRedis("ids_20");
+        return cacheService.getStringFromRedis("ids_20");
     }
 
 }

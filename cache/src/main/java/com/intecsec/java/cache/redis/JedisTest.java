@@ -4,9 +4,15 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Tuple;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.GZIPOutputStream;
+import java.util.zip.GZIPInputStream;
 
 /**
  * @author Peter.Peng
@@ -19,13 +25,14 @@ public class JedisTest {
 
 		// Jedis实现了Closeable 因此可以try-with-resources
 		try(Jedis jedis = JedisPoolBuilder.getJedis()) {
-			//testString(jedis);
+			testUnGzipString(jedis);
+			// testString(jedis);
 
 			// testList(jedis);
 
 			// testSet(jedis);
 
-			testZset(jedis);
+			// testZset(jedis);
 
 			// testHash(jedis);
 
@@ -181,6 +188,92 @@ public class JedisTest {
 		System.out.println(jedis.lrange("list1", 0, -1)); // [lisi2, wangwu, lisi, zhangsan]
 
 		jedis.del("list1");
+	}
+
+	public static byte[] compress(String data) throws IOException {
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) {
+			gzipOutputStream.write(data.getBytes());
+		}
+		return byteArrayOutputStream.toByteArray();
+	}
+
+	public static byte[] decompress(byte[] compressedData) throws IOException {
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(compressedData);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		try (GZIPInputStream gzipInputStream = new GZIPInputStream(byteArrayInputStream)) {
+			byte[] buffer = new byte[1024];
+			int len;
+			while ((len = gzipInputStream.read(buffer)) > 0) {
+				byteArrayOutputStream.write(buffer, 0, len);
+			}
+		}
+		return byteArrayOutputStream.toByteArray();
+	}
+
+	public static String decompressAsString(byte[] compressedData) throws IOException {
+		byte[] decompressedData = decompress(compressedData);
+        return new String(decompressedData);
+	}
+
+	private static byte[] hexStringToByteArray(String s) {
+		int len = s.length();
+		byte[] data = new byte[len / 2];
+		for (int i = 0; i < len; i += 2) {
+			data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+					+ Character.digit(s.charAt(i+1), 16));
+		}
+		return data;
+	}
+
+	public static String readFile(String filePath) {
+		StringBuilder fileContent = new StringBuilder();
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(filePath))))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				fileContent.append("2_101058726_");
+				fileContent.append(line);
+				fileContent.append(',');
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileContent.toString();
+	}
+
+	public static void testUnGzipString(Jedis jedis) {
+		try {
+			String filePath = "../test_data/test.txt";
+			String fileContent = readFile(filePath);
+			// System.out.println(fileContent);
+
+			// 压缩写入Redis
+			System.out.println("开始压缩...");
+			long t1 = System.nanoTime();
+			byte[] compressData = compress(fileContent);
+			long t2 = System.nanoTime();
+			System.out.println("压缩耗时: " + (t2 - t1)/1000 + "微秒");
+			String key = "gz_500";
+			jedis.set(key.getBytes(), compressData);
+
+			// 从Redis获取数据
+			byte[] compressedData = jedis.get(key.getBytes());
+			// 获取键的内存使用量
+			long memoryUsage = jedis.memoryUsage(key.getBytes());
+			System.out.println("Memory usage of key '" + key + "': " + memoryUsage + " bytes");
+
+			String decompressedStringData;
+
+			System.out.println("开始解压...");
+			t1 = System.nanoTime();
+			decompressedStringData = decompressAsString(compressedData);
+			t2 = System.nanoTime();
+			System.out.println("解压耗时: " + (t2 - t1)/1000 + "微秒");
+
+			System.out.println("decompressedStringData: " + decompressedStringData);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void testString(Jedis jedis) {

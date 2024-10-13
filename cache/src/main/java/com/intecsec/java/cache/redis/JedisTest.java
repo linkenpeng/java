@@ -243,7 +243,7 @@ public class JedisTest {
 
 	public static void testUnGzipString(Jedis jedis) {
 		try {
-			String filePath = "../test_data/test.txt";
+			String filePath = "test.txt";
 			String fileContent = readFile(filePath);
 			// System.out.println(fileContent);
 
@@ -253,13 +253,19 @@ public class JedisTest {
 			byte[] compressData = compress(fileContent);
 			long t2 = System.nanoTime();
 			System.out.println("压缩耗时: " + (t2 - t1)/1000 + "微秒");
-			String key = "gz_500";
-			jedis.set(key.getBytes(), compressData);
+			String key = "unzip_500";
+			String gzipKey = "gzip_500";
+			byte[] gzKey = gzipKey.getBytes();
+			jedis.set(key, fileContent);
+			jedis.set(gzKey, compressData);
 
 			// 从Redis获取数据
-			byte[] compressedData = jedis.get(key.getBytes());
+			byte[] compressedData = jedis.get(gzKey);
 			// 获取键的内存使用量
-			long memoryUsage = jedis.memoryUsage(key.getBytes());
+			long gzMemoryUsage = jedis.memoryUsage(gzKey);
+			System.out.println("Memory usage of gzKey '" + gzKey + "': " + gzMemoryUsage + " bytes");
+			// 获取键的内存使用量
+			long memoryUsage = jedis.memoryUsage(key);
 			System.out.println("Memory usage of key '" + key + "': " + memoryUsage + " bytes");
 
 			String decompressedStringData;

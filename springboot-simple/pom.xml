@@ -44,11 +44,13 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>com.alibaba.ai</groupId>
             <artifactId>spring-ai-alibaba-starter</artifactId>
             <version>1.0.0-M2</version>
         </dependency>
+        -->
 
         <dependency>
             <groupId>com.intecsec.java</groupId>

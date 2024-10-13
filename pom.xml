@@ -32,6 +32,7 @@
         <module>module</module>-->
         <module>agent</module>
         <module>spring-cust</module>
+        <module>flink</module>
     </modules>
 
 	<packaging>pom</packaging>

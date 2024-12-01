@@ -68,7 +68,7 @@
 		<commons.httpclient.version>3.1</commons.httpclient.version>
 		<lombok.version>1.18.30</lombok.version>
 		<jedis.version>3.5.1</jedis.version>
-		<redission.version>3.13.0</redission.version>
+		<redission.version>3.22.0</redission.version>
 		<rocketmq.client.version>4.8.0</rocketmq.client.version>
 		<!--
         https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
